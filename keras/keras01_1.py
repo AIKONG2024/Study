@@ -15,11 +15,14 @@ model.add(Dense(1, input_dim = 1)) #1개의 데이터 덩어리(Dense)모델을 
 # 3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam') #두 값의 loss값을 mse(제곱하는 방식으로 양수를 만드는)라는 수식으로 씀
 # optimizer='adam'은 건들지 않음. 그냥 씀.
-model.fit(x,y, epochs = 10) #fit() 훈련시키기. epochs: 훈련을 너무 많이 시키면 과적합 됨.-> 터짐. 훈련양을 조절해야함. 10번으로 조절, 이 과정으로 최적의 웨이트가 생성
+model.fit(x,y, epochs = 8600) #fit() 훈련시키기. epochs: 훈련을 너무 많이 시키면 과적합 됨.-> 터짐. 훈련양을 조절해야함. 10번으로 조절, 이 과정으로 최적의 웨이트가 생성
 
 # 4. 평가, 예측
 loss = model.evaluate(x,y) #model에는 최적의 웨이트가 생성되어 있음.
 print("로스 : ", loss)
 result = model.predict([4])
 print("4의 예측값 : ", result)
+
+
+# 2200번정도 돌려야 좋았음
 
