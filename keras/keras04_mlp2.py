@@ -21,8 +21,8 @@ print(x.shape)  # (10, 2)
 #모델 구성
 model = Sequential()
 model.add(Dense(1, input_dim = 3))
-# model.add(Dense(1))
-# model.add(Dense(1))
+model.add(Dense(4))
+model.add(Dense(2))
 
 #컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
