@@ -38,6 +38,7 @@ model.fit(x,y, epochs=3000, batch_size= 1)
 #4.평가, 예측
 loss = model.evaluate(x,y)
 results = model.predict([[10, 1.3]]) #!!!!입력과 같은 열을 맞춰줘야함 x.shape = (1,2) ==> y도 (N,2) 형태로 들어가야 함. (행무시 열우선) => (None,2)
+#예측값을 (10,1.3)으로 해준이유? ==> 머신에게 x,y를 제공했고, 확실한 예측 값을 제시함. 원래는 이렇게 predict를 학습된 값을 넣어주면 안됨.(3일차라 이렇게함.)
 
 # [실습] : 소수점 2째 자리까지 맞추기
 print("[10, 1.3]의 예측값 : ", results) 
