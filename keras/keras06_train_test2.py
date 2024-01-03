@@ -28,7 +28,6 @@ print(x_test)
 print(y_test)
 
 
-'''
 #모델구성
 model = Sequential()
 model.add(Dense(1, input_dim = 1))
@@ -46,4 +45,3 @@ result = model.predict([110000, 7])
 
 print("로스 : ", loss)
 print("예측 값: ", result)
-'''
