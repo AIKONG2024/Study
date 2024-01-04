@@ -15,15 +15,16 @@ x_train, x_test, y_train, y_test = train_test_split(
     train_size= 0.7,
     test_size=0.3,
     shuffle=True,
-    random_state=4294967295
+    random_state=1500
 )
 '''
+train_test_split
 test_size 기본값 0.25 , random_state의 범위 : 0 ~ 4294967295
 train_size 나 test_size중 하나만 써줌. 왜냐면 train_size : 0.7, test_size : 0.4 라고 하면 합이 1.0을 벗어나기 때문에 에러.
 만약 합이 1.0이 안된다면 데이터 손실이 발생함.
 1,10을 포함하면 데이터 범위가 증가해서 훈련 결과가 더 좋아짐. 
 1,10을 반드시 포함하고 싶다면 random_state 를 직접 설정을 바꿔주면서 최적의 훈련값을 찾아야함. 결과치를 보고 판단.
-
+문서 : https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
 디폴트값
 def train_test_split(
     *arrays,  
@@ -49,11 +50,23 @@ model.add(Dense(1))
 
 #컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs=2000 , batch_size=1)
+model.fit(x_train, y_train, epochs=500 , batch_size=1)
 
 #평가 , 예측
 loss = model.evaluate(x_test, y_test)
-result = model.predict([200])
+result = model.predict([11])
 
 print("loss 값: ", loss)
 print("예측 값: ", result)
+
+print(x_train)
+print(y_train)
+print(x_test)
+print(y_test)
+
+#random_state 가 1500 인경우 
+# 7/7 [==============================] - 0s 0s/step - loss: 0.1253
+# 1/1 [==============================] - 0s 69ms/step - loss: 0.4323
+
+
+#
