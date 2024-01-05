@@ -30,19 +30,19 @@ from sklearn.model_selection import train_test_split
 import time
 
 #데이터
-x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.7, random_state= 92111113)
+x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.70, random_state= 4291451)
+
 
 #모델구성
 model = Sequential()
-model.add(Dense(1, input_dim = 13))
-model.add(Dense(64))
-model.add(Dense(64))
+model.add(Dense(64, input_dim = 13))
+model.add(Dense(32))
 model.add(Dense(1))
 
 #컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
 start_time = time.time()
-model.fit(x_train, y_train, epochs=300, batch_size=1)
+model.fit(x_train, y_train, epochs=1000, batch_size=16)
 end_time = time.time()
 
 #평가, 예측
@@ -53,20 +53,12 @@ from sklearn.metrics import r2_score
 
 r2 = r2_score(y_test, y_predict)
 print("loss : ", loss)
-print("R2_score :", r2)
+print("R2 : ", r2)
 print("걸린시간 : ", round(end_time - start_time, 2), "초")
 
 
-#train_size : 0.7 /  deep 3 (13-64-64-1)  / random_state : 70 / epochs = 100 / batch_size = 1
-# loss :  35.30439758300781
-# R2_score : 0.6355533207640938
+#train_size : 0.7 /  deep 5 (13-64-64-64-1)  / random_state : 4291451 / epochs = 4029 / batch_size = 515
+# loss :  19.533924102783203
+# R2 :  0.7772270803659531
+# 걸린시간 :  5.8 초
 
-#train_size : 0.7 /  deep 3 (13-64-64-1)  / random_state : 70 / epochs = 300 / batch_size = 1
-# loss :  30.12049674987793
-# R2_score : 0.6890666151822387
-
-#train_size : 0.7 /  deep 3 (13-64-64-1)  / random_state : 70 / epochs = 300 / batch_size = 1
-
-#train_size : 0.7 /  deep 3 (13-1-64-64-1)  / random_state : 921111 / epochs = 200 / batch_size = 1
-# loss :  24.854013442993164
-# R2_score : 0.7190490529796778

@@ -18,11 +18,6 @@ x_train, x_test, y_train, y_test = train_test_split(
     random_state=1500
 )
 
-print(x_train)
-print(y_train)
-print(x_test)
-print(y_test)
-
 #모델구성
 model = Sequential()
 model.add(Dense(1, input_dim = 1))
