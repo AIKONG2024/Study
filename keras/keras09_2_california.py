@@ -1,6 +1,12 @@
+from sklearn.metrics import r2_score
+import time
+from sklearn.model_selection import train_test_split
+import numpy as np
+from keras.layers import Dense
+from keras.models import Sequential
 from sklearn.datasets import fetch_california_housing
 
-#1. 데이터
+# 1. 데이터
 datasets = fetch_california_housing()
 x = datasets.data
 y = datasets.target
@@ -23,34 +29,29 @@ y = datasets.target
         - Longitude     block group longitude
 '''
 
-#[실습]
+# [실습]
 # R2 0.55 ~ 0.6 이상
-from keras.models import Sequential
-from keras.layers import Dense
-import numpy as np
-from sklearn.model_selection import train_test_split
-import time
-from sklearn.metrics import r2_score
-    
-#데이터
-x_train, x_test, y_train, y_test = train_test_split(x,y,train_size=0.75,random_state=2874458)
 
-#모델 구성
+# 데이터
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, train_size=0.75, random_state=2874458)
+
+# 모델 구성
 model = Sequential()
-model.add(Dense(128, input_dim = 8))
+model.add(Dense(128, input_dim=8))
 model.add(Dense(64))
 model.add(Dense(32))
 model.add(Dense(16))
 model.add(Dense(1))
 
-#컴파일, 훈련
+# 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')
 start_time = time.time()
 model.fit(x_train, y_train, epochs=3616, batch_size=250)
 end_time = time.time()
 
 
-#평가, 예측
+# 평가, 예측
 
 loss = model.evaluate(x_test, y_test)
 y_predict = model.predict(x_test)
@@ -61,7 +62,7 @@ print("R2 : ", r2)
 print("걸린시간 : ", round(end_time - start_time, 2), "초")
 
 
-#train_size : 0.75 /  deep 6 (13-64-64-64-64-1)  / random_state : 2874458 / epochs = 3616 / batch_size = 250
+# train_size : 0.75 /  deep 6 (13-64-64-64-64-1)  / random_state : 2874458 / epochs = 3616 / batch_size = 250
 # 걸린시간 :  140.17 초
 # loss :  0.531786322593689
 # R2 :  0.6038468068252449
@@ -72,9 +73,9 @@ print("걸린시간 : ", round(end_time - start_time, 2), "초")
 # loss :  0.5420716404914856
 # R2 :  0.5961846718349288
 # 걸린시간 :  136.41 초
-#=====================================================
+# =====================================================
 
-#mse -> msa 
+# mse -> msa
 # 걸린시간 :  137.71 초
 # loss :  0.5453983545303345
 # R2 :  0.5117905535708138
