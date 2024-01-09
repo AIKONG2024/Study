@@ -1,4 +1,5 @@
-# https://dacon.io/competitions/open/235576/mysubmission
+
+# # https://dacon.io/competitions/open/235576/mysubmission
 
 import numpy as np
 import pandas as pd
@@ -60,20 +61,27 @@ x = train_csv.drop(['count'], axis=1) #axis 0이 행 1이 열
 y = train_csv['count'] 
 # print(y)
 
-x_train, x_test, y_train, y_test = train_test_split(x,y, shuffle=True, train_size=0.8, random_state=341)
+x_train, x_test, y_train, y_test = train_test_split(x,y, shuffle=True, train_size=0.8, random_state=12345)
 
 # print(x_train.shape, x_test.shape) #(929, 9) (399, 9)
 # print(y_train.shape, y_test.shape) #(929,) (399,)
 
+#Early Stopping
+from keras.callbacks import EarlyStopping
+es = EarlyStopping(monitor='val_loss', mode='min', patience=60, verbose=1)
+
 #2. 모델
 model = Sequential()
-model.add(Dense(64, input_dim = len(x.columns)))
-model.add(Dense(32))
+model.add(Dense(512, input_dim = len(x.columns)))
+model.add(Dense(256))
+model.add(Dense(128))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(1))
-
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs=500, batch_size=150)
+hist = model.fit(x_train, y_train, epochs=3000, batch_size=70, callbacks=[es]) #98
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -92,35 +100,18 @@ save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{lt
 file_path = path + f"submission_{save_time}.csv"
 submission_csv.to_csv(file_path, index=False)
 
+#시각화
 import matplotlib.pyplot as plt
-plt.scatter(y_test, y_predict)
-plt.plot(y_submit, color = 'red')  # Plotting actual values
+plt.rcParams['font.family'] ='Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] =False
+history_loss = hist.history['loss']
+history_val_loss = hist.history['val_loss']
+plt.figure(figsize=(9,6)) #세로 9 가로 6
+plt.plot(history_loss, c = 'red', label = 'loss', marker = '.' )
+plt.plot(history_val_loss, c = 'blue', label = 'val_loss', marker = '.' )
+plt.legend(loc = 'upper right')
+plt.title('따르릉 찻트')
+plt.xlabel('epoch')
+plt.ylabel('loss')
+plt.grid()
 plt.show()
-
-
-#train_size : 0.7 /  deep 6 (9-128-64-1)  / random_state : 5561074 / epochs = 300 / batch_size = 32
-# loss :  2709.5634765625
-# r2 :  0.6110966932668415
-# rand_state : 4940563
-
-#train_size : 0.7 /  deep 6 (9-128-64-1)  / random_state : 5561074 / epochs = 300 / batch_size = 32
-# loss :  2632.7646484375
-# r2 :  0.6287499373648455
-# rand_state : 1311804
-
-
-#train_size : 0.7 /  deep 6 (9-128-64-1)  / random_state : 6131483 / epochs = 300 / batch_size = 32
-#train 0 test mean 
-# loss :  2671.165771484375
-# r2 :  0.638186546055851
-# rand_state : 336491
-
-#train_size : 0.7 /  deep 6 (9-128-64-1)  / random_state : 6131483 / epochs = 300 / batch_size = 32
-#train 0 test mean 
-
-
-#train_size : 0.8 /  deep 6 (9-128-64-1)  / random_state : 6131483 / epochs = 340 / batch_size = 32
-#train mean test mean 
-# loss :  2536.41650390625
-# r2 :  0.6300840825839278
-

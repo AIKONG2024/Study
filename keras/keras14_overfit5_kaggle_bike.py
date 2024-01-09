@@ -58,7 +58,7 @@ print(y.shape) #(10886, )
 #####################*****B O A R D *****######################
 train_size = 0.6
 random_state = 9323
-epochs = 800
+epochs = 600
 batch_size=250
 ###############################################################
 
@@ -83,7 +83,7 @@ model.add(Dense(1))
 
 # 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=2)
+hist = model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=2, validation_split=0.3)
 
 # 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -99,23 +99,38 @@ submission_csv['count'] = submit
 nagativeCount = submission_csv[submission_csv['count']<0].count()
 print( "음수의 개수: ", nagativeCount )
 
-if nagativeCount['count'] == 0 : 
-    def RMSE(y_test, y_predict):
+def RMSE(y_test, y_predict):
         return np.sqrt(mean_squared_error(y_test, y_predict)) 
-    print('MSE : ', loss)
-    rmse = RMSE(y_test, y_predict)
-    print("RMSE : ", rmse)
-    print('r2 = ', r2)
+print('MSE : ', loss)
+rmse = RMSE(y_test, y_predict)
+print("RMSE : ", rmse)
+print('r2 = ', r2)
 
-    import time as tm
-    ltm = tm.localtime()
-    file_name = f'sampleSubmission_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}.csv'
-    submission_csv.to_csv(path + file_name, index = False )
+print("="*100)
 
-    df_new = pd.DataFrame({'random_state' : [random_state], 'epoch' : [epochs], 'train_size' : [train_size], 
-                        'batch_size' : [batch_size],'file_name' : [file_name],  'MSE' : [loss], 'RMSE': [rmse], 'r2': [r2]}) 
-    df_new.to_csv(path + f"result_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}.csv", mode= 'a', header=True)
+import time as tm
+ltm = tm.localtime()
+file_name = f'sampleSubmission_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}.csv'
+submission_csv.to_csv(path + file_name, index = False )
 
+df_new = pd.DataFrame({'random_state' : [random_state], 'epoch' : [epochs], 'train_size' : [train_size], 
+                    'batch_size' : [batch_size],'file_name' : [file_name],  'MSE' : [loss], 'RMSE': [rmse], 'r2': [r2]}) 
+df_new.to_csv(path + f"result_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}.csv", mode= 'a', header=True)
+#시각화
+import matplotlib.pyplot as plt
+hist_loss = hist.history['loss']
+hist_val_loss = hist.history['val_loss']
+
+plt.rcParams['font.family'] ='Malgun Gothic'
+plt.figure(figsize=(9,6))
+plt.plot(hist_loss, c ='red', label = 'loss', marker = '.')
+plt.plot(hist_val_loss, c = 'blue', label = 'val_loss', marker = '.')
+plt.legend(loc = 'upper right')
+plt.title('바이크 찻트')
+plt.xlabel = 'epoch'
+plt.ylabel = 'loss'
+plt.grid()
+plt.show()
 
 
 # def RMSLE(y_test, y_predict):
@@ -123,3 +138,4 @@ if nagativeCount['count'] == 0 :
 
 # rmsle = RMSLE(y_test, y_predict)
 # print('RMSLE : ', rmsle)
+    
