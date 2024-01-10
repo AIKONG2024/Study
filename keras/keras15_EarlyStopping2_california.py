@@ -28,7 +28,7 @@ model.add(Dense(1))
 
 #얼리스톱
 from keras.callbacks import EarlyStopping
-es = EarlyStopping(monitor='val_loss', mode = 'min', patience=15, verbose=1) #parience 15일떄 좋음.
+es = EarlyStopping(monitor='val_loss', mode = 'min', patience=15, restore_best_weights=False,  verbose=1) #parience 15일떄 좋음.
 
 
 # 컴파일, 훈련
@@ -64,3 +64,9 @@ plt.xlabel('epoch')
 plt.ylabel('loss')
 plt.grid()
 plt.show()
+
+#restore_best_weights = True
+#loss : 0.6844689846038818
+
+#restore_best_weights = False
+# loss : 1.311980962753296

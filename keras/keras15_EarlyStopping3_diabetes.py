@@ -54,7 +54,7 @@ model.add(Dense(1))
 
 #Early Stopping
 from keras.callbacks import EarlyStopping
-es = EarlyStopping(monitor='val_loss', mode='min', patience=15, verbose=1)
+es = EarlyStopping(monitor='val_loss', mode='min', patience=15, verbose=1, restore_best_weights=True)
 
 # 컴파일 훈련
 model.compile(loss='mse', optimizer='adam')
@@ -87,3 +87,5 @@ plt.ylabel = 'loss'
 plt.title = '디아벳 차트'
 plt.grid()
 plt.show()
+
+#restore_best_weights = True

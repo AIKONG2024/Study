@@ -34,7 +34,8 @@ from keras.callbacks import EarlyStopping
 es = EarlyStopping(monitor='val_loss', #'loss' 혹은 'val_loss' 
                    mode= 'min',  #최소값 설정 'max': 정확도처럼 크면 좋을때 사용, 'auto':뭘 써야할지 모른다면
                    patience=10, #몇 에코까지 참을건지
-                   verbose=1 
+                   verbose=1 ,
+                   restore_best_weights=False # 가장 최적의 가중치를 불러옴.
                    )
 start_time = time.time()
 hist = model.fit(x_train, y_train, epochs=200, batch_size=16, validation_split=0.2, callbacks=[es])
@@ -59,15 +60,15 @@ rmse = RMSE(y_test, y_predict)
 print("RMSE : ", rmse)
 print("걸린시간 : ", round(end_time - start_time, 2), "초")
 
-print("=" * 40 + "hist" + "=" * 40)
-print(hist)
-print("=" * 40 + "hist.history" + "=" * 40)
-print(hist.history)
-print("=" * 40 + "loss" + "=" * 40)
-print(hist.history["loss"])
-print("=" * 40 + "val loss" + "=" * 40)
-print(hist.history["val_loss"])
-print("=" * 90)
+# print("=" * 40 + "hist" + "=" * 40)
+# print(hist)
+# print("=" * 40 + "hist.history" + "=" * 40)
+# print(hist.history)
+# print("=" * 40 + "loss" + "=" * 40)
+# print(hist.history["loss"])
+# print("=" * 40 + "val loss" + "=" * 40)
+# print(hist.history["val_loss"])
+# print("=" * 90)
 
 # 시각화
 import matplotlib.pyplot as plt
