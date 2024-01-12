@@ -33,6 +33,7 @@ one_hot_y = pd.get_dummies(y)
 
 #데이터 분류
 x_train, x_test, y_train, y_test = train_test_split(x, one_hot_y, train_size=0.7, random_state=200, stratify=one_hot_y)
+print(x_test)
 print(np.unique(y_test, return_counts=True))
 #(array([False,  True]), array([72, 36], dtype=int64))
 
