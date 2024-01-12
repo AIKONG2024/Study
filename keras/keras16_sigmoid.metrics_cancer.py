@@ -27,8 +27,6 @@ print(y_df[y_df[0] == 1].count())
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size= 0.7, random_state=1234)
 
-#결측치 확인
-
 
 #모델 구성
 from keras.models import Sequential

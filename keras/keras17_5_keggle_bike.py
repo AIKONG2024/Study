@@ -56,10 +56,10 @@ print(x.shape) #(10886, 8)
 print(y.shape) #(10886, )
 
 #####################*****B O A R D *****######################
-train_size = 0.8
-random_state = 123456743
-epochs = 11000
-batch_size=200
+train_size = 0.7
+random_state = 12345
+epochs = 1100
+batch_size=100
 ###############################################################
 
     
@@ -72,8 +72,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 
 model = Sequential()
-model.add(Dense(1024, input_dim = len(x.columns)))
-model.add(Dense(512))
+model.add(Dense(512, input_dim = len(x.columns)))
 model.add(Dense(256))
 model.add(Dense(128))
 model.add(Dense(64))
@@ -81,15 +80,15 @@ model.add(Dense(32))
 model.add(Dense(16))
 model.add(Dense(8, activation='relu'))
 model.add(Dense(4, activation='relu'))
-# model.add(Dense(2, activation='relu' ))
+model.add(Dense(2, activation='relu' ))
 model.add(Dense(1))
 
 #Early Stopping
 from keras.callbacks import EarlyStopping
-es = EarlyStopping(monitor='val_loss', mode='min', patience= 300, verbose=1, restore_best_weights=True)
+es = EarlyStopping(monitor='val_accuracy', mode='max', patience= 1100, verbose=1, restore_best_weights=True)
 
 # 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
 hist = model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=1, validation_split=0.3, callbacks=[es])
 
 # 평가, 예측
