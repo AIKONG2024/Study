@@ -48,20 +48,23 @@ es = EarlyStopping(monitor='val_loss', mode='auto',
                    patience=20, restore_best_weights=True, verbose= 1)
 
 model.compile(loss='binary_crossentropy', optimizer='adam',
-              metrics=['accuracy', 'mse', 'mae']) #binary_crossentropy 로스지표 이진분류 #훈련 가중치에 반영되는게 아님. 터미널에 각 종류 훈련 loss가 찍힘
+              metrics=['accuracy']) #binary_crossentropy 로스지표 이진분류 #훈련 가중치에 반영되는게 아님. 터미널에 각 종류 훈련 loss가 찍힘
                 #accuracy == acc 동일하게 사용 가능.,
 history = model.fit(x_train, y_train, epochs= 76, batch_size=1, 
           validation_split=0.3,  callbacks=[es])
 
 #평가 예측
 loss = model.evaluate(x_test, y_test)
-y_predict = model.predict(x_test)
+y_predict = np.round(model.predict(x_test))
+# y_predict = model.predict(x_test)
+
+print(y_predict)
 
 #mse, rmse , rmsle, r2
 import numpy as np
 from sklearn.metrics import accuracy_score
 
-acc = accuracy_score(y_test, np.round(y_predict))
+acc = accuracy_score(y_test, y_predict)
 print(f"accuracy : {acc}")
 print(loss)
 
@@ -76,7 +79,7 @@ plt.plot(history_loss, c ='red', label = 'loss', marker = '.')
 plt.plot(history_val_loss, c = 'blue', label = 'val_loss', marker = '.')
 plt.plot(history_accuracy, c = 'green', label = 'accuracy', marker = '.')
 plt.legend(loc = 'upper right')
-plt.title('찻트')
+plt.title('loss accuracy graph')
 plt.xlabel = 'epoch'
 plt.ylabel = 'loss'
 plt.grid()
