@@ -79,11 +79,11 @@ model.add(Dense(32))
 model.add(Dense(16))
 model.add(Dense(7, activation='softmax'))
 
-es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 100, restore_best_weights=True)
+es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=1000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es])
+history = model.fit(x_train, y_train, epochs=10000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es])
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -96,6 +96,7 @@ f1_score = f1_score(arg_y_test, arg_y_predict, average=None)
 print("f1_score :", f1_score)
 submission = np.argmax(model.predict(test_csv), axis=1)
 submission = train_le.inverse_transform(submission)
+
 submission_csv['대출등급'] = submission
 
 import time as tm
