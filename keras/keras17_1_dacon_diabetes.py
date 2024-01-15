@@ -14,21 +14,6 @@ print(test_csv.columns)
 # print(train_csv.isna().sum())
 # print(test_csv.isna().sum())
 
-#결측치확인
-# x[x['Pregnancies']==0] = np.round(x['Pregnancies'].mean())
-# x[x['Glucose'] == 0] = np.round(x['Glucose'].mean())
-# x[x['BloodPressure'] == 0] = np.round(x['BloodPressure'].mean())
-# x[x['SkinThickness'] == 0] = np.round(x['SkinThickness'].mean())
-# x[x['Insulin'] == 0] = np.round(x['Insulin'].mean())
-# x[x['BMI'] == 0] = np.round(x['BMI'].mean(),1)
-
-# test_csv[test_csv['Pregnancies']==0] = np.round(test_csv['Pregnancies'].mean())
-# test_csv[test_csv['Glucose'] == 0] = np.round(test_csv['Glucose'].mean())
-# test_csv[test_csv['BloodPressure'] == 0] = np.round(test_csv['BloodPressure'].mean())
-# test_csv[test_csv['SkinThickness'] == 0] = np.round(test_csv['SkinThickness'].mean())
-# test_csv[test_csv['Insulin'] == 0] = np.round(test_csv['Insulin'].mean())
-# test_csv[test_csv['BMI'] == 0] = np.round(test_csv['BMI'].mean(),1)
-
 #결측 데이터 제거
 
 p_index = train_csv[train_csv['Pregnancies'] == 0].index
@@ -43,19 +28,6 @@ p_index = train_csv[train_csv['Insulin'] == 0].index
 train_csv.drop(p_index, inplace=True)
 p_index = train_csv[train_csv['BMI'] == 0].index
 train_csv.drop(p_index, inplace=True)
-
-# p_index = test_csv[test_csv['Pregnancies'] == 0].index
-# test_csv.drop(p_index, inplace=True)
-# p_index = test_csv[test_csv['Glucose'] == 0].index
-# test_csv.drop(p_index, inplace=True)
-# p_index = test_csv[test_csv['BloodPressure'] == 0].index
-# test_csv.drop(p_index, inplace=True)
-# p_index = test_csv[test_csv['SkinThickness'] == 0].index
-# test_csv.drop(p_index, inplace=True)
-# p_index = test_csv[test_csv['Insulin'] == 0].index
-# test_csv.drop(p_index, inplace=True)
-# p_index = test_csv[test_csv['BMI'] == 0].index
-# test_csv.drop(p_index, inplace=True)
 
 x = train_csv.drop(columns='Outcome')
 y = train_csv['Outcome']

@@ -37,19 +37,18 @@ print(y.shape)#(5497,)
 
 #white, red -> 0, 
 #OneHotEncoder
-#scikit learn 방식
-# from sklearn.preprocessing import OneHotEncoder
-# y = y.values.reshape(-1,1) 
-# one_hot_y = OneHotEncoder(sparse=False).fit_transform(y)
+# scikit learn 방식
+from sklearn.preprocessing import OneHotEncoder
+y = y.values.reshape(-1,1) 
+one_hot_y = OneHotEncoder(sparse=False).fit_transform(y)
 
-from keras.utils import to_categorical
-one_hot_y = to_categorical(y)
-one_hot_y = np.delete(one_hot_y, 0, axis=1)
-print(one_hot_y.shape) 
-
+# from keras.utils import to_categoricalsssss
+# one_hot_y = to_categorical(y)
+# one_hot_y = np.delete(one_hot_y, 0, axis=1)
+# print(one_hot_y.shape) 
 
 #데이터 분류
-x_train, x_test, y_train, y_test = train_test_split(x, one_hot_y, train_size=0.85, random_state=123456, stratify=one_hot_y)
+x_train, x_test, y_train, y_test = train_test_split(x, one_hot_y, train_size=0.85, random_state=1234567, stratify=one_hot_y)
 print(np.unique(y_test, return_counts=True))
 #(array([False,  True]), array([9900, 1650], dtype=int64))
 
@@ -57,14 +56,15 @@ print(np.unique(y_test, return_counts=True))
 model = Sequential()
 model.add(Dense(64, input_dim = len(x.columns)))
 model.add(Dense(32))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(9, activation='softmax'))
+model.add(Dense(32))
+model.add(Dense(16))
+model.add(Dense(7, activation='softmax'))
 
-es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
+es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 100, restore_best_weights=True)
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=1200, batch_size=100, verbose= 1, validation_split=0.2, callbacks=[es])
+history = model.fit(x_train, y_train, epochs=300, batch_size=10, verbose= 1, validation_split=0.2, callbacks=[es])
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -78,7 +78,11 @@ print("acc_score :", acc_score)
 submission = np.argmax(model.predict(test_csv), axis=1)
 
 submission_csv['quality'] = submission
-submission_csv.
+# print(submission_csv['quality'])
+submission_csv['quality'] += 3
+# print("+",submission_csv['quality'])
+
+
 import time as tm
 ltm = tm.localtime(tm.time())
 save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}" 
