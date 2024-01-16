@@ -45,17 +45,18 @@ print(y_train.shape)#(354,)
 print(y_test.shape)#(152,)
 
 #모델 구성
-from keras.models import Sequential
+from keras.models import Sequential , load_model
 from keras.layers import Dense
 
-model = Sequential()
-model.add(Dense(20, input_dim = 13))
-model.add(Dense(10))
-model.add(Dense(1))
+# model = Sequential()
+# model.add(Dense(20, input_dim = 13))
+# model.add(Dense(10))
+# model.add(Dense(1))
 
 #컴파일, 훈련
-model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs= 10, batch_size= 10, validation_split=0.7, verbose=1)
+# model.compile(loss='mse', optimizer='adam')
+# model.fit(x_train, y_train, epochs= 10, batch_size= 10, validation_split=0.7, verbose=1)
+model = load_model('..\_data\_save\MCP\keras26_MCP_01_boston.hdf5')
 
 #평가 예측
 loss = model.evaluate(x_test, y_test)

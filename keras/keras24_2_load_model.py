@@ -17,13 +17,12 @@ x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.7, random_
 #predict 할 값도 train 의 기준에 맞춰야함.
 from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler
 from sklearn.preprocessing import StandardScaler, RobustScaler
-scaler = MinMaxScaler()
-# scaler = StandardScaler()
+# scaler = MinMaxScaler()
+scaler = StandardScaler()
 # scaler = MaxAbsScaler()
 # scaler = RobustScaler()
 
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
+x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 
 
@@ -45,13 +44,17 @@ print(y_train.shape)#(354,)
 print(y_test.shape)#(152,)
 
 #모델 구성
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 
-model = Sequential()
-model.add(Dense(20, input_dim = 13))
-model.add(Dense(10))
-model.add(Dense(1))
+# model = Sequential()
+# model.add(Dense(20, input_dim = 13))
+# model.add(Dense(10))
+# model.add(Dense(1))
+# model.save("c:\_data\_save\keras24_save_model.h5") #절대경로
+# model.save("..\_data\_save\keras24_save_model.h5") #상대경로
+model = load_model('..\_data\_save\keras24_save_model.h5')
+model.summary()
 
 #컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')

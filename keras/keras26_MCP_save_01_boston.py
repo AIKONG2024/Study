@@ -26,17 +26,10 @@ scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
-
-
 print(np.min(x_train)) #0.0
 print(np.min(x_test)) #-0.028657616892911006
 print(np.max(x_train)) #1.0000000000000002
 print(np.max(x_train)) #0.0
-
-
-'''
-
-'''
 
 #데이터 구조 확인
 print(x_train.shape)#(301, 13)
@@ -53,9 +46,12 @@ model.add(Dense(20, input_dim = 13))
 model.add(Dense(10))
 model.add(Dense(1))
 
+from keras.callbacks import ModelCheckpoint
+mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=True, filepath='..\_data\_save\MCP\keras26_MCP_01_boston.hdf5')
+
 #컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs= 10, batch_size= 10, validation_split=0.7, verbose=1)
+model.fit(x_train, y_train, epochs= 10, batch_size= 10, validation_split=0.7, verbose=1, callbacks= [mcp])
 
 #평가 예측
 loss = model.evaluate(x_test, y_test)
