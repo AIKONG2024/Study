@@ -132,13 +132,13 @@ save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{lt
 file_path = path + f"sampleSubmission{save_time}.csv"
 submission_csv.to_csv(file_path, index=False)
 
-import matplotlib.pyplot as plt
-plt.figure(figsize=(9,6))
-plt.plot(history.history['val_loss'], color = 'red', label ='val_loss', marker='.')
-plt.plot(history.history['val_acc'], color = 'blue', label ='val_acc', marker='.')
-plt.xlabel = 'epochs'
-plt.ylabel = 'loss'
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(9,6))
+# plt.plot(history.history['val_loss'], color = 'red', label ='val_loss', marker='.')
+# plt.plot(history.history['val_acc'], color = 'blue', label ='val_acc', marker='.')
+# plt.xlabel = 'epochs'
+# plt.ylabel = 'loss'
+# plt.show()
 
 
 '''

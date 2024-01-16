@@ -124,13 +124,13 @@ print("loss : ", loss)
 print("acc_score : ", acc_score)
 
 #시각화
-import matplotlib.pyplot as plt
-plt.figure(figsize=(9,6))
-plt.plot(history.history['val_loss'], color = 'red', label ='val_loss', marker='.')
-plt.plot(history.history['val_acc'], color = 'blue', label ='val_acc', marker='.')
-plt.xlabel = 'epochs'
-plt.ylabel = 'loss'
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(9,6))
+# plt.plot(history.history['val_loss'], color = 'red', label ='val_loss', marker='.')
+# plt.plot(history.history['val_acc'], color = 'blue', label ='val_acc', marker='.')
+# plt.xlabel = 'epochs'
+# plt.ylabel = 'loss'
+# plt.show()
 
 
 '''
