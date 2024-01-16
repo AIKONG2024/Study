@@ -77,6 +77,16 @@ print(unique, count) #[0. 1.] [543738  90623]
 x_train, x_test, y_train, y_test = train_test_split(x, one_hot_y, train_size=0.85, random_state=1234567, stratify=one_hot_y)
 print(np.unique(y_test, return_counts=True))
 
+from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, RobustScaler
+# scaler = MinMaxScaler()
+# scaler = StandardScaler()
+# scaler = MaxAbsScaler()
+# scaler = RobustScaler()
+# scaler.fit(x_train)
+# x_train = scaler.transform(x_train)
+# x_test = scaler.transform(x_test)
+# test_csv = scaler.transform(test_csv)
+
 print(x_train.shape)#(77029, 13)
 print(y_train.shape)#(77029, 7)
 
@@ -123,5 +133,19 @@ plt.ylabel = 'loss'
 plt.show()
 
 
-
+'''
+기존 : 
+loss :   [68176.6484375, 68176.6484375, 189.3523406982422, 0.010716472752392292]
+============================
+best : MaxAbs
+============================
+MinMaxScaler()
+ - loss : [23940.2734375, 23940.2734375, 116.05174255371094, 0.010716472752392292]
+StandardScaler()
+ - loss :  [22986.853515625, 22986.853515625, 110.59112548828125, 0.010716472752392292]
+MaxAbsScaler()
+ - loss :  [68176.6484375, 68176.6484375, 189.35243225097656, 0.010716472752392292]
+RobustScaler()
+ - loss : [23383.75, 23383.75, 114.64836883544922, 0.010716472752392292]
+'''
 
