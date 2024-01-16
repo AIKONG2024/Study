@@ -41,10 +41,10 @@ from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, Ro
 # scaler = MinMaxScaler()
 # scaler = StandardScaler()
 # scaler = MaxAbsScaler()
-# scaler = RobustScaler()
-# scaler.fit(x_train)
-# x_train = scaler.transform(x_train)
-# x_test = scaler.transform(x_test)
+scaler = RobustScaler()
+scaler.fit(x_train)
+x_train = scaler.transform(x_train)
+x_test = scaler.transform(x_test)
 # test_csv = scaler.transform(test_csv)
 
 
@@ -84,16 +84,20 @@ plt.show()
 
 '''
 기존 : 
-accuracy : 0.9298245614035088
+로스 :  0.3534816801548004
 ============================
 best : MaxAbs
 ============================
 MinMaxScaler()
- - accuracy : 0.9239766081871345
+ 로스 :  0.08146528154611588
+정확도 :  0.9599999785423279
 StandardScaler()
- - accuracy :  0.9473684210526315
+로스 :  0.040504083037376404
+정확도 :  0.9800000190734863
 MaxAbsScaler()
- - accuracy : 0.9239766081871345
+ 로스 :  0.03303348645567894
+정확도 :  1.0
 RobustScaler()
- - accuracy :0.9532163742690059
+ 로스 :  0.026229025796055794
+정확도 :  0.9800000190734863
 '''
