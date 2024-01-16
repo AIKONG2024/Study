@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.callbacks import EarlyStopping 
+from keras.callbacks import EarlyStopping , ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -71,6 +71,7 @@ model.add(Dense(16))
 model.add(Dense(7, activation='softmax'))
 
 es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 100, restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=True, filepath='..\_data\_save\MCP\keras26_MCP_10_dacon_wine.hdf5')
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from keras.models import Sequential
+from keras.models import Sequential , load_model
 from keras.layers import Dense
 from keras.utils import to_categorical  
 from sklearn.preprocessing import OneHotEncoder
@@ -49,17 +49,19 @@ from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, Ro
 
 
 #모델 구현
-model = Sequential()
-model.add(Dense(64, input_dim = 13))
-model.add(Dense(32))
-model.add(Dense(16))
-model.add(Dense(3, activation='softmax'))
+# model = Sequential()
+# model.add(Dense(64, input_dim = 13))
+# model.add(Dense(32))
+# model.add(Dense(16))
+# model.add(Dense(3, activation='softmax'))
 
-es = EarlyStopping(monitor='val_loss', mode='min', patience=80, verbose=1, restore_best_weights=True)
+# es = EarlyStopping(monitor='val_loss', mode='min', patience=80, verbose=1, restore_best_weights=True)
 
-#컴파일 훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=550, batch_size=1, validation_split=0.2, verbose=1,callbacks=[es])
+# #컴파일 훈련
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+# history = model.fit(x_train, y_train, epochs=550, batch_size=1, validation_split=0.2, verbose=1,callbacks=[es])
+
+model = load_model('..\_data\_save\MCP\keras26_MCP_08_wine.hdf5')
 
 #예측 평가
 loss = model.evaluate(x_test, y_test)
@@ -76,11 +78,11 @@ print("정확도 : ", loss[1])
 
 print("acc score :", acc_score)
 
-import matplotlib.pyplot as plt
-plt.figure(figsize=(9,6))
-plt.plot(history.history['val_acc'], color = 'blue', label = 'val_acc', marker = '.')
-plt.plot(history.history['val_loss'], color = 'red', label = 'val_loss', marker = '.')
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(9,6))
+# plt.plot(history.history['val_acc'], color = 'blue', label = 'val_acc', marker = '.')
+# plt.plot(history.history['val_loss'], color = 'red', label = 'val_loss', marker = '.')
+# plt.show()
 
 '''
 기존 : 

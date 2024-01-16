@@ -78,28 +78,29 @@ x_test = scaler.transform(x_test)
 test_csv = scaler.transform(test_csv)
 
 #모델 구성
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 
-model = Sequential()
-model.add(Dense(512, input_dim = len(x.columns)))
-model.add(Dense(256))
-model.add(Dense(128))
-model.add(Dense(64))
-model.add(Dense(32))
-model.add(Dense(16))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(4, activation='relu'))
-model.add(Dense(2, activation='relu' ))
-model.add(Dense(1))
+# model = Sequential()
+# model.add(Dense(512, input_dim = len(x.columns)))
+# model.add(Dense(256))
+# model.add(Dense(128))
+# model.add(Dense(64))
+# model.add(Dense(32))
+# model.add(Dense(16))
+# model.add(Dense(8, activation='relu'))
+# model.add(Dense(4, activation='relu'))
+# model.add(Dense(2, activation='relu' ))
+# model.add(Dense(1))
 
 #Early Stopping
-from keras.callbacks import EarlyStopping
-es = EarlyStopping(monitor='val_accuracy', mode='max', patience= 1100, verbose=1, restore_best_weights=True)
+# from keras.callbacks import EarlyStopping
+# es = EarlyStopping(monitor='val_accuracy', mode='max', patience= 1100, verbose=1, restore_best_weights=True)
 
-# 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
-hist = model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=1, validation_split=0.3, callbacks=[es])
+# # 컴파일, 훈련
+# model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
+# hist = model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=1, validation_split=0.3, callbacks=[es])
+model = load_model('..\_data\_save\MCP\keras26_MCP_05_keggle_bike.hdf5')
 
 # 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -134,20 +135,20 @@ if nagativeCount['count'] == 0 :
                         'batch_size' : [batch_size],'file_name' : [file_name],  'MSE' : [loss], 'RMSE': [rmse], 'r2': [r2]}) 
     df_new.to_csv(path + f"result_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}.csv", mode= 'a', header=True)
     #시각화
-    import matplotlib.pyplot as plt
-    hist_loss = hist.history['loss']
-    hist_val_loss = hist.history['val_loss']
+#     import matplotlib.pyplot as plt
+#     hist_loss = hist.history['loss']
+#     hist_val_loss = hist.history['val_loss']
 
-    plt.rcParams['font.family'] ='Malgun Gothic'
-    plt.figure(figsize=(9,6))
-    plt.plot(hist_loss, c ='red', label = 'loss', marker = '.')
-    plt.plot(hist_val_loss, c = 'blue', label = 'val_loss', marker = '.')
-    plt.legend(loc = 'upper right')
-    plt.title('바이크 찻트')
-    plt.xlabel = 'epoch'
-    plt.ylabel = 'loss'
-    plt.grid()
-    plt.show()
+#     plt.rcParams['font.family'] ='Malgun Gothic'
+#     plt.figure(figsize=(9,6))
+#     plt.plot(hist_loss, c ='red', label = 'loss', marker = '.')
+#     plt.plot(hist_val_loss, c = 'blue', label = 'val_loss', marker = '.')
+#     plt.legend(loc = 'upper right')
+#     plt.title('바이크 찻트')
+#     plt.xlabel = 'epoch'
+#     plt.ylabel = 'loss'
+#     plt.grid()
+#     plt.show()
 
         # def RMSLE(y_test, y_predict):
         #     return np.sqrt(mean_squared_log_error(y_test, y_predict))

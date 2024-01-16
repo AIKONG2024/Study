@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 from keras.callbacks import EarlyStopping 
 from sklearn.model_selection import train_test_split
@@ -63,18 +63,19 @@ x_test = scaler.transform(x_test)
 test_csv = scaler.transform(test_csv)
 
 #모델 생성
-model = Sequential()
-model.add(Dense(64, input_dim = len(x.columns)))
-model.add(Dense(32))
-model.add(Dense(32))
-model.add(Dense(16))
-model.add(Dense(7, activation='softmax'))
+# model = Sequential()
+# model.add(Dense(64, input_dim = len(x.columns)))
+# model.add(Dense(32))
+# model.add(Dense(32))
+# model.add(Dense(16))
+# model.add(Dense(7, activation='softmax'))
 
 es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 100, restore_best_weights=True)
 
 #컴파일 , 훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=300, batch_size=10, verbose= 1, validation_split=0.2, callbacks=[es])
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+# history = model.fit(x_train, y_train, epochs=300, batch_size=10, verbose= 1, validation_split=0.2, callbacks=[es])
+model = load_model('..\_data\_save\MCP\keras26_MCP_10_dacon_wine.hdf5')
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)

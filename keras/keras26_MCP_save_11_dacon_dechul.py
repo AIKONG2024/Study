@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.callbacks import EarlyStopping 
+from keras.callbacks import EarlyStopping , ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 
@@ -106,6 +106,7 @@ model.add(Dense(16))
 model.add(Dense(7, activation='softmax'))
 
 es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode= 'min', save_best_only=True, verbose=1, filepath='..\_data\_save\MCP\keras26_MCP_11_dacon_dechul.hdf5')
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])

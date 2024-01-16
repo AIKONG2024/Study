@@ -52,16 +52,16 @@ from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, Ro
 # test_csv = scaler.transform(test_csv)
 
 #모델 구성
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 
-model = Sequential()
-model.add(Dense(256, input_dim = len(x.columns)))
-model.add(Dense(128))
-model.add(Dense(64))
-model.add(Dense(32))
-model.add(Dense(16))
-model.add(Dense(1, activation='sigmoid'))
+# model = Sequential()
+# model.add(Dense(256, input_dim = len(x.columns)))
+# model.add(Dense(128))
+# model.add(Dense(64))
+# model.add(Dense(32))
+# model.add(Dense(16))
+# model.add(Dense(1, activation='sigmoid'))
 
 #===============================
 epochs = 10000
@@ -77,8 +77,10 @@ restore_best_weights = True
 # from keras.callbacks import EarlyStopping
 # es = EarlyStopping(monitor='val_loss', mode='min', patience=patience,  restore_best_weights=restore_best_weights)
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-history = model.fit(x_train, y_train, epochs=epochs, batch_size= batch_size, validation_split=validation_split)
+# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+# history = model.fit(x_train, y_train, epochs=epochs, batch_size= batch_size, validation_split=validation_split)
+
+model = load_model('..\_data\_save\MCP\keras26_MCP_07_dacon_diabetes.hdf5')
 
 #평가 예측
 from sklearn.metrics import accuracy_score
@@ -96,10 +98,10 @@ ltm = tm.localtime(tm.time())
 save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}" 
 file_path = path + f"sampleSubmission{save_time}.csv"
 submission_csv.to_csv(file_path, index=False)
-history_loss =  history.history['loss']
-history_val_loss = history.history['val_loss']
-history_val_acc = history.history['val_accuracy']
-history_accuracy =  history.history['accuracy']
+# history_loss =  history.history['loss']
+# history_val_loss = history.history['val_loss']
+# history_val_acc = history.history['val_accuracy']
+# history_accuracy =  history.history['accuracy']
 
 #기록
 df_new = pd.DataFrame({'random_state' : [random_state], 'epoch' : [epochs], 'train_size' : [train_size], 
@@ -107,13 +109,13 @@ df_new = pd.DataFrame({'random_state' : [random_state], 'epoch' : [epochs], 'tra
 df_new.to_csv(path + f"log_1_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}.csv", mode= 'a', header=True)
 
 #시각화
-import matplotlib.pyplot as plt
-plt.figure(figsize=(9,4))
-plt.plot(history_loss, color = 'red', label = "loss", marker = '.')
-plt.plot(history_val_loss, color = 'blue', label = "val_loss", marker = '.')
-plt.plot(history_accuracy, color = 'green', label = "accuracy", marker = '.')
-plt.grid()
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(9,4))
+# plt.plot(history_loss, color = 'red', label = "loss", marker = '.')
+# plt.plot(history_val_loss, color = 'blue', label = "val_loss", marker = '.')
+# plt.plot(history_accuracy, color = 'green', label = "accuracy", marker = '.')
+# plt.grid()
+# plt.show()
 
 
 

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 from keras.callbacks import EarlyStopping 
 from sklearn.model_selection import train_test_split
@@ -96,20 +96,21 @@ print(x_train.shape)#(77029, 13)
 print(y_train.shape)#(77029, 7)
 
 #모델 생성
-model = Sequential()
-model.add(Dense(512, input_shape = (13,)))
-model.add(Dense(256,activation='relu'))
-model.add(Dense(128))
-model.add(Dense(64))
-model.add(Dense(32))
-model.add(Dense(16))
-model.add(Dense(7, activation='softmax'))
+# model = Sequential()
+# model.add(Dense(512, input_shape = (13,)))
+# model.add(Dense(256,activation='relu'))
+# model.add(Dense(128))
+# model.add(Dense(64))
+# model.add(Dense(32))
+# model.add(Dense(16))
+# model.add(Dense(7, activation='softmax'))
 
-es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
+# es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
 
 #컴파일 , 훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=10000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es])
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+# history = model.fit(x_train, y_train, epochs=10000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es])
+model = load_model('..\_data\_save\MCP\keras26_MCP_11_dacon_dechul.hdf5')
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)

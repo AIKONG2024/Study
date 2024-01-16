@@ -4,7 +4,7 @@
 
 import numpy as np
 import pandas as pd
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error #mse
@@ -82,17 +82,18 @@ from keras.callbacks import EarlyStopping
 es = EarlyStopping(monitor='val_loss', mode='min', patience=3000, verbose=1,  restore_best_weights=True)
 
 #2. 모델
-model = Sequential()
-model.add(Dense(512, input_dim = len(x.columns)))
-model.add(Dense(256))
-model.add(Dense(128))
-model.add(Dense(64, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(1))
+# model = Sequential()
+# model.add(Dense(512, input_dim = len(x.columns)))
+# model.add(Dense(256))
+# model.add(Dense(128))
+# model.add(Dense(64, activation='relu'))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(16, activation='relu'))
+# model.add(Dense(1))
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
-hist = model.fit(x_train, y_train, epochs=300000, batch_size=70, validation_split=0.3, callbacks=[es]) #98
+# model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
+# hist = model.fit(x_train, y_train, epochs=300000, batch_size=70, validation_split=0.3, callbacks=[es]) #98
+model = load_model('..\_data\_save\MCP\keras26_MCP_04_dacon_ddarung.hdf5')
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -112,20 +113,20 @@ file_path = path + f"submission_{save_time}.csv"
 submission_csv.to_csv(file_path, index=False)
 
 #시각화
-import matplotlib.pyplot as plt
-plt.rcParams['font.family'] ='Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] =False
-history_loss = hist.history['loss']
-history_val_loss = hist.history['val_loss']
-plt.figure(figsize=(9,6)) #세로 9 가로 6
-plt.plot(history_loss, c = 'red', label = 'loss', marker = '.' )
-plt.plot(history_val_loss, c = 'blue', label = 'val_loss', marker = '.' )
-plt.legend(loc = 'upper right')
-plt.title('따르릉 찻트')
-plt.xlabel('epoch')
-plt.ylabel('loss')
-plt.grid()
-plt.show()
+# import matplotlib.pyplot as plt
+# plt.rcParams['font.family'] ='Malgun Gothic'
+# plt.rcParams['axes.unicode_minus'] =False
+# history_loss = hist.history['loss']
+# history_val_loss = hist.history['val_loss']
+# plt.figure(figsize=(9,6)) #세로 9 가로 6
+# plt.plot(history_loss, c = 'red', label = 'loss', marker = '.' )
+# plt.plot(history_val_loss, c = 'blue', label = 'val_loss', marker = '.' )
+# plt.legend(loc = 'upper right')
+# plt.title('따르릉 찻트')
+# plt.xlabel('epoch')
+# plt.ylabel('loss')
+# plt.grid()
+# plt.show()
 
 
 

@@ -1,7 +1,7 @@
 from sklearn.datasets import fetch_covtype
 import numpy as np
 import pandas as pd
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 from sklearn.metrics import accuracy_score 
 from sklearn.preprocessing import OneHotEncoder
@@ -89,17 +89,18 @@ x_test = scaler.transform(x_test)
 # test_csv = scaler.transform(test_csv)
 
 #모델 구성
-model = Sequential()
-model.add(Dense(64, input_dim = 54))
-model.add(Dense(64))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(7, activation='softmax'))
+# model = Sequential()
+# model.add(Dense(64, input_dim = 54))
+# model.add(Dense(64))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(7, activation='softmax'))
 #0.6371110244171103
-es = EarlyStopping(monitor='val_loss', mode='min',patience=1000,  verbose=1, restore_best_weights=True)
+# es = EarlyStopping(monitor='val_loss', mode='min',patience=1000,  verbose=1, restore_best_weights=True)
 
-#컴파일, 훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=1000, batch_size=8000, validation_split=0.2, callbacks=[])
+# #컴파일, 훈련
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+# history = model.fit(x_train, y_train, epochs=1000, batch_size=8000, validation_split=0.2, callbacks=[])
+model = load_model('..\_data\_save\MCP\keras26_MCP_09_fetch_covtyp.hdf5')
 
 #평가 예측
 loss = model.evaluate(x_test, y_test)

@@ -52,15 +52,17 @@ model.add(Dense(1,activation='sigmoid')) #이진함수에서는 sigmoid 는 최�
 
 #컴파일 , 훈련
 #얼리스토핑
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 es = EarlyStopping(monitor='val_loss', mode='auto', 
                    patience=20, restore_best_weights=True, verbose= 1)
+
+mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=True, filepath='..\_data\_save\MCP\keras26_MCP_06_cancer.hdf5')
 
 model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['accuracy']) #binary_crossentropy 로스지표 이진분류 #훈련 가중치에 반영되는게 아님. 터미널에 각 종류 훈련 loss가 찍힘
                 #accuracy == acc 동일하게 사용 가능.,
 history = model.fit(x_train, y_train, epochs= 76, batch_size=1, 
-          validation_split=0.3,  callbacks=[es])
+          validation_split=0.3,  callbacks=[es, mcp])
 
 #평가 예측
 loss = model.evaluate(x_test, y_test)

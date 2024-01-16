@@ -74,11 +74,12 @@ restore_best_weights = True
 
 
 #컴파일, 훈련
-# from keras.callbacks import EarlyStopping
-# es = EarlyStopping(monitor='val_loss', mode='min', patience=patience,  restore_best_weights=restore_best_weights)
+from keras.callbacks import EarlyStopping, ModelCheckpoint
+es = EarlyStopping(monitor='val_loss', mode='min', patience=patience,  restore_best_weights=restore_best_weights)
+mcp = ModelCheckpoint(monitor= 'val_loss', mode = 'min', verbose=1 , save_best_only= True, filepath='..\_data\_save\MCP\keras26_MCP_07_dacon_diabetes.hdf5')
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-history = model.fit(x_train, y_train, epochs=epochs, batch_size= batch_size, validation_split=validation_split)
+history = model.fit(x_train, y_train, epochs=epochs, batch_size= batch_size, validation_split=validation_split, callbacks=[es, mcp])
 
 #평가 예측
 from sklearn.metrics import accuracy_score

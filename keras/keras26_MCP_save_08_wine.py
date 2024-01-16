@@ -7,7 +7,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.utils import to_categorical  
 from sklearn.preprocessing import OneHotEncoder
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 datasets = load_wine()
 x = datasets.data
@@ -56,10 +56,11 @@ model.add(Dense(16))
 model.add(Dense(3, activation='softmax'))
 
 es = EarlyStopping(monitor='val_loss', mode='min', patience=80, verbose=1, restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=True, filepath='..\_data\_save\MCP\keras26_MCP_08_wine.hdf5')
 
 #컴파일 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=550, batch_size=1, validation_split=0.2, verbose=1,callbacks=[es])
+history = model.fit(x_train, y_train, epochs=550, batch_size=1, validation_split=0.2, verbose=1,callbacks=[es, mcp])
 
 #예측 평가
 loss = model.evaluate(x_test, y_test)

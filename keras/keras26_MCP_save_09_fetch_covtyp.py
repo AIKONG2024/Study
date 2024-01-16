@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import OneHotEncoder
 from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 '''
 2    283301
@@ -96,6 +96,7 @@ model.add(Dense(32, activation='relu'))
 model.add(Dense(7, activation='softmax'))
 #0.6371110244171103
 es = EarlyStopping(monitor='val_loss', mode='min',patience=1000,  verbose=1, restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode= 'min', verbose=1, save_best_only= True, filepath='..\_data\_save\MCP\keras26_MCP_09_fetch_covtyp.hdf5')
 
 #컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])

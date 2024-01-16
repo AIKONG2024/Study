@@ -94,12 +94,13 @@ model.add(Dense(2, activation='relu' ))
 model.add(Dense(1))
 
 #Early Stopping
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 es = EarlyStopping(monitor='val_accuracy', mode='max', patience= 1100, verbose=1, restore_best_weights=True)
+mcp = ModelCheckpoint(monitor='val_loss', mode='min',save_best_only=True, filepath='..\_data\_save\MCP\keras26_MCP_05_keggle_bike.hdf5', verbose=1 )
 
 # 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
-hist = model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=1, validation_split=0.3, callbacks=[es])
+hist = model.fit(x_train, y_train, epochs= epochs, batch_size=batch_size, verbose=1, validation_split=0.3, callbacks=[es, mcp])
 
 # 평가, 예측
 loss = model.evaluate(x_test, y_test)
