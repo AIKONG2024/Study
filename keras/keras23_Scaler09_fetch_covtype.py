@@ -82,10 +82,10 @@ from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, Ro
 # scaler = MinMaxScaler()
 # scaler = StandardScaler()
 # scaler = MaxAbsScaler()
-# scaler = RobustScaler()
-# scaler.fit(x_train)
-# x_train = scaler.transform(x_train)
-# x_test = scaler.transform(x_test)
+scaler = RobustScaler()
+scaler.fit(x_train)
+x_train = scaler.transform(x_train)
+x_test = scaler.transform(x_test)
 # test_csv = scaler.transform(test_csv)
 
 #모델 구성
@@ -134,16 +134,16 @@ plt.show()
 
 '''
 기존 : 
-loss :   [68176.6484375, 68176.6484375, 189.3523406982422, 0.010716472752392292]
+loss :  loss :  [0.5527498126029968, 0.7625470161437988]
 ============================
 best : MaxAbs
 ============================
 MinMaxScaler()
- - loss : [23940.2734375, 23940.2734375, 116.05174255371094, 0.010716472752392292]
+ - loss : [0.45974233746528625, 0.8049327731132507]
 StandardScaler()
- - loss :  [22986.853515625, 22986.853515625, 110.59112548828125, 0.010716472752392292]
+ - loss :  [0.45520448684692383, 0.8062637448310852]
 MaxAbsScaler()
- - loss :  [68176.6484375, 68176.6484375, 189.35243225097656, 0.010716472752392292]
+ - loss :  [0.4693068563938141, 0.8011634945869446]
 RobustScaler()
- - loss : [23383.75, 23383.75, 114.64836883544922, 0.010716472752392292]
+ - loss :  [0.42321649193763733, 0.8228898644447327]
 '''
