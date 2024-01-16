@@ -110,7 +110,7 @@ mcp = ModelCheckpoint(monitor='val_loss', mode= 'min', save_best_only=True, verb
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=10000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es])
+history = model.fit(x_train, y_train, epochs=10000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es, mcp])
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)
