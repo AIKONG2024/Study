@@ -1,4 +1,4 @@
-# 09_1에서 가져옴
+# 세이브 파일명 만들기
 import numpy as np
 
 # 데이터 가져오기
@@ -57,6 +57,17 @@ model.summary()
 
 # 컴파일, 훈련
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+import datetime
+date = datetime.datetime.now()
+print(date) #2024-01-17 10:52:41.770061
+date = date.strftime("%m%d_%H%M")
+print(date)
+
+
+path = '../_data/_save/MCP/'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'
+filepath = "".join([path, 'k25_' ,date, '_', filename]) #체크포인트 가장 좋은 결과들 저장
+
 
 es = EarlyStopping(
     monitor="val_loss", mode="min", patience=10, verbose=1, restore_best_weights=True
@@ -66,7 +77,7 @@ mcp = ModelCheckpoint(
     mode="min",
     verbose=1,
     save_best_only=True,
-    filepath="../_data/_save/MCP/keras25_MCP3.hdf5",
+    filepath=filepath
 )
 model.compile(loss="mse", optimizer="adam")
 hist = model.fit(
@@ -78,30 +89,12 @@ hist = model.fit(
     verbose=1,
     callbacks=[es, mcp],
 )
-model.save('../_data/_save/keras25_MCP_3_save_model.h5')
 
 # 평가 예측
 print("=================1. 기본출력 ====================")
 loss = model.evaluate(x_test, y_test, verbose=0)
 y_predict = model.predict(x_test, verbose=0)
 r2 = r2_score(y_test , y_predict)
-
-print("loss : ", loss)
-print("r2 : ", r2_score)
-print("=================2. load_model 출력 ====================")
-model2 = load_model('../_data/_save/keras25_MCP_3_save_model.h5')
-loss2 = model2.evaluate(x_test, y_test, verbose=0)
-y_predict2 = model2.predict(x_test, verbose=0)
-r2 = r2_score(y_test , y_predict2)
-
-print("loss : ", loss)
-print("r2 : ", r2_score)
-
-print("=================3. MCP 출력 ====================")
-model3 = load_model('../_data/_save/MCP/keras25_MCP3.hdf5')
-loss2 = model3.evaluate(x_test, y_test, verbose=0)
-y_predict3 = model3.predict(x_test, verbose=0)
-r2 = r2_score(y_test , y_predict3)
 
 print("loss : ", loss)
 print("r2 : ", r2_score)

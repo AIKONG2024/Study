@@ -1,4 +1,7 @@
-# 09_1에서 가져옴
+# save_best_only
+# restore_best_weights
+# 에 대한 고찰!!!
+
 import numpy as np
 
 # 데이터 가져오기
@@ -57,16 +60,24 @@ model.summary()
 
 # 컴파일, 훈련
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+import datetime
+
+date = datetime.datetime.now()
+print(date)  # 2024-01-17 10:52:41.770061
+date = date.strftime("%m%d_%H%M")
+print(date)
+
+
+path = "../_data/_save/MCP/"
+filename = "{epoch:04d}-{val_loss:.4f}.hdf5"
+filepath = "".join([path, "k25_", date, "_", filename])  
+
 
 es = EarlyStopping(
     monitor="val_loss", mode="min", patience=10, verbose=1, restore_best_weights=True
 )
 mcp = ModelCheckpoint(
-    monitor="val_loss",
-    mode="min",
-    verbose=1,
-    save_best_only=True,
-    filepath="../_data/_save/MCP/keras25_MCP3.hdf5",
+    monitor="val_loss", mode="min", verbose=1, save_best_only=True, filepath=filepath
 )
 model.compile(loss="mse", optimizer="adam")
 hist = model.fit(
@@ -78,30 +89,29 @@ hist = model.fit(
     verbose=1,
     callbacks=[es, mcp],
 )
-model.save('../_data/_save/keras25_MCP_3_save_model.h5')
 
 # 평가 예측
 print("=================1. 기본출력 ====================")
 loss = model.evaluate(x_test, y_test, verbose=0)
 y_predict = model.predict(x_test, verbose=0)
-r2 = r2_score(y_test , y_predict)
-
-print("loss : ", loss)
-print("r2 : ", r2_score)
-print("=================2. load_model 출력 ====================")
-model2 = load_model('../_data/_save/keras25_MCP_3_save_model.h5')
-loss2 = model2.evaluate(x_test, y_test, verbose=0)
-y_predict2 = model2.predict(x_test, verbose=0)
-r2 = r2_score(y_test , y_predict2)
+r2 = r2_score(y_test, y_predict)
 
 print("loss : ", loss)
 print("r2 : ", r2_score)
 
-print("=================3. MCP 출력 ====================")
-model3 = load_model('../_data/_save/MCP/keras25_MCP3.hdf5')
-loss2 = model3.evaluate(x_test, y_test, verbose=0)
-y_predict3 = model3.predict(x_test, verbose=0)
-r2 = r2_score(y_test , y_predict3)
+print("==" * 50)
+print(hist.history["val_loss"])
+print("==" * 50)
 
-print("loss : ", loss)
-print("r2 : ", r2_score)
+
+# restore_best_weights = #save_best_only
+#                      =
+#True,                 = True           #history 체크포인트 가장 좋은 결과 저장
+#True,                 = False          #history 얼리스톱 전 모든 값 저장 
+#False,                = True           #얼리스톱 안걸린 밀린 값의 모든 값 중 가중치 갱신된 값 저장
+#False,                = False          #에포에 대한 모든 값이 저장
+
+'''
+
+
+'''
