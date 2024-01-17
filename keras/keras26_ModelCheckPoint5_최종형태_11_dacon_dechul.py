@@ -44,7 +44,7 @@ test_csv['근로기간'] = test_le.fit_transform(test_csv['근로기간'])
 #                                               '2 years' : 2, '3': 3, '3 years' : 3, '4 years' : 4, '5 years' : 5,
 #                                               '6 years' : 6, '7 years' : 7, '8 years' : 8, '9 years' : 9, '< 1 year' : 0.5, 
 #                                               '<1 year' : 0.5, 'Unknown' : 0}).astype(float)
-# train_csv = train_csv[train_csv['근로기간'] != 'Unknown']
+train_csv = train_csv[train_csv['근로기간'] != 'Unknown']
 print(test_csv.head(20))
 unique, count = np.unique(train_csv['근로기간'], return_counts=True)
 print(unique, count)
@@ -100,26 +100,17 @@ model = Sequential()
 model.add(Dense(16, input_shape = (13,)))
 model.add(Dense(32,activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(128, activation='relu'))
-model.add(Dense(32, activation='relu'))
 model.add(Dense(64, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(7, activation='softmax'))
 
 es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
-import datetime
-date = datetime.datetime.now()
-print(date) #2024-01-17 10:52:41.770061
-date = date.strftime("%m%d_%H%M")
-print(date)
-
-mcp_path = '../_data/_save/MCP/dacon/dechul/'
-filename = '{epoch:04d}-{val_loss:.4f}.hdf5'
-filepath = "".join([mcp_path, 'k26_11_dacon_dechul_' ,date, '_', filename]) #체크포인트 가장 좋은 결과들 저장
-mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=True, filepath=filepath)
+mcp = ModelCheckpoint(monitor='val_loss', mode= 'min', save_best_only=True, verbose=1, filepath='..\_data\_save\MCP\keras26_MCP_11_dacon_dechul.hdf5')
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=100000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es, mcp])
+history = model.fit(x_train, y_train, epochs=10000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es, mcp])
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)
