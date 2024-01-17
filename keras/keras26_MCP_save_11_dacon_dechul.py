@@ -44,12 +44,12 @@ test_csv['근로기간'] = test_le.fit_transform(test_csv['근로기간'])
 #                                               '2 years' : 2, '3': 3, '3 years' : 3, '4 years' : 4, '5 years' : 5,
 #                                               '6 years' : 6, '7 years' : 7, '8 years' : 8, '9 years' : 9, '< 1 year' : 0.5, 
 #                                               '<1 year' : 0.5, 'Unknown' : 0}).astype(float)
-train_csv = train_csv[train_csv['근로기간'] != 'Unknown']
-print(test_csv.head(20))
-unique, count = np.unique(train_csv['근로기간'], return_counts=True)
-print(unique, count)
-unique, count = np.unique(test_csv['근로기간'], return_counts=True)
-print(unique, count)
+# train_csv = train_csv[train_csv['근로기간'] != 'Unknown']
+# print(test_csv.head(20))
+# unique, count = np.unique(train_csv['근로기간'], return_counts=True)
+# print(unique, count)
+# unique, count = np.unique(test_csv['근로기간'], return_counts=True)
+# print(unique, count)
 
 #3. split 수치화 대상 int로 변경: 대출기간
 print(train_csv['대출기간'].str.split().str[0])
