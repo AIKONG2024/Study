@@ -27,8 +27,9 @@ train_le = LabelEncoder()
 test_le = LabelEncoder()
 train_csv['주택소유상태'] = train_le.fit_transform(train_csv['주택소유상태'])
 train_csv['대출목적'] = train_le.fit_transform(train_csv['대출목적'])
-train_csv['대출등급'] = train_le.fit_transform(train_csv['대출등급'])
 train_csv['근로기간'] = train_le.fit_transform(train_csv['근로기간'])
+train_csv['대출등급'] = train_le.fit_transform(train_csv['대출등급'])
+
 
 test_csv['주택소유상태'] = test_le.fit_transform(test_csv['주택소유상태'])
 test_csv['대출목적'] = test_le.fit_transform(test_csv['대출목적'])
