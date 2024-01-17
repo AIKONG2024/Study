@@ -6,6 +6,8 @@ datasets= load_boston()
 x = datasets.data
 y = datasets.target
 
+import matplotlib.pyplot as plt
+
 #데이터 분석
 print(x.shape)
 print(y.shape)
@@ -13,6 +15,8 @@ print(y.shape)
 #데이터 전처리
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.7, random_state=20)
+
+
 #스케일러는 split 후에 해야 x_train의 기준과 동일하게 x_test의 기준을 정해줌.
 #predict 할 값도 train 의 기준에 맞춰야함.
 from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler
@@ -59,6 +63,8 @@ y_predict = model.predict(x_test)
 
 print('loss : ', loss)
 # print('result : ', y_predict)
+
+
 
 '''
 기존 : 

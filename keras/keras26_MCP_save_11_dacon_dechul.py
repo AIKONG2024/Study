@@ -44,7 +44,6 @@ test_csv['근로기간'] = test_le.fit_transform(test_csv['근로기간'])
 #                                               '6 years' : 6, '7 years' : 7, '8 years' : 8, '9 years' : 9, '< 1 year' : 0.5, 
 #                                               '<1 year' : 0.5, 'Unknown' : 0}).astype(float)
 train_csv = train_csv[train_csv['근로기간'] != 'Unknown']
-
 print(test_csv.head(20))
 unique, count = np.unique(train_csv['근로기간'], return_counts=True)
 print(unique, count)
@@ -83,8 +82,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, one_hot_y, train_size=0.8
 print(np.unique(y_test, return_counts=True))
 
 from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler, StandardScaler, RobustScaler
-scaler = MinMaxScaler()
-# scaler = StandardScaler()
+# scaler = MinMaxScaler()
+scaler = StandardScaler()
 # scaler = MaxAbsScaler()
 # scaler = RobustScaler()
 scaler.fit(x_train)
@@ -97,12 +96,12 @@ print(y_train.shape)#(77029, 7)
 
 #모델 생성
 model = Sequential()
-model.add(Dense(512, input_shape = (13,)))
-model.add(Dense(256,activation='relu'))
-model.add(Dense(128))
-model.add(Dense(64))
-model.add(Dense(32))
-model.add(Dense(16))
+model.add(Dense(16, input_shape = (13,)))
+model.add(Dense(32,activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(7, activation='softmax'))
 
 es = EarlyStopping(monitor='val_loss', mode = 'min', patience= 1000, restore_best_weights=True)
