@@ -55,7 +55,7 @@ import time
 # 컴파일, 훈련
 model.compile(loss= 'mse', optimizer='adam')
 start_time = time.time()
-hist = model.fit(x_train, y_train, epochs=10, verbose=1, validation_split= 0.7, callbacks=[mcp])
+hist = model.fit(x_train, y_train, epochs=1000, verbose=1, validation_split= 0.7, callbacks=[mcp])
 end_time = time.time()
 
 #평가 예측
@@ -109,4 +109,11 @@ RobustScaler()
 ============================
 Dropout() 적용:
  loss : 1.2975385189056396
+'''
+
+'''
+============================
+CPU 걸린시간 : 158.88 초
+GPU 걸린시간 : 581.69 초
+============================
 '''

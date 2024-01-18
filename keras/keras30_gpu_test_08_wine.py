@@ -75,7 +75,7 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=
 #컴파일 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
 start_time = time.time()
-history = model.fit(x_train, y_train, epochs=550, batch_size=1, validation_split=0.2, verbose=1,callbacks=[es, mcp])
+history = model.fit(x_train, y_train, epochs=200, batch_size=100, validation_split=0.2, verbose=1,callbacks=[ mcp])
 end_time = time.time()
 
 #예측 평가
@@ -118,4 +118,11 @@ RobustScaler()
  
 Dropout() 적용후:
  정확도 :  0.9200000166893005
+'''
+
+'''
+============================
+CPU 걸린시간 : 4.18 초
+GPU 걸린시간 : 6.91 초
+============================
 '''

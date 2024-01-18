@@ -69,8 +69,8 @@ output1 = Dense(1, activation='sigmoid')(dense5)
 model = Model(inputs = input1, outputs = output1)
 
 #===============================
-epochs = 10000
-batch_size = 1
+epochs = 1000
+batch_size = 100
 validation_split = 0.2
 patience = 0
 restore_best_weights = True
@@ -95,7 +95,7 @@ mcp = ModelCheckpoint(monitor= 'val_loss', mode = 'min', verbose=1 , save_best_o
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 start_time = tm.time()
-history = model.fit(x_train, y_train, epochs=epochs, batch_size= batch_size, validation_split=validation_split, callbacks=[es, mcp])
+history = model.fit(x_train, y_train, epochs=epochs, batch_size= batch_size, validation_split=validation_split, callbacks=[mcp])
 end_time = tm.time()
 #평가 예측
 from sklearn.metrics import accuracy_score
@@ -105,6 +105,8 @@ accuracy = accuracy_score(y_test, np.round(y_predict))
 submission = np.round(model.predict(test_csv))
 print("loss : ", loss)
 print("accuracy",accuracy )
+#걸린시간 측정 CPU GPU 비교
+print("걸린시간 : ", round(end_time - start_time, 2), "초")
 
 #제출파일
 submission_csv['Outcome'] = submission
@@ -151,4 +153,11 @@ RobustScaler()
  Dropout() 적용후
  loss :  [1.6400569677352905, 0.5517241358757019]
 accuracy 0.5517241379310345
+'''
+
+'''
+============================
+CPU 걸린시간 : 19.19 초
+GPU 걸린시간 : 28.52 초
+============================
 '''

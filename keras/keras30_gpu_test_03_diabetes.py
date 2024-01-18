@@ -63,7 +63,7 @@ model = Model(inputs = input1, outputs = output1)
 
 #Early Stopping
 from keras.callbacks import EarlyStopping, ModelCheckpoint
-es = EarlyStopping(monitor='val_loss', mode='min', patience=15, verbose=1, restore_best_weights=True)
+es = EarlyStopping(monitor='val_loss', mode='min', patience=0, verbose=1, restore_best_weights=True)
 import datetime
 date = datetime.datetime.now()
 print(date) #2024-01-17 10:52:41.770061
@@ -79,7 +79,7 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='min', save_best_only=tuple, file
 # 컴파일 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
 start_time = time.time()
-hist = model.fit(x_train, y_train, epochs=500, batch_size=20, validation_split=0.7, callbacks=[es, mcp])
+hist = model.fit(x_train, y_train, epochs=1000, batch_size=20, validation_split=0.7, callbacks=[es, mcp])
 end_time = time.time()
 
 # 평가 예측
@@ -130,4 +130,11 @@ RobustScaler()
 Dropout() 적용:
 로스 :  [2898.206298828125, 2898.206298828125, 43.90724182128906, 0.0]
 r2 =  0.5621173662241807
+'''
+
+'''
+============================
+CPU 걸린시간 : 4.23 초
+GPU 걸린시간 : 55.04 초
+============================
 '''

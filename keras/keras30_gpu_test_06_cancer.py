@@ -59,7 +59,7 @@ model = Model(inputs = input1, outputs = output1)
 #얼리스토핑
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 es = EarlyStopping(monitor='val_loss', mode='auto', 
-                   patience=20, restore_best_weights=True, verbose= 1)
+                   patience=110000, restore_best_weights=True, verbose= 1)
 
 import datetime
 date = datetime.datetime.now()
@@ -77,7 +77,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['accuracy']) #binary_crossentropy 로스지표 이진분류 #훈련 가중치에 반영되는게 아님. 터미널에 각 종류 훈련 loss가 찍힘
                 #accuracy == acc 동일하게 사용 가능.,
 start_time = time.time()                
-history = model.fit(x_train, y_train, epochs= 76, batch_size=1, 
+history = model.fit(x_train, y_train, epochs= 200, batch_size=100, 
           validation_split=0.3,  callbacks=[es, mcp])
 end_time = time.time()
 
@@ -140,4 +140,11 @@ RobustScaler()
  Dropout 적용후:
 accuracy : 0.935672514619883
 [0.2588944733142853, 0.9356725215911865]
+'''
+
+'''
+============================
+CPU 걸린시간 : 5.11 초
+GPU 걸린시간 : 7.18 초
+============================
 '''

@@ -8,7 +8,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error #mse
-import time
+import time as tm
 
 #1. 데이터 - 경로데이터를 메모리에 땡겨옴
 path = "c:/_data/dacon/ddarung/"
@@ -70,9 +70,9 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(1))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mse', 'mae', 'acc'])
-start_time = time.time()
-hist = model.fit(x_train, y_train, epochs=300000, batch_size=70, validation_split=0.3, callbacks=[es, mcp]) #98
-end_time = time.time()
+start_time = tm.time()
+hist = model.fit(x_train, y_train, epochs=1000, batch_size=70, validation_split=0.3, callbacks=[mcp]) #98
+end_time = tm.time()
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -134,4 +134,11 @@ RobustScaler()
  Dropout 적용
  loss :  [1970.226318359375, 1970.226318359375, 31.0651912689209, 0.004566209856420755]
 r2 :  0.717166301784916
+'''
+
+'''
+============================
+CPU 걸린시간 : 41.01 초
+GPU 걸린시간 : 77.52 초
+============================
 '''

@@ -97,7 +97,7 @@ model = Model(inputs = input1, outputs = output1)
 
 #Early Stopping
 from keras.callbacks import EarlyStopping, ModelCheckpoint
-es = EarlyStopping(monitor='val_accuracy', mode='max', patience= 1100, verbose=1, restore_best_weights=True)
+es = EarlyStopping(monitor='val_accuracy', mode='max', patience= 11000, verbose=1, restore_best_weights=True)
 import datetime
 date = datetime.datetime.now()
 print(date) #2024-01-17 10:52:41.770061
@@ -188,4 +188,11 @@ RobustScaler()
  
 Dropout 적용: 
 MSE :  [23975.28515625, 23975.28515625, 116.01972961425781, 0.009797917678952217]
+'''
+
+'''
+============================
+CPU 걸린시간 : 44.1 초
+GPU 걸린시간 : 32.94 초
+============================
 '''
