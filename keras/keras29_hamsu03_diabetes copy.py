@@ -1,7 +1,7 @@
 from sklearn.metrics import r2_score
 import time
-from keras.layers import Dense , Dropout
-from keras.models import Sequential
+from keras.layers import Dense , Dropout, Input
+from keras.models import Sequential, Model
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_diabetes
 import warnings
@@ -54,13 +54,12 @@ scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
-# 모델 구성
-
-model = Sequential()
-model.add(Dense(64, input_dim=10))
-model.add(Dropout(0.2))
-model.add(Dense(32))
-model.add(Dense(1))
+input1 = Input(shape=(10,))
+dense1 = Dense(64)(input1)
+drop1 = Dropout(0.2)(dense1)
+dense2 = Dense(32)(drop1)
+output1 = Dense(1)(dense2)
+model = Model(inputs = input1, outputs = output1)
 
 #Early Stopping
 from keras.callbacks import EarlyStopping, ModelCheckpoint

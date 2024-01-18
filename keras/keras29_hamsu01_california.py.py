@@ -27,14 +27,15 @@ print(y_train.shape)#(14447,)
 print(y_test.shape)#(6193,)
 
 #모델 구성
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.models import Sequential, Model
+from keras.layers import Dense, Dropout ,Input
 
-model = Sequential()
-model.add(Dense(10, input_dim = 8))
-model.add(Dense(30))
-model.add(Dropout(0.3))
-model.add(Dense(1))
+input1 = Input(shape=(8,))
+dense1 = Dense(10)(input1)
+dense2 = Dense(30)(dense1)
+dropout1 = Dropout(0.3)(dense2)
+output1 = Dense(1)(dropout1)
+model = Model(inputs = input1, outputs = output1)
 
 #ModelCheckPoint
 from keras.callbacks import ModelCheckpoint
