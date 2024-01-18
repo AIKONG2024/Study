@@ -6,6 +6,7 @@ from keras.layers import Dense, Dropout, Input
 from keras.callbacks import EarlyStopping , ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
+import time as tm
 
 path = 'C:/_data/dacon/dechul/'
 #데이터 가져오기
@@ -96,14 +97,6 @@ print(x_train.shape)#(77029, 13)
 print(y_train.shape)#(77029, 7)
 
 #모델 생성
-# model = Sequential()
-# model.add(Dense(16, input_shape = (13,)))
-# model.add(Dense(32,activation='relu'))
-# model.add(Dense(16, activation='relu'))
-# model.add(Dense(128, activation='relu'))
-# model.add(Dense(32, activation='relu'))
-# model.add(Dense(64, activation='relu'))
-# model.add(Dense(7, activation='softmax'))
 
 input1 = Input(shape=(13))
 dense1 = Dense(16)(input1)
@@ -129,7 +122,9 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=
 
 #컴파일 , 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+start_time = tm.time()
 history = model.fit(x_train, y_train, epochs=100000, batch_size=1000, verbose= 1, validation_split=0.2, callbacks=[es, mcp])
+end_time = tm.time()
 
 #평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -140,12 +135,15 @@ arg_y_predict = np.argmax(y_predict, axis=1)
 
 f1_score = f1_score(arg_y_test, arg_y_predict, average='macro') 
 print("f1_score :", f1_score)
+#걸린시간 측정 CPU GPU 비교
+print("걸린시간 : ", round(end_time - start_time, 2), "초")
+
 submission = np.argmax(model.predict(test_csv), axis=1)
 submission = train_le.inverse_transform(submission)
 
 submission_csv['대출등급'] = submission
 
-import time as tm
+
 ltm = tm.localtime(tm.time())
 save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}" 
 file_path = path + f"sampleSubmission{save_time}.csv"
@@ -178,4 +176,3 @@ RobustScaler()
 Dropout() 적용 후:
 로스값 :  [0.49285101890563965, 0.824091374874115]
 '''
-
