@@ -45,11 +45,13 @@ y_test = one_hot.transform(y_test.reshape(-1, 1)).toarray()
 #2. 모델
 model = Sequential()
 model.add(Conv2D(9, (2,2), input_shape = (28, 28, 1))) 
-model.add(Conv2D(filters=10, kernel_size=(3,3))) #전달 (N,25,25,10)
-model.add(Conv2D(15,(4,4))) #전달 (N,22,22,15)
+model.add(Conv2D(16, (3,3), activation='relu')) #전달 (N,25,25,10)
+model.add(Conv2D(32,(4,4))) #전달 (N,22,22,15)
 model.add(Flatten()) #평탄화
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(10, activation='softmax'))
 
@@ -65,7 +67,7 @@ model.summary()
 
 #컴파일, 훈련
 model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, batch_size=1000, verbose= 1, epochs= 100, validation_split=0.2 )
+model.fit(x_train, y_train, batch_size=1000, verbose= 1, epochs= 400, validation_split=0.2 )
 
 #4.평가, 예측
 results = model.evaluate(x_test, y_test)
@@ -75,3 +77,53 @@ print('acc = ', results[1])
 y_test_armg =  np.argmax(y_test, axis=1)
 predict = np.argmax(model.predict(x_test),axis=1)
 print(predict)
+
+
+'''
+model = Sequential()
+model.add(Conv2D(9, (2,2), input_shape = (28, 28, 1))) 
+model.add(Conv2D(40, (3,3), activation='relu')) #전달 (N,25,25,10)
+model.add(Conv2D(15,(4,4))) #전달 (N,22,22,15)
+model.add(Flatten()) #평탄화
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(10, activation='softmax'))
+
+model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, batch_size=1000, verbose= 1, epochs= 400, validation_split=0.2 )
+
+
+model = Sequential()
+model.add(Conv2D(9, (2,2), input_shape = (28, 28, 1))) 
+model.add(Conv2D(40, (3,3), activation='relu')) #전달 (N,25,25,10)
+model.add(Conv2D(15,(4,4))) #전달 (N,22,22,15)
+model.add(Flatten()) #평탄화
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(10, activation='softmax'))
+loss =  0.15593811869621277
+acc =  0.9815999865531921
+
+
+model = Sequential()
+model.add(Conv2D(9, (2,2), input_shape = (28, 28, 1))) 
+model.add(Conv2D(32, (3,3), activation='relu')) #전달 (N,25,25,10)
+model.add(Conv2D(16,(4,4))) #전달 (N,22,22,15)
+model.add(Flatten()) #평탄화
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(10, activation='softmax'))
+model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, batch_size=10000, verbose= 1, epochs= 500, validation_split=0.2 )
+loss =  0.18924179673194885
+acc =  0.9858999848365784
+'''
