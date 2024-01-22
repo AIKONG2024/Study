@@ -71,7 +71,10 @@ es = EarlyStopping(monitor='val_loss', mode='min', patience=30, restore_best_wei
 
 #3. 컴파일 훈련
 model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
-history = model.fit(x_train, y_train, epochs=500, batch_size=100, verbose=2, validation_split=0.2, callbacks=[es])
+import time
+startTime = time.time()
+history = model.fit(x_train, y_train, epochs=500, batch_size=32, verbose=2, validation_split=0.2, callbacks=[es])
+endTime = time.time()
 
 #모델저장
 model.save("..\_data\_save\cifar10\keras31_cann5_save_model.h5") 
