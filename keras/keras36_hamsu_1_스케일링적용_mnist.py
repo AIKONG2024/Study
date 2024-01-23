@@ -89,8 +89,8 @@ x_test = x_test.reshape(-1,28,28,1)
 #함수형
 input_l = Input(shape=(28,28,1))
 conv2d_l1 = Conv2D(9, (2,2))(input_l)
-conv2d_l2 = Conv2D(9, (2,2))(conv2d_l1)
-conv2d_l3 = Conv2D(9, (2,2))(conv2d_l2)
+conv2d_l2 = Conv2D(16, (3,3))(conv2d_l1)
+conv2d_l3 = Conv2D(32, (4,4))(conv2d_l2)
 flat_l = Flatten()(conv2d_l3)
 d_l1 =Dense(32, activation='relu')(flat_l)
 d_l2 =Dense(16, activation='relu')(d_l1)
@@ -104,7 +104,7 @@ model.summary()
 
 #컴파일, 훈련
 model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, batch_size=300, verbose= 1, epochs= 1000, validation_split=0.2 )
+model.fit(x_train, y_train, batch_size=400, verbose= 1, epochs= 1000, validation_split=0.2 )
 
 #4.평가, 예측
 results = model.evaluate(x_test, y_test)
@@ -115,3 +115,11 @@ y_test_armg =  np.argmax(y_test, axis=1)
 predict = np.argmax(model.predict(x_test),axis=1)
 print(predict)
 
+'''
+loss =  0.15593811869621277
+acc =  0.9815999865531921
+
+------스케일링 적용후 
+loss =  0.35882818698883057
+acc =  0.960099995136261
+'''

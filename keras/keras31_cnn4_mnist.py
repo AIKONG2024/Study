@@ -70,6 +70,8 @@ y_train = one_hot.fit_transform(y_train.reshape(-1, 1)).toarray()
 y_test = one_hot.transform(y_test.reshape(-1, 1)).toarray()
 
 # print(x_train[0].shape)#(60000, 28, 28, 1)
+
+
 # print(x_test[0].shape)#(10000, 28, 28, 1)
 
 #2. 모델

@@ -145,3 +145,13 @@ plt.figure(figsize=(9,6))
 plt.plot(history.history['val_acc'], color = 'blue', label = 'val_acc', marker = '.')
 plt.plot(history.history['val_loss'], color = 'red', label = 'val_loss', marker = '.')
 plt.show()
+
+
+'''
+loss =  0.6011049151420593
+acc =  0.8007000088691711
+acc_score =  0.8007
+------스케일링 후
+loss =  0.880998432636261
+acc =  0.9591000080108643
+'''
