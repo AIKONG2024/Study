@@ -101,7 +101,9 @@ test_csv = test_csv.reshape(-1,13,1,1)
 
 #모델 생성
 model = Sequential()
-model.add(Dense(16, input_shape = (13,)))
+model.add(Conv2D(16, (13,1),input_shape = (13,1,1), activation='relu'))
+model.add(Flatten())
+model.add(Dense(16,activation='relu'))
 model.add(Dense(32,activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(128, activation='relu'))
