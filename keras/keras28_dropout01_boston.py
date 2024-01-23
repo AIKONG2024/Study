@@ -68,13 +68,13 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='min', verbose=1, save_best_only=
 
 #컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs= 10, batch_size= 10, validation_split=0.7, verbose=1, callbacks= [mcp])
+model.fit(x_train, y_train, epochs= 1000, batch_size= 10, validation_split=0.7, verbose=1, callbacks= [mcp])
 
 #평가 예측
 loss = model.evaluate(x_test, y_test)
 y_predict = model.predict(x_test)
 
-print('loss : ', loss)
+print('loss : ', loss[0])
 # print('result : ', y_predict)
 
 '''

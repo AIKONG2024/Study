@@ -5,7 +5,7 @@ from keras.datasets import mnist
 import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D,Flatten
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler, StandardScaler
 
 # 1. 데이터
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -20,6 +20,36 @@ print(
     unique, count
 )  # [0 1 2 3 4 5 6 7 8 9] [5923 6742 5958 6131 5842 5421 5918 6265 5851 5949]
 print(pd.value_counts(y_test))
+
+#스케일링 1-1 
+# x_train 과 x_test 의 fit된 모양이 같아야하지만
+# 이미지에서는 0~ 255이므로 255로 나눠도 괜찮음. == Minmax 
+# x_train = x_train/255.
+# x_test = x_test/255.#0~1로 정규화함
+
+# #스케일링 1-2
+# #Standard 
+# x_train = (x_train - 127.5)/ 127.5
+# x_test = (x_test - 127.5)/ 127.5 #-1~1 로 일반화함. 0을 기준으로 정규분포 모양을 만들기 위해서. 실질적인 standard scaler는 아님.
+
+
+x_train = x_train.reshape(60000, 28*28)
+x_test = x_test.reshape(10000, 28*28)
+
+#스케일링 2-1
+scaler = MinMaxScaler()
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.fit_transform(x_test)
+
+#스케일링 2-2
+# scaler = StandardScaler()
+# x_train = scaler.fit_transform(x_train)
+# x_test = scaler.fit_transform(x_test)
+
+#
+x_train = x_train.reshape(-1,28,28,1)
+x_test = x_test.reshape(-1,28,28,1)
+
 """
 1    1135
 2    1032
@@ -33,8 +63,8 @@ print(pd.value_counts(y_test))
 5     892
 """
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1)
-x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1)
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1) #/255.  #scaler2 255로 나눠줌 =>
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1) #/255. #scaler2 255로 나눠줌 =>
 one_hot = OneHotEncoder()
 y_train = one_hot.fit_transform(y_train.reshape(-1, 1)).toarray()
 y_test = one_hot.transform(y_test.reshape(-1, 1)).toarray()

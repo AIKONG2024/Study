@@ -65,8 +65,8 @@ from keras.layers import Dense, Dropout, Conv2D, Flatten
 
 model = Sequential()
 model.add(Conv2D(16, (2,2), input_shape = (2,2,2)))
-model.add(Dense(256, input_dim = len(x.columns)))
 model.add(Flatten())
+model.add(Dense(256))
 model.add(Dense(128))
 model.add(Dropout(0.2))
 model.add(Dense(64))

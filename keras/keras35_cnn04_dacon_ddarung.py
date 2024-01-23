@@ -50,7 +50,6 @@ test_csv = test_csv.reshape(-1,3,3,1)
 #Early Stopping
 from keras.callbacks import EarlyStopping , ModelCheckpoint
 es = EarlyStopping(monitor='val_loss', mode='min', patience=3000, verbose=1,  restore_best_weights=True)
-es = EarlyStopping(monitor='val_loss', mode='min', patience=15, verbose=1, restore_best_weights=True)
 import datetime
 date = datetime.datetime.now()
 print(date) #2024-01-17 10:52:41.770061

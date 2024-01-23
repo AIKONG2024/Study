@@ -1,0 +1,117 @@
+# acc = 0.98 이상
+
+import numpy as np
+from keras.datasets import mnist
+import pandas as pd
+from keras.models import Sequential, Model
+from keras.layers import Dense, Conv2D,Flatten, Input
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler, StandardScaler
+
+# 1. 데이터
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+print(
+    x_train.shape, y_train.shape
+)  # (60000, 28, 28) : ==> 흑백 (60000, 28,28, 1)인데 생략 //(60000,)
+print(x_test.shape, y_test.shape)  # (10000, 28, 28) //(10000,)\
+
+print(x_train[0])
+unique, count = np.unique(y_train, return_counts=True)
+print(
+    unique, count
+)  # [0 1 2 3 4 5 6 7 8 9] [5923 6742 5958 6131 5842 5421 5918 6265 5851 5949]
+print(pd.value_counts(y_test))
+"""
+1    1135
+2    1032
+7    1028
+3    1010
+9    1009
+4     982
+0     980
+8     974
+6     958
+5     892
+"""
+
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1)
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1)
+one_hot = OneHotEncoder()
+y_train = one_hot.fit_transform(y_train.reshape(-1, 1)).toarray()
+y_test = one_hot.transform(y_test.reshape(-1, 1)).toarray()
+
+# print(x_train[0].shape)#(60000, 28, 28, 1)
+# print(x_test[0].shape)#(10000, 28, 28, 1)
+
+#스케일링 1-1 
+# x_train 과 x_test 의 fit된 모양이 같아야하지만
+# 이미지에서는 0~ 255이므로 255로 나눠도 괜찮음. == Minmax 
+# x_train = x_train/255.
+# x_test = x_test/255.#0~1로 정규화함
+
+# #스케일링 1-2
+# #Standard 
+# x_train = (x_train - 127.5)/ 127.5
+# x_test = (x_test - 127.5)/ 127.5 #-1~1 로 일반화함. 0을 기준으로 정규분포 모양을 만들기 위해서. 실질적인 standard scaler는 아님.
+
+
+x_train = x_train.reshape(60000, 28*28)
+x_test = x_test.reshape(10000, 28*28)
+
+#스케일링 2-1
+scaler = MinMaxScaler()
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.fit_transform(x_test)
+
+#스케일링 2-2
+# scaler = StandardScaler()
+# x_train = scaler.fit_transform(x_train)
+# x_test = scaler.fit_transform(x_test)
+
+#
+x_train = x_train.reshape(-1,28,28,1)
+x_test = x_test.reshape(-1,28,28,1)
+
+
+
+#2. 모델
+# model = Sequential()
+# model.add(Conv2D(9, (2,2), input_shape = (28, 28, 1))) 
+# model.add(Conv2D(16, (3,3), activation='relu')) #전달 (N,25,25,10)
+# model.add(Conv2D(32,(4,4))) #전달 (N,22,22,15)
+# model.add(Flatten()) #평탄화
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(16, activation='relu'))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(32, activation='relu'))
+# model.add(Dense(10, activation='softmax'))
+
+#함수형
+input_l = Input(shape=(28,28,1))
+conv2d_l1 = Conv2D(9, (2,2))(input_l)
+conv2d_l2 = Conv2D(9, (2,2))(conv2d_l1)
+conv2d_l3 = Conv2D(9, (2,2))(conv2d_l2)
+flat_l = Flatten()(conv2d_l3)
+d_l1 =Dense(32, activation='relu')(flat_l)
+d_l2 =Dense(16, activation='relu')(d_l1)
+d_l3 =Dense(32, activation='relu')(d_l2)
+d_l4 =Dense(32, activation='relu')(d_l3)
+d_l5 =Dense(32, activation='relu')(d_l4)
+output_l =Dense(10, activation='softmax')(d_l5)
+model = Model(inputs = input_l, outputs = output_l)
+
+model.summary()
+
+#컴파일, 훈련
+model.compile(loss= 'categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, batch_size=300, verbose= 1, epochs= 1000, validation_split=0.2 )
+
+#4.평가, 예측
+results = model.evaluate(x_test, y_test)
+print('loss = ', results[0])
+print('acc = ', results[1])
+
+y_test_armg =  np.argmax(y_test, axis=1)
+predict = np.argmax(model.predict(x_test),axis=1)
+print(predict)
+
