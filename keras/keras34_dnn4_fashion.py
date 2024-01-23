@@ -12,6 +12,9 @@ import time
 #1.데이터
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1] * x_train.shape[2])
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1] * x_test.shape[2] )
+
 #scaling
 x_train = x_train/255
 x_test = x_test/255
@@ -21,8 +24,6 @@ x_test = x_test/255
 print(x_train.shape)#(60000, 28, 28)
 print(y_train.shape)#(60000,)
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1)
-x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1)
 ohe = OneHotEncoder(sparse=False)
 y_train = ohe.fit_transform(y_train.reshape(-1, 1))
 y_test = ohe.transform(y_test.reshape(-1, 1))
@@ -32,19 +33,10 @@ print(y_test.shape)
 
 #2.모델구성
 model = Sequential()
-model.add(Conv2D(64, (2,2), input_shape = (28,28,1), activation='relu'))
-model.add(Dropout(0.15))
-
-model.add(Conv2D(128, (2,2), activation='relu'))
-model.add(Dropout(0.3))
-
-model.add(Conv2D(256, (2,2), activation='relu'))
-model.add(Dropout(0.5))
-
-model.add(Flatten())
-
-#certificate
+model.add(Dense(64, input_shape = (x_train.shape[1],), activation='relu'))
+model.add(Dense(128, activation='relu'))
 model.add(Dense(256, activation='relu'))
+model.add(Dense(512, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax'))
 
@@ -85,5 +77,20 @@ acc : 0.9194999933242798
  [5]]
 acc_score : 0.9195
 time : 266.45 초
+
+
+dnn 결과 ==================================
+loss : 0.3433370292186737
+acc : 0.8859999775886536
+313/313 [==============================] - 0s 462us/step
+[[9]
+ [2]
+ [1]
+ ...
+ [8]
+ [1]
+ [5]]
+acc_score : 0.886
+time : 14.33 초
 
 '''

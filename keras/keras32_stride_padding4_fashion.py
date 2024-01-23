@@ -32,10 +32,10 @@ print(y_test.shape)
 
 #2.모델구성
 model = Sequential()
-model.add(Conv2D(64, (2,2), input_shape = (28,28,1), activation='relu'))
+model.add(Conv2D(64, (2,2), input_shape = (28,28,1), strides=2, padding='same', activation='relu'))
 model.add(Dropout(0.15))
 
-model.add(Conv2D(128, (2,2), activation='relu'))
+model.add(Conv2D(128, (2,2), strides=2,padding='same', activation='relu'))
 model.add(Dropout(0.3))
 
 model.add(Conv2D(256, (2,2), activation='relu'))
@@ -86,4 +86,14 @@ acc : 0.9194999933242798
 acc_score : 0.9195
 time : 266.45 초
 
+=========stride, padding 적용 후=============
+[[9]
+ [2]
+ [1]
+ ...
+ [8]
+ [1]
+ [5]]
+acc_score : 0.9242
+time : 57.98 초
 '''

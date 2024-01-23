@@ -33,12 +33,15 @@ print(y_test.shape)
 #2.모델구성
 model = Sequential()
 model.add(Conv2D(64, (2,2), input_shape = (28,28,1), activation='relu'))
+model.add(MaxPooling2D())
 model.add(Dropout(0.15))
 
 model.add(Conv2D(128, (2,2), activation='relu'))
+model.add(MaxPooling2D())
 model.add(Dropout(0.3))
 
 model.add(Conv2D(256, (2,2), activation='relu'))
+model.add(MaxPooling2D())
 model.add(Dropout(0.5))
 
 model.add(Flatten())
