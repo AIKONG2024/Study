@@ -30,7 +30,8 @@ xy_test = xy_testgen.flow_from_directory(
     target_size=(100,100),
     class_mode='binary'
 )
-print(xy_test[0][1].shape)
+print(xy_test[0][0].shape)
+
 unique, count =  np.unique(xy_test[0][1] , return_counts=True)
 print(unique, count)
 
@@ -38,4 +39,3 @@ np_path = '../_data/_save_npy/'
 np.save(np_path + 'keras39_3_x_train.npy', arr=xy_train[0][0])
 np.save(np_path + 'keras39_3_y_train.npy', arr=xy_train[0][1])
 np.save(np_path + 'keras39_3_x_test.npy', arr=xy_test[0][0])
-np.save(np_path + 'keras39_3_y_test.npy', arr=xy_test[0][1])
