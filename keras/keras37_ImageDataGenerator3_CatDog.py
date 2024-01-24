@@ -26,8 +26,8 @@ path_train ='c:/_data/image/cat_and_dog/train/'
 
 xy_train = xy_traingen.flow_from_directory(
     path_train,
-    batch_size=100,
-    target_size=(150,150),
+    batch_size=200,
+    target_size=(200,200),
     class_mode='binary',
     shuffle=True
 )
@@ -43,15 +43,19 @@ print(xy_train.next())
 print(len(xy_train[0][0]))
 print(len(xy_train[0][1]))
 
+x_train = xy_train[0][0]
+x_test = xy_train[0][0]
+
+
 #배치로 잘린 데이터 합치기
-x_train = []
-y_train = []
-for i in range(xy_train.samples // xy_train.batch_size):
-    batch = next(xy_train)
-    x_train.append(batch[0])
-    y_train.append(batch[1])
-x_train = np.concatenate(x_train)
-y_train = np.concatenate(y_train)
+# x_train = []
+# y_train = []
+# for i in range(xy_train.samples // xy_train.batch_size):
+#     batch = next(xy_train)
+#     x_train.append(batch[0])
+#     y_train.append(batch[1])
+# x_train = np.concatenate(x_train)
+# y_train = np.concatenate(y_train)
 
 endTime = tm.time()
 # 시간체크
@@ -66,12 +70,18 @@ print(x_train.shape)
 # x_train = x_train/255.
 # x_test = x_test/255.
 
+def combine_gen(*gens):
+    while True:
+        for g in gens:
+            yield next(g)
+
+
 #모델구성
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Conv2D, Flatten, MaxPooling2D
 model = Sequential()
 
-model.add(Conv2D(32, (2,2), input_shape=(150,150,3), activation='relu'))
+model.add(Conv2D(32, (2,2), input_shape=(200,200,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
 
 model.add(Conv2D(64, (3,3), activation='relu'))
@@ -88,6 +98,7 @@ es = EarlyStopping(monitor='val_loss', mode = 'min', patience=300, restore_best_
 
 #컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit_generator(combine_gen(x_train, y_train))
 model.fit(x_train, y_train, epochs= 1000, batch_size= 5, validation_split= 0.2, callbacks=[es])
 
 #평가 예측
@@ -100,4 +111,7 @@ print('acc : ', loss[1])
 '''
 loss :  0.46612799167633057
 acc :  0.7822499871253967
+
+loss :  0.4787946939468384
+acc :  0.7768844366073608
 '''

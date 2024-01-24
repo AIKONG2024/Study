@@ -25,6 +25,7 @@ xy_train =  train_datagen.flow_from_directory(
     target_size= (200,200),
     batch_size=160,          #160개를 10인 것으로 잘라 10.....10 16개가 생성됨
     class_mode='binary',
+    color_mode='grayscale', #컬러는 'rbg'
     shuffle=True,
 )#Found 160 images belonging to 2 classes.
 
@@ -44,7 +45,7 @@ print(xy_train[0])
 # print(xy_train[16]) #에러 :: 전체데이터/batch_size = 160/10 = 16개인데 17번째 값을 빼라고 해서 에러
 print(xy_train[0][0]) # 첫번째 배치의 X
 print(xy_train[0][1]) # 첫번쨰 배치의 y
-print(xy_train[1][0].shape) #2번째 배치의 입력값 형태(10, 200, 200, 3)
+# print(xy_train[1][0].shape) #2번째 배치의 입력값 형태(10, 200, 200, 3)
 
 print(type(xy_train[0]))#Tuple x가 튜플 첫번째, y가 튜블 두번쨰.
 print(type(xy_train[0][0]))#<class 'numpy.ndarray'>  : X
