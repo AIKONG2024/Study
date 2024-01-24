@@ -25,8 +25,8 @@ path_test = 'c:/_data/image/brain/test/'
 
 xy_train =  train_datagen.flow_from_directory(
     path_train,
-    target_size= (200,200),
-    batch_size=160,        
+    target_size= (50,50),
+    batch_size=10,        
     class_mode='binary',
     shuffle=True,
 )
@@ -46,6 +46,7 @@ y_train = xy_train[0][1]
 x_test = xy_test[0][0]
 y_test = xy_test[0][1]
 
+
 print(x_train.shape, y_train.shape) #(160, 200, 200, 3) (160,)
 print(x_test.shape, y_test.shape) #(120, 200, 200, 3) (120,)
 
@@ -62,7 +63,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, Flatten
 
 model = Sequential()
-model.add(Conv2D(64, (3,3), input_shape = (200,200,3), activation='relu'))
+model.add(Conv2D(64, (3,3), input_shape = (50,50,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
 model.add(Dropout(0.2))
 
