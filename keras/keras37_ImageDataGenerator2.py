@@ -5,15 +5,15 @@ import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 
 train_datagen = ImageDataGenerator(
-    rescale=1./255,         
-    horizontal_flip=True,    
-    vertical_flip=True,      
-    width_shift_range=0.1,   
-    height_shift_range=0.1, 
-    rotation_range=5,        
-    zoom_range=1.2,         
-    shear_range=0.7,      
-    fill_mode='nearest',    
+    rescale=1./255,          # 각각의 이미지 사이즈를 맞춰줌
+    horizontal_flip=True,    # 수평 뒤집기
+    vertical_flip=True,      # 수직 뒤집기
+    width_shift_range=0.1,   # 평행이동
+    height_shift_range=0.1,  # 평행이동
+    rotation_range=5,        # 정해진 각도만큼 이미지 회전
+    zoom_range=1.2,          # 축소 또는 확대
+    shear_range=0.7,         # 좌표 하나를 고정시키고 다른 몇 개의 좌표를 이동시키는 변환
+    fill_mode='nearest',     # 이동해서 빈 값을 0이 아닌 최종값과 유사한 근사값으로 정해줌.
 )
 
 test_datagen = ImageDataGenerator(
@@ -49,45 +49,75 @@ y_test = xy_test[0][1]
 print(x_train.shape, y_train.shape) #(160, 200, 200, 3) (160,)
 print(x_test.shape, y_test.shape) #(120, 200, 200, 3) (120,)
 
-#scaling
-x_train = x_train/255.
-x_test = x_test/255.
+# import matplotlib.pyplot as plt
+# plt.imshow(x_train[0])
+# plt.show()
+
+# #scaling
+# x_train = x_train/255.
+# x_test = x_test/255.
 
 #2. 모델 구성
 from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, Flatten
 
 model = Sequential()
-model.add(Conv2D(16, (3,3), input_shape = (200,200,3), activation='relu'))
+model.add(Conv2D(64, (3,3), input_shape = (200,200,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
+model.add(Dropout(0.2))
 
-model.add(Conv2D(32, (2,2), padding='same', activation='relu'))
+model.add(Conv2D(128, (2,2), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
+model.add(Dropout(0.3))
 
-model.add(Conv2D(16, (2,2), activation='relu'))
-model.add(MaxPooling2D((2,2), strides=(2,2)))
+# model.add(Conv2D(256, (2,2), activation='relu'))
+# model.add(MaxPooling2D((2,2), strides=(2,2)))
+# model.add(Dropout(0.4))
 
-model.add(Conv2D(256, (2,2), activation='relu'))
-model.add(MaxPooling2D((2,2), strides=(2,2)))
-model.add(Dropout(0.5))
+
+# model.add(Conv2D(256, (2,2), activation='relu'))
+# model.add(MaxPooling2D((2,2), strides=(2,2)))
+# model.add(Dropout(0.5))
 
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
-model.add(Dense(32, activation='relu'))
+# model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
 from keras.callbacks import EarlyStopping, ModelCheckpoint
-# es = EarlyStopping(monitor='val_loss', mode='min', patience=100, restore_best_weights= True)
 
+import datetime
+date = datetime.datetime.now()
+print(date) #2024-01-17 10:52:41.770061
+date = date.strftime("%m%d_%H%M")
+print(date)
+es = EarlyStopping(monitor='val_loss', mode='min', patience=300,  restore_best_weights= True)
+mcp_path = '../_data/_save/MCP/IDG/brain'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'
+filepath = "".join([mcp_path, 'k37_brain_' ,date, '_', filename]) #체크포인트 가장 좋은 결과들 저장
+mcp = ModelCheckpoint(monitor='val_loss', mode= 'min', verbose=1, save_best_only= True, filepath=filepath)
+
+import time as tm
 #3. 컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=1000, batch_size=300, validation_split=0.2, callbacks=[])
-
+startTime = tm.time()
+model.fit(x_train, y_train, epochs=2000, batch_size=300, validation_split=0.2, callbacks=[mcp])
+endTime = tm.time()
+model.save("../_data/_save/MCP/IDG/brain\k37_brain_save_model.h5") 
 #4.평가 예측
 
 loss = model.evaluate(x_test, y_test)
-predict = model.predict(x_test)
+predict = np.round(model.predict(x_test)) 
 
 print('loss : ', loss[0])
 print('acc : ', loss[1])
+
+print('time :', np.round(endTime - startTime, 2) ,"sec")
+
+'''
+loss :  0.0004475515161175281
+acc :  1.0
+
+loss :  0.007480014581233263
+acc :  1.0
+'''
