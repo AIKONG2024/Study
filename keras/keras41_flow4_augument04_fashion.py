@@ -26,19 +26,19 @@ augumet_size = 40000
 #rand
 randidx = np.random.randint(x_train.shape[0], size= augumet_size)
 
-x_augumented = x_train[randidx].copy()
+x_augumeted = x_train[randidx].copy()
 y_augumeted = y_train[randidx].copy()
 
 #reshape
-x_augumented = x_augumented.reshape(x_augumented.shape[0], x_augumented.shape[1], x_augumented.shape[2], 1)
+x_augumeted = x_augumeted.reshape(x_augumeted.shape[0], x_augumeted.shape[1], x_augumeted.shape[2], 1)
 x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1)
 
-data_generator.flow(
-    x_augumented, 
+x_augumented = data_generator.flow(
+    x_augumeted, 
     y_augumeted,
     batch_size=augumet_size,    
     shuffle=True
-)
+).next[0]
 
 #concatence
 x_train = np.concatenate((x_augumented, x_train))
@@ -94,5 +94,5 @@ print('acc_score :', acc_score)
 ===============   증폭 전     =================
 acc_score : 0.9195
 ===============40000개 증폭 후=================
-acc_score :
+acc_score : 0.9206
 '''

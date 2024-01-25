@@ -27,17 +27,24 @@ data_generator =  ImageDataGenerator(
 augumet_size = 40000
 randidx = np.random.randint(x_train.shape[0], size= augumet_size)
 
-x_augumented = x_train[randidx].copy()
-y_augumented = y_train[randidx].copy()
+x_augumeted = x_train[randidx].copy()
+y_augumeted = y_train[randidx].copy()
 
 # print(x_augumented.shape)
+
+x_augumented = data_generator.flow(
+    x_augumeted, y_augumeted,
+    batch_size=augumet_size,
+    shuffle=False
+).next()[0]
+
 #reshape
-x_augumented = x_augumented.reshape(x_augumented.shape[0], x_augumented.shape[1], x_augumented.shape[2], 1)
+x_augumeted = x_augumeted.reshape(x_augumeted.shape[0], x_augumeted.shape[1], x_augumeted.shape[2], 1)
 x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1)
 
 #concatenate
-x_train = np.concatenate((x_train, x_augumented))
-y_train = np.concatenate((y_train, y_augumented))
+x_train = np.concatenate((x_train, x_augumeted))
+y_train = np.concatenate((y_train, y_augumeted))
 
 print(x_train.shape, y_train.shape)#(100000, 28, 28, 1) (100000,)
 print(x_train.shape, y_train.shape)#(100000, 28, 28, 1) (100000,)
