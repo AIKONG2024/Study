@@ -13,11 +13,10 @@ np_path = '../_data/_save_npy/'
 x_train = np.load(np_path + 'keras39_3_x_train.npy')
 y_train = np.load(np_path + 'keras39_3_y_train.npy')
 x_test = np.load(np_path + 'keras39_3_x_test.npy')
-y_test = np.load(np_path + 'keras39_3_y_test.npy')
 
 
-print(x_train.shape)
-print(x_test.shape)
+# print(x_train.shape)
+# print(x_test.shape)
 
 # x_train = x_train/255.
 # x_test = x_test/255.
@@ -44,14 +43,11 @@ es = EarlyStopping(monitor='val_loss', mode = 'min', patience=300, restore_best_
 
 #컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs= 1, batch_size= 5, validation_split= 0.2, callbacks=[es])
+model.fit(x_train, y_train, epochs= 1000, batch_size= 5, validation_split= 0.2, callbacks=[es])
 
 #평가 예측
-loss = model.evaluate(x_test, y_test)
 predict = np.round(model.predict(x_test)).flatten()
 
-print('loss : ', loss[0])
-print('acc : ', loss[1])
 print(predict)
 print(len(predict))
 file = os.listdir(image_path)
