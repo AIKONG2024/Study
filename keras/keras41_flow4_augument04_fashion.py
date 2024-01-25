@@ -78,7 +78,7 @@ model.add(Dense(10, activation='softmax'))
 
 #모델 구현
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs=1, batch_size= 400, validation_split=0.2, callbacks=[
+model.fit(x_train, y_train, epochs=300, batch_size= 400, validation_split=0.2, callbacks=[
     EarlyStopping(monitor='val_loss', mode='min', patience=30, restore_best_weights=True)
 ])
 
