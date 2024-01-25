@@ -13,10 +13,10 @@ npy_path = 'C:/_data/_save_npy/rps/'
 x_train = np.load(file= npy_path + 'keras39_07_save_x_train_rps.npy')
 y_train = np.load(file= npy_path + 'keras39_07_save_y_train_rps.npy')
 
-print(x_train.shape, y_train.shape) #(1027, 300, 300, 3) (1027, 2)
+print(x_train.shape, y_train.shape) #(2520, 150, 150, 3) (2520, 3)
 
 unique, count = np.unique(y_train, return_counts=True)
-print(unique, count)
+print(unique, count)#[0. 1.] [5040 2520]
 
 x_train, x_test, y_train, y_test =  train_test_split(x_train, y_train, train_size=0.8, shuffle=True, random_state=777)
 
@@ -37,7 +37,7 @@ model.add(Dropout(0.4))
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
-model.add(Dense(2, activation='softmax'))
+model.add(Dense(3, activation='softmax'))
 
 #컴파일 ,훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])

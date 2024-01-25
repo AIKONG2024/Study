@@ -16,7 +16,7 @@ y_train = np.load(file= npy_path + 'keras39_07_save_y_train_horse_human.npy')
 print(x_train.shape, y_train.shape) #(1027, 300, 300, 3) (1027, 2)
 
 unique, count = np.unique(y_train, return_counts=True)
-print(unique, count)
+print(unique, count)#[0. 1.] [1027 1027]
 
 # 원핫
 # ohe = OneHotEncoder(sparse=False)
@@ -58,3 +58,13 @@ acc_score = accuracy_score(arg_test_y, predict)
 
 print(' acc : ', acc_score)
 print(predict)
+
+'''
+ acc :  1.0
+[1 0 1 0 0 1 0 1 1 1 1 1 0 1 1 0 0 1 0 0 1 1 1 0 0 0 1 0 0 1 1 0 1 1 0 0 1
+ 1 0 1 0 0 0 0 1 1 0 1 0 0 1 1 1 0 0 1 0 1 0 1 0 1 0 1 0 0 0 0 1 0 0 1 1 1
+ 0 1 0 1 0 0 1 1 0 0 1 1 0 1 1 0 1 1 0 1 1 1 1 0 0 0 0 1 1 1 1 1 0 1 1 1 0
+ 1 1 0 1 0 1 1 0 0 1 1 1 0 1 0 0 0 1 1 1 1 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 1
+ 1 0 1 0 0 1 1 1 1 0 0 1 0 0 0 1 0 0 0 1 0 1 1 1 0 0 0 1 1 1 0 0 0 0 0 0 1
+ 0 1 0 0 1 0 1 1 0 0 0 0 1 1 0 0 1 0 1 1 1]
+'''

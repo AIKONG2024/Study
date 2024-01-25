@@ -12,8 +12,8 @@ train_path = 'C:/_data/image/rps/'
 
 train_generator = train_datagen.flow_from_directory(
     directory=train_path,
-    target_size=(300,300),
-    batch_size=1027,
+    target_size=(150,150),
+    batch_size=2520,
     class_mode='categorical',
     color_mode='rgb',
     shuffle=True
