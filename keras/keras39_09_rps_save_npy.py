@@ -18,6 +18,7 @@ train_generator = train_datagen.flow_from_directory(
     color_mode='rgb',
     shuffle=True
 )
+# print(train_generator[0][1])
 
 #이미지 저장
 npy_path = 'C:/_data/_save_npy/rps/'

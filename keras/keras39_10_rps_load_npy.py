@@ -1,8 +1,6 @@
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Conv2D, Flatten, MaxPooling2D
 import numpy as np
-import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
 from sklearn.metrics import accuracy_score
@@ -13,10 +11,7 @@ npy_path = 'C:/_data/_save_npy/rps/'
 x_train = np.load(file= npy_path + 'keras39_07_save_x_train_rps.npy')
 y_train = np.load(file= npy_path + 'keras39_07_save_y_train_rps.npy')
 
-print(x_train.shape, y_train.shape) #(2520, 150, 150, 3) (2520, 3)
-
-unique, count = np.unique(y_train, return_counts=True)
-print(unique, count)#[0. 1.] [5040 2520]
+# print(x_train.shape, y_train.shape) #(2520, 150, 150, 3) (2520, 3)
 
 x_train, x_test, y_train, y_test =  train_test_split(x_train, y_train, train_size=0.8, shuffle=True, random_state=777)
 
@@ -54,3 +49,21 @@ acc_score = accuracy_score(arg_test_y, predict)
 
 print(' acc : ', acc_score)
 print(predict)
+
+'''
+ acc :  1.0
+[0 0 2 2 2 2 2 0 1 1 1 2 1 2 0 0 0 2 1 1 0 1 0 2 1 2 1 1 1 1 0 2 1 2 1 0 2
+ 1 2 2 1 0 0 1 0 1 2 1 0 1 2 2 2 0 0 2 0 0 1 2 1 1 2 2 2 2 2 2 1 0 0 0 1 1
+ 1 2 2 1 0 0 1 2 0 1 1 2 2 2 2 0 0 0 0 1 0 0 1 2 1 1 1 0 2 1 2 2 1 1 2 0 2
+ 2 0 0 2 1 2 1 2 0 2 2 2 1 0 2 0 2 0 1 0 2 2 0 2 1 1 2 1 0 0 1 2 0 0 1 1 1
+ 2 2 0 2 1 1 2 2 1 2 0 0 1 2 2 1 1 1 0 2 1 2 2 1 2 2 0 2 2 2 1 2 2 2 0 2 2
+ 1 2 1 1 2 1 0 1 0 2 0 1 2 1 1 0 2 0 0 0 0 1 0 1 0 1 1 0 0 1 1 0 2 0 1 2 0
+ 1 2 1 0 2 2 0 0 2 0 2 2 0 2 0 1 0 1 0 0 0 0 1 0 1 2 1 0 2 0 2 2 0 0 2 0 0
+ 1 2 0 2 1 0 2 0 1 0 1 2 1 0 2 0 0 2 1 0 2 2 0 0 1 0 0 1 0 1 0 1 0 2 0 0 0
+ 0 1 2 1 1 0 1 0 2 0 1 1 1 2 0 0 1 1 2 1 0 0 0 0 2 0 0 2 2 0 1 0 2 0 1 1 2
+ 1 1 0 0 1 2 0 1 1 1 2 1 2 1 1 2 2 2 0 2 1 1 1 2 0 1 2 2 1 1 1 2 2 1 1 0 0
+ 0 0 0 2 2 2 1 1 0 2 0 1 1 2 1 1 0 0 0 0 2 0 1 0 1 0 1 1 2 1 1 0 1 0 1 2 2
+ 2 2 2 0 0 1 2 1 1 2 2 0 0 0 1 0 0 1 2 0 2 2 0 2 1 2 0 1 1 2 0 0 1 0 2 2 2
+ 2 0 0 1 1 1 0 1 0 0 2 0 1 2 2 0 2 2 2 0 1 1 2 2 0 1 0 0 0 1 0 0 2 0 0 1 0
+ 1 0 2 0 0 0 0 1 0 1 0 0 0 0 1 0 0 2 1 0 1 0 1]
+'''

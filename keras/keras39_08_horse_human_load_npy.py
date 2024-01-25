@@ -1,8 +1,6 @@
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Conv2D, Flatten, MaxPooling2D
 import numpy as np
-import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
 from sklearn.metrics import accuracy_score
@@ -17,10 +15,6 @@ print(x_train.shape, y_train.shape) #(1027, 300, 300, 3) (1027, 2)
 
 unique, count = np.unique(y_train, return_counts=True)
 print(unique, count)#[0. 1.] [1027 1027]
-
-# 원핫
-# ohe = OneHotEncoder(sparse=False)
-# y_train = ohe.fit_transform(y_train)
 
 x_train, x_test, y_train, y_test =  train_test_split(x_train, y_train, train_size=0.8, shuffle=True, random_state=777)
 
