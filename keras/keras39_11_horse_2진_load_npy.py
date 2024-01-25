@@ -21,7 +21,7 @@ print(y_train)
 # print(unique, count)#[0. 1.] [500 527]
 
 
-x_train, x_test, y_train, y_test =  train_test_split(x_train, y_train, train_size=0.8, shuffle=True, random_state=777)
+x_train, x_test, y_train, y_test =  train_test_split(x_train, y_train, train_size=0.8, shuffle=True, random_state=3123)
 
 #2. 모델 구성
 model = Sequential()
