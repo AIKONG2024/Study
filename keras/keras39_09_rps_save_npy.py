@@ -18,9 +18,9 @@ train_generator = train_datagen.flow_from_directory(
     color_mode='rgb',
     shuffle=True
 )
-# print(train_generator[0][1])
 
 #이미지 저장
+#categorical
 npy_path = 'C:/_data/_save_npy/rps/'
-np.save(file= npy_path + 'keras39_07_save_x_train_rps.npy', arr= train_generator[0][0])
-np.save(file= npy_path + 'keras39_07_save_y_train_rps.npy', arr= train_generator[0][1])
+np.save(file= npy_path + 'keras39_07_save_x_train_c_rps.npy', arr= train_generator[0][0])
+np.save(file= npy_path + 'keras39_07_save_y_train_c_rps.npy', arr= train_generator[0][1])

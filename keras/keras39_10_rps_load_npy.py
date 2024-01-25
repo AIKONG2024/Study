@@ -5,11 +5,12 @@ from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
 from sklearn.metrics import accuracy_score
 
-#1. 데이터
-#이미지 불러오기
+# #1. 데이터
+# #이미지 불러오기
 npy_path = 'C:/_data/_save_npy/rps/'
-x_train = np.load(file= npy_path + 'keras39_07_save_x_train_rps.npy')
-y_train = np.load(file= npy_path + 'keras39_07_save_y_train_rps.npy')
+#categorical
+x_train = np.load(file= npy_path + 'keras39_07_save_x_train_c_rps.npy')
+y_train = np.load(file= npy_path + 'keras39_07_save_y_train_c_rps.npy')
 
 # print(x_train.shape, y_train.shape) #(2520, 150, 150, 3) (2520, 3)
 

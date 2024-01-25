@@ -45,10 +45,10 @@ model.add(Dense(1, activation='sigmoid'))
 model.summary()
 
 # #컴파일 ,훈련
-# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-# model.fit(x_train, y_train, epochs=1000, batch_size=100, validation_split=0.2, callbacks=[
-#     EarlyStopping(monitor='val_loss', mode='min', patience=100, restore_best_weights=True)
-# ])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, epochs=1000, batch_size=100, validation_split=0.2, callbacks=[
+    EarlyStopping(monitor='val_loss', mode='min', patience=100, restore_best_weights=True)
+])
 
 # # 평가 예측
 # arg_test_y = np.round(y_test, axis=1)

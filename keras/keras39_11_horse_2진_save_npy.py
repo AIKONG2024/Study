@@ -13,7 +13,7 @@ train_c_generator = train_datagen.flow_from_directory(
     directory=train_path,
     target_size=(300,300),
     batch_size=1027,
-    class_mode='categorical',
+    class_mode='binary',
     color_mode='rgb',
     shuffle=True
 )
@@ -22,5 +22,5 @@ train_c_generator = train_datagen.flow_from_directory(
 #이미지 저장
 npy_path = 'C:/_data/_save_npy/horse_human/'
 #categorical
-np.save(file= npy_path + 'keras39_07_save_x_train_horse_c_human.npy', arr= train_c_generator[0][0])
-np.save(file= npy_path + 'keras39_07_save_y_train_horse_c_human.npy', arr= train_c_generator[0][1])
+np.save(file= npy_path + 'keras39_07_save_x_train_horse_b_human.npy', arr= train_c_generator[0][0])
+np.save(file= npy_path + 'keras39_07_save_y_train_horse_b_human.npy', arr= train_c_generator[0][1])
