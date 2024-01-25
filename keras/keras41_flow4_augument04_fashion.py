@@ -29,20 +29,21 @@ randidx = np.random.randint(x_train.shape[0], size= augumet_size)
 x_augumeted = x_train[randidx].copy()
 y_augumeted = y_train[randidx].copy()
 
+x_augumeted = x_augumeted.reshape(x_augumeted.shape[0], x_augumeted.shape[1], x_augumeted.shape[2], 1)
+
+x_augumeted = data_generator.flow(
+    x_augumeted, y_augumeted,
+    batch_size=augumet_size,
+    shuffle=False
+).next()[0]
+
 #reshape
 x_augumeted = x_augumeted.reshape(x_augumeted.shape[0], x_augumeted.shape[1], x_augumeted.shape[2], 1)
 x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1)
 
-x_augumented = data_generator.flow(
-    x_augumeted, 
-    y_augumeted,
-    batch_size=augumet_size,    
-    shuffle=True
-).next[0]
-
-#concatence
-x_train = np.concatenate((x_augumented, x_train))
-y_train = np.concatenate((y_augumeted, y_train))
+#concatenate
+x_train = np.concatenate((x_train, x_augumeted))
+y_train = np.concatenate((y_train, y_augumeted))
 
 print(x_train.shape)
 print(x_test.shape)
