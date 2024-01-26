@@ -46,7 +46,7 @@ x_test = []
 if not train_x_npy_exists and not train_y_npy_exists :#train npy 존재
     xy_train = train_data_generator.flow_from_directory(
     directory=path_train,
-    batch_size=20000,
+    batch_size=3309,
     target_size=(200,200),
     color_mode='rgb',
     class_mode='binary',
@@ -64,7 +64,7 @@ else:
 if not test_npy_exists :#test npy 존재
     xy_test = test_data_generator.flow_from_directory(
     directory=path_test,
-    batch_size=5000,
+    batch_size=3309,
     target_size=(200,200),
     color_mode='rgb',
     class_mode='binary',
@@ -113,7 +113,7 @@ model.add(Conv2D(20, (3,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
 
 model.add(Flatten())
-model.add(Dense(128, activation='relu'))
+model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.3))
 model.add(Dense(1, activation='sigmoid'))
 
@@ -122,18 +122,17 @@ es = EarlyStopping(monitor='val_loss', mode = 'min', patience=30, restore_best_w
 
 #3. 컴파일, 훈련
 hist = model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs= 100, batch_size= 10, validation_split= 0.2, callbacks=[es])
+model.fit(x_train, y_train, epochs= 100, batch_size= 5, validation_split= 0.2, callbacks=[es])
 
 #4. 평가 예측
 predict = np.round(model.predict(x_test))
 print(predict)
 
-print('loss : ', hist.history[0])
-print('acc : ', hist.history[1])
+print('loss : ', hist.history['val_loss'])
+print('acc : ', hist.history['val_acc'])
 
 '''
 ===============   증폭 전     =================
-loss :  0.46612799167633057
 acc :  0.7822499871253967
 ===============10000개 증폭 후=================
 acc
