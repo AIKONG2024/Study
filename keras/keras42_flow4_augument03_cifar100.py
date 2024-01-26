@@ -29,20 +29,11 @@ randidx = np.random.randint(x_train.shape[0], size= augumet_size)
 x_augumeted = x_train[randidx].copy()
 y_augumeted = y_train[randidx].copy()
 
-print(x_augumeted.shape)
-
-x_augumeted = x_augumeted.reshape(x_augumeted.shape[0], x_augumeted.shape[1], x_augumeted.shape[2], 3)
-
-# print(x_augumented.shape)
-
 x_augumeted = data_generator.flow(
     x_augumeted, y_augumeted,
     batch_size=augumet_size,
-    shuffle=False
+    shuffle=True
 ).next()[0]
-
-#reshape
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 3)
 
 #concatenate
 x_train = np.concatenate((x_train, x_augumeted))
@@ -103,3 +94,10 @@ acc_score =  accuracy_score(ohe.inverse_transform(y_test), predict)
 # print('acc = ', results[1])
 print('acc_score = ', acc_score)
 print(predict)
+
+'''
+===============   증폭 전     =================
+acc =  0.4246
+===============30000개 증폭 후=================
+acc_score :
+'''
