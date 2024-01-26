@@ -8,9 +8,7 @@ import os
 #1. 데이터
 
 #가져오기 && 세이브
-train_data_generator = ImageDataGenerator()
-
-test_data_generator = ImageDataGenerator(
+data_generator = ImageDataGenerator(
     horizontal_flip=True,
     vertical_flip=True,
     width_shift_range=0.1,
@@ -19,20 +17,10 @@ test_data_generator = ImageDataGenerator(
     zoom_range=0.2
 )
 
-augumet_data_generator = ImageDataGenerator(
-        horizontal_flip=True,
-    vertical_flip=True,
-    width_shift_range=0.1,
-    height_shift_range=0.1,
-    shear_range=20,
-    zoom_range=0.2
-)
-
-path = 'C:\_data\image\cat_and_dog'
-path_train ='C:\_data/image/cat_and_dog/train/'
-path_test ='C:\_data/image/cat_and_dog/test/'
-image_path = 'C:\_data/image/cat_and_dog/test/rand/'
-path = 'C:\_data/kaggle/cat_and_dog/'
+path_train ='c:/_data/image/cat_and_dog/train/'
+path_test ='c:/_data/image/cat_and_dog/test/'
+image_path = 'C:/_data/image/cat_and_dog/test/rand/'
+path = 'C:/_data/kaggle/cat_and_dog/'
 np_path = '../_data/_save_npy/'
 
 train_x_npy_exists = os.path.exists(np_path + "keras_catdog_x_train.npy") 
@@ -44,7 +32,7 @@ y_train = []
 x_test = []
 
 if not train_x_npy_exists and not train_y_npy_exists :#train npy 존재
-    xy_train = train_data_generator.flow_from_directory(
+    xy_train = data_generator.flow_from_directory(
     directory=path_train,
     batch_size=20000,
     target_size=(200,200),
@@ -62,7 +50,7 @@ else:
     y_train = np.load(np_path + 'keras_catdog_y_train.npy')
     
 if not test_npy_exists :#test npy 존재
-    xy_test = test_data_generator.flow_from_directory(
+    xy_test = data_generator.flow_from_directory(
     directory=path_test,
     batch_size=5000,
     target_size=(200,200),
@@ -84,45 +72,38 @@ randidx = np.random.randint(x_train.shape[0],size = augumet_size)
 x_augumeted = x_train[randidx].copy()
 y_augumeted = y_train[randidx].copy()
 
-x_augumeted = augumet_data_generator.flow(
+x_augumeted = data_generator.flow(
     x_augumeted, y_augumeted,
     batch_size=augumet_size,
     shuffle=True
 ).next()[0]
 
 x_train = np.concatenate((x_augumeted, x_train))
-y_train = np.concatenate((y_augumeted, y_train))
 
-print(x_train.shape)#(29981, 200, 200, 3)
-
-#scaling
-x_train = x_train/255.
-x_test = x_test/255.
+print(x_train.shape)#(29989, 200, 200, 3)
 
 
 #2. 모델 구성
 model = Sequential()
 
-model.add(Conv2D(10, (2,2), input_shape=(200,200,3), activation='relu'))
+model.add(Conv2D(32, (2,2), input_shape=(200,200,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
 
-model.add(Conv2D(16, (3,3), activation='relu'))
+model.add(Conv2D(64, (3,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
-
-model.add(Conv2D(20, (3,3), activation='relu'))
-model.add(MaxPooling2D((2,2), strides=(2,2)))
+model.add(Dropout(0.2))
 
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.3))
 model.add(Dense(1, activation='sigmoid'))
-
+s
 from keras.callbacks import EarlyStopping
-es = EarlyStopping(monitor='val_loss', mode = 'min', patience=30, restore_best_weights=True)
+es = EarlyStopping(monitor='val_loss', mode = 'min', patience=300, restore_best_weights=True)
 
 #3. 컴파일, 훈련
 hist = model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs= 100, batch_size= 100, validation_split= 0.2, callbacks=[es])
+model.fit(x_train, y_train, epochs= 1000, batch_size= 5, validation_split= 0.2, callbacks=[es])
 
 #4. 평가 예측
 predict = np.round(model.predict(x_test))
