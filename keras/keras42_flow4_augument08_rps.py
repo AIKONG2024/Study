@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 train_data_generator = ImageDataGenerator()
 
 test_data_generator = ImageDataGenerator(
+    rescale=1./255,
     horizontal_flip=True,
     vertical_flip=True,
     width_shift_range=0.1,
@@ -46,10 +47,10 @@ x_test = []
 if not train_x_npy_exists and not train_y_npy_exists :#train npy 존재
     xy_train = train_data_generator.flow_from_directory(
     directory=path_train,
-    batch_size=1027,
+    batch_size=2520,
     target_size=(200,200),
     color_mode='rgb',
-    class_mode='binary',
+    class_mode='categorical',
     shuffle=True
     )
     x_train = xy_train[0][0]
@@ -116,25 +117,26 @@ model.add(MaxPooling2D((2,2), strides=(2,2)))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.3))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(1, activation='softmax'))
 
 from keras.callbacks import EarlyStopping
 es = EarlyStopping(monitor='val_loss', mode = 'min', patience=30, restore_best_weights=True)
 
 #3. 컴파일, 훈련
-hist = model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs= 100, batch_size= 1, validation_split= 0.2, callbacks=[es])
+hist = model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit(x_train, y_train, epochs= 100, batch_size= 100, validation_split= 0.2, callbacks=[es])
 
 #4. 평가 예측
 predict = np.round(model.predict(x_test))
 print(predict)
+y_test = np.round(y_test)
+acc_score = accuracy_score(y_test, predict)
+print('acc_score :', acc_score)
 
-print('loss : ', hist.history['val_loss'])
-print('acc : ', hist.history['val_acc'])
 
 '''
 ===============   증폭 전     =================
-acc :  0.7822499871253967
+acc :  1.0
 ===============10000개 증폭 후=================
-acc
+acc : 0.33408884859474164
 '''

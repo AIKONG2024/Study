@@ -47,7 +47,7 @@ if not train_x_npy_exists and not train_y_npy_exists :#train npy 존재
     xy_train = train_data_generator.flow_from_directory(
     directory=path_train,
     batch_size=3309,
-    target_size=(200,200),
+    target_size=(80,80),
     color_mode='rgb',
     class_mode='binary',
     shuffle=True
@@ -65,7 +65,7 @@ if not test_npy_exists :#test npy 존재
     xy_test = test_data_generator.flow_from_directory(
     directory=path_test,
     batch_size=3309,
-    target_size=(200,200),
+    target_size=(80,80),
     color_mode='rgb',
     class_mode='binary',
     shuffle=True
@@ -103,7 +103,7 @@ x_test = x_test/255.
 #2. 모델 구성
 model = Sequential()
 
-model.add(Conv2D(10, (2,2), input_shape=(200,200,3), activation='relu'))
+model.add(Conv2D(10, (2,2), input_shape=(80,80,3), activation='relu'))
 model.add(MaxPooling2D((2,2), strides=(2,2)))
 
 model.add(Conv2D(16, (3,3), activation='relu'))
@@ -122,18 +122,18 @@ es = EarlyStopping(monitor='val_loss', mode = 'min', patience=30, restore_best_w
 
 #3. 컴파일, 훈련
 hist = model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs= 100, batch_size= 5, validation_split= 0.2, callbacks=[es])
+model.fit(x_train, y_train, epochs= 100, batch_size= 30, validation_split= 0.2, callbacks=[es])
 
 #4. 평가 예측
 predict = np.round(model.predict(x_test))
 print(predict)
 
-print('loss : ', hist.history['val_loss'])
-print('acc : ', hist.history['val_acc'])
+
+
 
 '''
 ===============   증폭 전     =================
-acc :  0.7822499871253967
+acc :  0
 ===============10000개 증폭 후=================
-acc
+acc : 1
 '''
