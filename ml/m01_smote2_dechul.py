@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, BatchNormalization
+from keras.layers import Dense, Dropout, BatchNormalization, Activation
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
@@ -91,25 +91,23 @@ x = train_csv.drop("대출등급", axis=1)
 y = train_csv["대출등급"]
 
 print(x.shape)
-import time as tm 
-smote_start_time = tm.time()
 from imblearn.over_sampling import SMOTE
-x_train, y_train = SMOTE(random_state=777).fit_resample(x, y)
-smote_end_time = tm.time()
 
-print("smote시간: ", np.round(smote_end_time - smote_start_time, 2))
-print(x_train.shape)
-print(np.unique(y_train, return_counts=True))
+# y = y.values.reshape(-1, 1)
+# ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
+# ohe_y = ohe.fit_transform(y)
 
+# x_train, y_train = SMOTE(random_state=777).fit_resample(x, ohe_y)
 
-y = y.values.reshape(-1, 1)
-ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
-ohe_y = ohe.fit_transform(y)
+# print(x_train.shape)
+# print(np.unique(y_train, return_counts=True))
 
 # 데이터 분류
 x_train, x_test, y_train, y_test = train_test_split(
-    x, ohe_y, train_size=0.85, random_state=3243242234, stratify=ohe_y
+    x, y, train_size=0.8, random_state=33212121, stratify=y
 )
+
+x_train, y_train = SMOTE(random_state=777).fit_resample(x_train, y_train)
 
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler
 # scaler = MinMaxScaler()
@@ -148,25 +146,27 @@ else:
 
 # 모델 생성
 model = Sequential()
-model.add(Dense(hidden_layer_size, input_shape=(input_layer_size,), activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(hidden_layer_size, activation='swish'))
-model.add(Dense(output_layer_size, activation="softmax"))
+model.add(Dense(hidden_layer_size))
+model.add(Activation('relu'))
+
+model.add(Dense(hidden_layer_size))
+model.add(Activation('relu'))
+
+model.add(Dense(hidden_layer_size))
+model.add(Activation('relu'))
+
+model.add(Dense(hidden_layer_size))
+model.add(Activation('relu'))
+
+model.add(Dense(output_layer_size))
+model.add(Activation("softmax"))
 
 es = EarlyStopping(
-    monitor="val_loss", mode="min", patience=2000, restore_best_weights=True
+    monitor="val_loss", mode="min", patience=500, restore_best_weights=True
 )
 
 # 컴파일 , 훈련
-model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["acc"])
+model.compile(loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["acc"])
 history = model.fit(
     x_train,
     y_train,
@@ -187,7 +187,7 @@ arg_y_predict = np.argmax(y_predict, axis=1)
 f1_score = f1_score(arg_y_test, arg_y_predict, average="macro")
 print("f1_score :", f1_score)
 
-submission = ohe.inverse_transform(model.predict(test_csv))
+submission = np.argmax(model.predict(test_csv), axis=1)
 submission = lbe.inverse_transform(submission)
 
 submission_csv["대출등급"] = submission

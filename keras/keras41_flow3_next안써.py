@@ -40,3 +40,4 @@ for i in range(49):
     plt.imshow(x_data[0][0][i], cmap='gray')
 plt.show()
 
+
