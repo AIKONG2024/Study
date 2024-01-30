@@ -95,10 +95,6 @@ test_csv = scaler.transform(test_csv)
 print(x_train.shape)#(77029, 13)
 print(y_train.shape)#(77029, 7)
 
-x_train = x_train.reshape(-1,13,1,1)
-x_test = x_test.reshape(-1,13,1,1)
-test_csv = test_csv.reshape(-1,13,1,1)
-
 #모델 생성
 model = Sequential()
 model.add(LSTM(16, input_shape = (13,1), activation='relu'))
