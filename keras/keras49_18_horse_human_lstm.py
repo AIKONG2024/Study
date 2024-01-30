@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Conv2D, Flatten, MaxPooling2D
+from keras.layers import Dense, Dropout, Conv2D, Flatten, MaxPooling2D, LSTM
 import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
@@ -23,23 +23,13 @@ print(y_train)
 
 x_train, x_test, y_train, y_test =  train_test_split(x_train, y_train, train_size=0.8, shuffle=True, random_state=777)
 
+x_train = x_train.reshape(-1,900,300)
+x_test = x_test.reshape(-1,900,300)
+
 #2. 모델 구성
 model = Sequential()
-model.add(Conv2D(32, kernel_size=(2,2), input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3]) , activation='relu'))
-model.add(MaxPooling2D((2,2), strides=(2,2)))
-model.add(Dropout(0.2))    
-
-model.add(Conv2D(64, (2,2), activation='relu'))
-model.add(MaxPooling2D((2,2), strides=(2,2)))
-model.add(Dropout(0.3))
-    
-model.add(Conv2D(126, (2,2), activation='relu'))
-model.add(MaxPooling2D((2,2), strides=(2,2)))
-model.add(Dropout(0.4))
-
-model.add(Flatten())
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.5))
+model.add(LSTM(16, input_shape = (900,300) , activation='relu'))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(2, activation='softmax'))
 
 model.summary()
