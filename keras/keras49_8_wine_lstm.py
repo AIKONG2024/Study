@@ -49,7 +49,7 @@ x_test = scaler.transform(x_test)
 
 #모델 구현
 model = Sequential()
-model.add(LSTM(16, (2,1), input_shape = (13,1)))
+model.add(LSTM(16,input_shape = (13,1)))
 model.add(Dense(64, input_dim = 13))
 model.add(Dropout(0.2))
 model.add(Dense(32))
@@ -117,6 +117,8 @@ CNN ========================
 로스 :  0.006823524367064238
 정확도 :  1.0
 acc score : 1.0
-
 RNN ========================
+로스 :  0.16561217606067657
+정확도 :  0.9599999785423279
+acc score : 0.96
 '''
