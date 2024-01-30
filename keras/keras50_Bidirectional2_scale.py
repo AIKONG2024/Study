@@ -1,6 +1,6 @@
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, LSTM
+from keras.layers import Dense, LSTM, Bidirectional
 from keras.callbacks import EarlyStopping
 
 #80 예측
@@ -17,7 +17,7 @@ x = x.reshape(13,3,1)
 
 #2. 모델구성
 model = Sequential()
-model.add(LSTM(70, input_shape = (3,1),))
+model.add(Bidirectional(LSTM(70, activation='relu'), input_shape = (3,1)))
 model.add(Dense(64))
 model.add(Dense(128))
 model.add(Dense(256,activation='relu'))
@@ -48,9 +48,14 @@ plt.grid()
 plt.show()
 
 
-
 '''
+======SimpleRNN
 mse :  1.352716026303824e-05
 mae :  0.0026057499926537275
 predict : [[78.37969]]
+
+=====LSTM
+mse :  3.644751700448978e-07
+mae :  0.0005118663539178669
+predict : [[77.80692]]
 '''

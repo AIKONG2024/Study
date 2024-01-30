@@ -66,9 +66,9 @@ from keras.models import Sequential
 from keras.layers import Conv2D, Dense, Dropout, MaxPooling2D, Flatten, LSTM
 
 model = Sequential()
-model.add(LSTM(64, input_shape = (50*50,3), activation='relu'))
+model.add(LSTM(16, input_shape = (50*50,3), activation='relu'))
 
-model.add(Dense(64, activation='relu'))
+model.add(Dense(16, activation='relu'))
 # model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
 
@@ -89,7 +89,7 @@ import time as tm
 #3. 컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 startTime = tm.time()
-model.fit(x_train, y_train, epochs=2000, batch_size=300, validation_split=0.2, callbacks=[mcp])
+model.fit(x_train, y_train, epochs=2000, batch_size=3000, validation_split=0.2, callbacks=[mcp])
 endTime = tm.time()
 model.save("../_data/_save/MCP/IDG/brain\k37_brain_save_model.h5") 
 #4.평가 예측
@@ -108,4 +108,6 @@ acc :  1.0
 
 loss :  0.007480014581233263
 acc :  1.0
+=========RNN 적용후
+
 '''
