@@ -28,7 +28,6 @@ print(x.shape, y.shape) #(7, 3, 1) (7,)
 #2. 모델구성
 model = Sequential()
 model.add(SimpleRNN(units=10, input_shape=(3, 1), activation='relu')) # timesteps, features
-# 3-D tensor with shape (batch_size, timesteps, features).
 model.add(Dense(7, activation='relu'))
 model.add(Dense(1))
 
