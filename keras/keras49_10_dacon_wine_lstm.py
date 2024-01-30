@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Conv2D, Flatten
+from keras.layers import Dense, Dropout, Conv2D, Flatten, LSTM
 from keras.callbacks import EarlyStopping , ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -58,8 +58,7 @@ test_csv = scaler.transform(test_csv)
 
 #모델 생성
 model = Sequential()
-model.add(Conv2D(16, input_shape = (12,1)))
-model.add(Flatten())
+model.add(LSTM(16, input_shape = (12,1)))
 model.add(Dense(64, input_dim = len(x.columns)))
 model.add(Dense(32))
 model.add(Dense(32))
