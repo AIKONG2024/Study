@@ -61,4 +61,6 @@ print(' acc : ', acc_score)
 print(predict)
 '''
 acc : 1.0
+=============RNN 적용
+
 '''
