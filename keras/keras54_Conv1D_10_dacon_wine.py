@@ -58,7 +58,7 @@ test_csv = scaler.transform(test_csv)
 
 #모델 생성
 model = Sequential()
-model.add(Conv1D(16, input_shape = (12,1)))
+model.add(Conv1D(16,2, input_shape = (12,1)))
 model.add(Flatten())
 model.add(Dense(64, input_dim = len(x.columns)))
 model.add(Dense(32))
@@ -144,4 +144,9 @@ RNN ===================
 로스값 :  [1.0811997652053833, 0.550303041934967]
 26/26 [==============================] - 0s 1ms/step
 acc_score : 0.5503030303030303
+
+=================================
+Conv1D
+로스값 :  [1.0809504985809326, 0.5478788018226624]
+acc_score : 0.5478787878787879
 '''
