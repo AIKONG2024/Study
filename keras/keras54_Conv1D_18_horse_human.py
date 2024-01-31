@@ -29,6 +29,7 @@ x_test = x_test.reshape(-1,900,300)
 #2. 모델 구성
 model = Sequential()
 model.add(Conv1D(16, 2, input_shape = (900,300) , activation='relu'))
+model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
@@ -55,4 +56,6 @@ acc : 1.0
  acc :  1.0
 [[0.]
  [0.]]
+ ==============Conv1D
+  acc :  0.8349514563106796
 '''

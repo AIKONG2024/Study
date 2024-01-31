@@ -21,6 +21,9 @@ x_test = np.load(np_path + 'keras39_3_x_test.npy')
 # x_train = x_train/255.
 # x_test = x_test/255.
 
+x_train = x_train.reshape(-1,30000, 1)
+x_test = x_test.reshape(-1,30000, 1)
+
 #모델구성
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Conv2D, Flatten, MaxPooling2D, LSTM, Conv1D
@@ -37,7 +40,7 @@ es = EarlyStopping(monitor='val_loss', mode = 'min', patience=300, restore_best_
 
 #컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_train, y_train, epochs= 1000, batch_size= 5, validation_split= 0.2, callbacks=[es])
+model.fit(x_train, y_train, epochs= 1000, batch_size= 100, validation_split= 0.2, callbacks=[es])
 
 #평가 예측
 predict = np.round(model.predict(x_test)).flatten()
@@ -66,5 +69,5 @@ acc :  0.7768844366073608
 =============RNN 적용
 loss :  0.6348946939468384
 acc :  0.638844366073608
-
+========================
 '''

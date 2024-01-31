@@ -24,6 +24,7 @@ print(x_train.shape)
 #2. 모델 구성
 model = Sequential()
 model.add(Conv1D(16, 2, input_shape = (150*3, 150) , activation='relu'))
+model.add(Flatten())
 model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(3, activation='softmax'))
@@ -77,4 +78,6 @@ print(predict)
  2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
  2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2
  2 2 0 2 2 2 2 2 2 2 2 2 2 2 2 2 0 1 2 2 2 2 2]
+Conv1D =============================
+ acc :  1.0
 '''
