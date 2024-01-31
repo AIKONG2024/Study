@@ -29,7 +29,7 @@ y_test = onehot.fit_transform(y_test)
 
 model = Sequential()
 # Classification block
-model.add(Conv1D(64, 2, input_shape=(x_train.shape[1] * x_train.shape[2],)))
+model.add(Conv1D(64, 2, input_shape=(x_train.shape[1] * x_train.shape[2],1)))
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
@@ -80,4 +80,9 @@ RNN 결과 =========================
 loss = 1.6941
 acc = 0.36400
 acc_score = 3646
+=================================
+Conv1D
+loss =  1.4696474075317383
+acc =  0.5016000270843506
+acc_score =  0.5016
 '''
