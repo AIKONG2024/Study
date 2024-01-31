@@ -34,6 +34,11 @@ print(jena_csv.shape)  # (420551, 14)
 x, y = split_xy(jena_csv, time_steps, 'T (degC)')  # spliting time :  5.13
 print(x.shape, y.shape)
 
+#scaling
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+x = scaler.fit_transform(x)
+
 # 2. 모델 구성
 model = Sequential()
 model.add(LSTM(64, input_shape=(time_steps,14)))
