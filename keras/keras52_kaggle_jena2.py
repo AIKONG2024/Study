@@ -45,16 +45,15 @@ print(x.shape, y.shape) #(419687, 720, 14) (419687, 1)
 
 # 2. 모델 구성
 model = Sequential()
-model.add(LSTM(64, input_shape=(time_steps,14)))
-model.add(Dense(64,activation='relu'))
-model.add(Dense(64,activation='relu'))
-model.add(Dense(32,activation='relu'))
-model.add(Dense(32,activation='relu'))
+model.add(LSTM(32, input_shape=(time_steps,14)))
+model.add(Dense(16,activation='relu'))
+model.add(Dense(16,activation='relu'))
+model.add(Dense(16,activation='relu'))
 model.add(Dense(1))
 
 # 3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x,y, epochs=2000, batch_size=5000, validation_split=0.1, callbacks=[
+model.fit(x,y, epochs=2000, batch_size=20, validation_split=0.1, callbacks=[
     EarlyStopping(monitor='val_loss', mode = 'min', patience=100,restore_best_weights=True)
 ])
 
