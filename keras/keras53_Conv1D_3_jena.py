@@ -36,8 +36,9 @@ print(jena_csv.shape)  # (420551, 14)
 
 x, y = split_xy(jena_csv, time_steps, predict_standard_time,'T (degC)')  # spliting time :  5.13
 print(x.shape, y.shape) #(419687, 720, 14) (419687, 1)
-np.save(file='C:/_data/_save_npy/jena/jena_splited_x.npy', arr= x)
-np.save(file='C:/_data/_save_npy/jena/jena_splited_y.npy', arr= y)
+
+# np.save(file='C:/_data/_save_npy/jena/jena_splited_x.npy', arr= x)
+# np.save(file='C:/_data/_save_npy/jena/jena_splited_y.npy', arr= y)
 
 # x = np.load(file='C:/_data/_save_npy/jena/jena_splited_x.npy')
 # y = np.load(file='C:/_data/_save_npy/jena/jena_splited_y.npy')
