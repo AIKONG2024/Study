@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential, Model
 from keras.layers import Dense, Input, concatenate, Concatenate 
+from sklearn.metrics import r2_score
 
 # 1. 데이터
 x1_datasets = np.array([range(100), range(301, 401)]).T  # 삼성전자 종가, 하이닉스 종가
@@ -48,12 +49,15 @@ dense131 = Dense(32, activation='relu', name = 'bit17')(dense121)
 output111 = Dense(3, activation='relu', name = 'bit18')(dense131)
 
 #2-3. concatnate
-merge1 = concatenate([output1, output11, output111], name='mg1') #concatenate 도 레이어. merge
+concatenate_class  = Concatenate()
+# merge1 = concatenate([output1, output11, output111], name='mg1') #concatenate 도 레이어. 
+merge1 = concatenate_class([output1, output11, output111])
 merge2 = Dense(7, name = "mg2")(merge1)
 merge3 = Dense(11, name = "mg3")(merge2)
 last_output1 = Dense(1, name = "last1")(merge3)
 
-merge4 = concatenate([output1, output11, output111], name='mg6') #concatenate 도 레이어. merge
+# merge4 = concatenate([output1, output11, output111], name='mg6') #concatenate 도 레이어. merge
+merge4 = concatenate_class([output1, output11, output111]) #concatenate 도 레이어. merge
 merge5 = Dense(24, name = "mg4")(merge4)
 merge6 = Dense(43, name = "mg5")(merge5)
 last_output2 = Dense(1, name = "last2")(merge6)
@@ -71,7 +75,16 @@ loss = model.evaluate([x1_test, x2_test, x3_test], [y1_test, y2_test])
 print("loss :", loss)
 predict = model.predict([x1_test, x2_test, x3_test])
 print("predict :", predict)
+print(predict[0])
+print(predict[1])
+r2_score1 = r2_score(y1_test, predict[0])
+r2_score2 = r2_score(y2_test, predict[1])
+# r2_total = r2_score([y1_test, y2_test], [predict[0], predict[1]])
+# print(r2_total)
+print("y1_r2 :" , r2_score1,"y2_r2 :", r2_score2)
+
 
 '''
-loss : [18.587120056152344, 1.0757142305374146, 17.51140594482422]
+y1_r2 : 0.9999999995902381 y2_r2 : 0.9999999992214524
+loss : [18.587120056152344, 1.0757142305374146, 17.51140594482422] #y1 loss, y2 loss, y1+y2의 loss
 '''
