@@ -71,6 +71,8 @@ print("acc :", loss[1])
 predict = np.round(model.predict(pad_x))
 print(predict)
 
+
+
 ###############실습#################
 docs = ["나는 정룡이가 정말 싫다. 재미없다 너무 정말"]
 # 1. 데이터
@@ -85,8 +87,10 @@ pad_x = pad_sequences(
     padding="pre",
     maxlen=5,
 )
-print(pad_x)
-print(pad_x.shape)  # (15, 5)
+print(pad_x) #[[1 4 5 6 1]]
+print(pad_x.shape)  # (1, 5)
 pad_x = pad_x.reshape(-1, 5, 1)
 pred = model.predict(pad_x)
+acc_score = accuracy_score([0], pred) #부정
+print("acc_score : ", acc_score)
 print(pred)
