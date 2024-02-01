@@ -39,7 +39,7 @@ print(x.shape)#(1, 12)
 from sklearn.preprocessing import OneHotEncoder 
 ohe = OneHotEncoder(sparse=False)
 x1 = ohe.fit_transform(x.reshape(-1,1))
-print(x1)
+# print(x1)
 '''
 [[0. 0. 0. 1. 0. 0. 0. 0.]
  [0. 1. 0. 0. 0. 0. 0. 0.]
@@ -56,22 +56,22 @@ print(x1)
 '''
 
 # 3. pandas get_dummies()
-# import pandas as pd
-# x = x.reshape(-1*1) 
-# x1 = pd.get_dummies(x)
-# print(x1)
+import pandas as pd
+x = x.reshape(-1,) 
+x1 = pd.get_dummies(x).astype(int)
+print(x1)
 '''
-        1      2      3      4      5      6      7      8
-0   False  False  False   True  False  False  False  False
-1   False   True  False  False  False  False  False  False
-2   False   True  False  False  False  False  False  False
-3   False  False   True  False  False  False  False  False
-4   False  False   True  False  False  False  False  False
-5   False  False  False  False   True  False  False  False
-6   False  False  False  False  False   True  False  False
-7   False  False  False  False  False  False   True  False
-8    True  False  False  False  False  False  False  False
-9    True  False  False  False  False  False  False  False
-10   True  False  False  False  False  False  False  False
-11  False  False  False  False  False  False  False   True
+    1  2  3  4  5  6  7  8
+0   0  0  0  1  0  0  0  0
+1   0  1  0  0  0  0  0  0
+2   0  1  0  0  0  0  0  0
+3   0  0  1  0  0  0  0  0
+4   0  0  1  0  0  0  0  0
+5   0  0  0  0  1  0  0  0
+6   0  0  0  0  0  1  0  0
+7   0  0  0  0  0  0  1  0
+8   1  0  0  0  0  0  0  0
+9   1  0  0  0  0  0  0  0
+10  1  0  0  0  0  0  0  0
+11  0  0  0  0  0  0  0  1
 '''
