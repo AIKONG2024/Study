@@ -22,10 +22,10 @@ docs = [
     "욱이 또 잔다",
 ]  # 단어사전의 개수
 
-
-label = np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 token = Tokenizer()
-token.fit_on_texts(docs)
+submission_docs = ["나는 정룡이가 정말 재미없다. 재미없다 너무 정말"]
+label = np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
+token.fit_on_texts(docs + submission_docs)
 # 1. 데이터
 # token = Tokenizer()
 print(token.word_index)
@@ -72,19 +72,17 @@ print("acc :", loss[1])
 predict = np.round(model.predict(pad_x))
 print(predict)
 
-
-
 ###############실습#################
-submission_docs = ["나는 정룡이가 정말 싫다. 재미없다 너무 정말"]
+
 submission_x = token.texts_to_sequences(submission_docs)
 pad_submission_x = pad_sequences(
     submission_x,
     padding="pre",
     maxlen=5,
 )
-print(pad_submission_x) #[[ 0  0  0 22  2]]
+print(pad_submission_x) #[[ 1  4 24  3  1]]
 print(pad_submission_x.shape)  # (1, 5)
 pred = np.round(model.predict(pad_submission_x))
-acc_score = accuracy_score(np.array([0]), pred) #부정
-print("acc_score : ", acc_score)
-print(pred)
+# acc_score = accuracy_score([0], pred) #부정
+# print("acc_score : ", acc_score)
+print('긍정' if (pred == [[1]]) else '부정' )
