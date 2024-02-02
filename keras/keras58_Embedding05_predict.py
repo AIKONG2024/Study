@@ -22,12 +22,13 @@ docs = [
     "욱이 또 잔다",
 ]  # 단어사전의 개수
 
-label = np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 
+label = np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0])
 token = Tokenizer()
 token.fit_on_texts(docs)
+# 1. 데이터
+# token = Tokenizer()
 print(token.word_index)
-
 """
 {'참': 1, '너무': 2, '재미있다': 3, '최고에요': 4, '잘만든': 5, '영화예요': 6, '추천하고': 7, '싶은': 8, '영화입니다': 9, '한': 10, 
 '번': 11, '더': 12, '보고': 13, '싶어요': 14, '글쎄': 15, '별로에요': 16, '생각보다': 17, '지루해요': 18, '연기가': 19, '어색해요': 20, 
@@ -74,23 +75,16 @@ print(predict)
 
 
 ###############실습#################
-docs = ["나는 정룡이가 정말 싫다. 재미없다 너무 정말"]
-# 1. 데이터
-token = Tokenizer()
-token.fit_on_texts(docs)
-print(token.word_index)
-# {'정말': 1, '나는': 2, '정룡이가': 3, '싫다': 4, '재미없다': 5, '너무': 6}
-
-x = token.texts_to_sequences(docs)
-pad_x = pad_sequences(
-    x,
+submission_docs = ["나는 정룡이가 정말 싫다. 재미없다 너무 정말"]
+submission_x = token.texts_to_sequences(submission_docs)
+pad_submission_x = pad_sequences(
+    submission_x,
     padding="pre",
     maxlen=5,
 )
-print(pad_x) #[[1 4 5 6 1]]
-print(pad_x.shape)  # (1, 5)
-pad_x = pad_x.reshape(-1, 5, 1)
-pred = model.predict(pad_x)
-acc_score = accuracy_score([0], pred) #부정
+print(pad_submission_x) #[[ 0  0  0 22  2]]
+print(pad_submission_x.shape)  # (1, 5)
+pred = np.round(model.predict(pad_submission_x))
+acc_score = accuracy_score(np.array([0]), pred) #부정
 print("acc_score : ", acc_score)
 print(pred)

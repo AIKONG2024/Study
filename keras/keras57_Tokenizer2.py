@@ -28,11 +28,11 @@ print(x.shape)#(2,)
 # print(seq_x2.shape)
 
 #to_categorical
-from keras.utils import to_categorical
-x1 = to_categorical(x)
-print(x1.shape)
-x1 = x1[:,:,1:]
-print(x1)
+# from keras.utils import to_categorical
+# x1 = to_categorical(x)
+# print(x1.shape)
+# x1 = x1[:,:,1:]
+# print(x1)
 '''
 [[[0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0.]
   [0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
@@ -58,10 +58,12 @@ print(x1)
 '''
 
 # 2. scikit-learn의 onehot
-# from sklearn.preprocessing import OneHotEncoder 
-# ohe = OneHotEncoder(sparse=False)
-# x3 = ohe.fit_transform(x.reshape(-1,1))
-# print(x3)
+from sklearn.preprocessing import OneHotEncoder 
+ohe = OneHotEncoder(sparse=False)
+print(x.shape) #(1, 21)
+x3 = ohe.fit_transform(x.reshape(-1,1))
+print(x3) #(21, 13)
+print(x3.shape)
 '''
 [[0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0.]
  [0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
