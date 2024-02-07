@@ -3,6 +3,11 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.svm import LinearSVC
+from sklearn.linear_model import Perceptron, LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 path = "C:/_data/dacon/iris/"
 
@@ -19,22 +24,31 @@ y = train_csv['species']
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7, random_state=200, stratify=y)
 
 #모델 생성
-from sklearn.svm import LinearSVC
-model = LinearSVC(C=100)
+models = [LinearSVC(), Perceptron(), LogisticRegression(), KNeighborsClassifier(), DecisionTreeClassifier(), RandomForestClassifier()]
+for model in models:
+    #컴파일 , 훈련
+    model.fit(x_train, y_train)
 
-#컴파일 , 훈련
-model.fit(x_train, y_train)
+    #평가, 예측
+    acc = model.score(x_test, y_test)
+    y_predict = model.predict(x_test)
 
-#평가, 예측
-acc = model.score(x_test, y_test)
-y_predict = model.predict(x_test)
-
-acc_pred = accuracy_score(y_test, y_predict) 
-submission = model.predict(test_csv)
-submission_csv['species'] = submission
-print("acc : ", acc)
-print("eval_acc : ", acc_pred)
+    acc_pred = accuracy_score(y_test, y_predict) 
+    submission = model.predict(test_csv)
+    submission_csv['species'] = submission
+    print(f"[{type(model).__name__}] model acc : ", acc)
+    print(f"[{type(model).__name__}] eval_acc : ", acc_pred)
 '''
-acc :  0.9444444444444444
-eval_acc :  0.9444444444444444
+[LinearSVC] model acc :  0.9722222222222222
+[LinearSVC] eval_acc :  0.9722222222222222
+[Perceptron] model acc :  0.8333333333333334
+[Perceptron] eval_acc :  0.8333333333333334
+[LogisticRegression] model acc :  1.0
+[LogisticRegression] eval_acc :  1.0
+[KNeighborsClassifier] model acc :  1.0
+[KNeighborsClassifier] eval_acc :  1.0
+[DecisionTreeClassifier] model acc :  1.0
+[DecisionTreeClassifier] eval_acc :  1.0
+[RandomForestClassifier] model acc :  1.0
+[RandomForestClassifier] eval_acc :  1.0
 '''

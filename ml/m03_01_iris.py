@@ -26,19 +26,23 @@ for model in models :
     # 평가, 예측
     from sklearn.metrics import accuracy_score
     results = model.score(x_test, y_test)
-    print(f"{type(model).__name__} model.score : ", results)#정확도:  1.0
+    print(f"[{type(model).__name__}] model.score : ", results)#정확도:  1.0
 
     x_predict = model.predict(x_test)
     # print(x_predict)
     acc_score = accuracy_score(y_test, x_predict)
-    print(f"{type(model).__name__} model accuracy_score : ", acc_score)
+    print(f"[{type(model).__name__}] model accuracy_score : ", acc_score)
     '''
-    LogisticRegression model.score :  1.0
-    LogisticRegression model accuracy_score :  1.0
-    KNeighborsClassifier model.score :  0.9666666666666667
-    KNeighborsClassifier model accuracy_score :  0.9666666666666667
-    DecisionTreeClassifier model.score :  1.0
-    DecisionTreeClassifier model accuracy_score :  1.0
-    RandomForestClassifier model.score :  1.0
-    RandomForestClassifier model accuracy_score :  1.0
+    [LinearSVC] model.score :  1.0
+    [LinearSVC] model accuracy_score :  1.0
+    [Perceptron] model.score :  0.6666666666666666
+    [Perceptron] model accuracy_score :  0.6666666666666666
+    [LogisticRegression] model.score :  1.0
+    [LogisticRegression] model accuracy_score :  1.0
+    [KNeighborsClassifier] model.score :  0.9666666666666667
+    [KNeighborsClassifier] model accuracy_score :  0.9666666666666667
+    [DecisionTreeClassifier] model.score :  0.9666666666666667
+    [DecisionTreeClassifier] model accuracy_score :  0.9666666666666667
+    [RandomForestClassifier] model.score :  1.0
+    [RandomForestClassifier] model accuracy_score :  1.0
     '''

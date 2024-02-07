@@ -3,6 +3,11 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
+from sklearn.svm import LinearSVC
+from sklearn.linear_model import Perceptron, LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 path = 'C:/_data/dacon/dechul/'
 #데이터 가져오기
@@ -42,30 +47,42 @@ x_test = scaler.transform(x_test)
 test_csv = scaler.transform(test_csv)
 
 #모델 생성
-from sklearn.svm import LinearSVC
-model = LinearSVC(C=500)
-model.fit(x_train, y_train)
+models = [LinearSVC(), Perceptron(), LogisticRegression(), KNeighborsClassifier(), DecisionTreeClassifier(), RandomForestClassifier()]
+for model in models:
+    
+    #훈련
+    model.fit(x_train, y_train)
 
-#평가, 예측
-acc = model.score(x_test, y_test)
-print("acc : ", acc)
-y_predict = model.predict(x_test)
+    #평가, 예측
+    acc = model.score(x_test, y_test)
+    y_predict = model.predict(x_test)
+    f1 = f1_score(y_test, y_predict, average='macro') 
+    print(f"[{type(model).__name__}] model acc : ", acc)
+    print(f"[{type(model).__name__}] mode f1 : ", f1)
+    
+    submission = model.predict(test_csv)
+    submission = train_le.inverse_transform(submission)
 
-f1 = f1_score(y_test, y_predict, average='macro') 
-print("f1_score :", f1)
-submission = model.predict(test_csv)
-submission = train_le.inverse_transform(submission)
+    submission_csv['대출등급'] = submission
 
-submission_csv['대출등급'] = submission
-
-import time as tm
-ltm = tm.localtime(tm.time())
-save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}" 
-file_path = path + f"sampleSubmission{save_time}.csv"
-submission_csv.to_csv(file_path, index=False)
+    import time as tm
+    ltm = tm.localtime(tm.time())
+    save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}" 
+    file_path = path + f"sampleSubmission{save_time}.csv"
+    submission_csv.to_csv(file_path, index=False)
 
 '''
-acc :  0.381239183108342
-f1_score : 0.2531249005514354
+[LinearSVC] model acc :  0.41079958463136035
+[LinearSVC] mode f1 :  0.22022587229486693
+[Perceptron] model acc :  0.30958809276566285
+[Perceptron] mode f1 :  0.2258480381412835
+[LogisticRegression] model acc :  0.5264797507788161
+[LogisticRegression] mode f1 :  0.42657168042853794
+[KNeighborsClassifier] model acc :  0.4166839736933195
+[KNeighborsClassifier] mode f1 :  0.29909056168060266
+[DecisionTreeClassifier] model acc :  0.8354447905849774
+[DecisionTreeClassifier] mode f1 :  0.7730480013238203
+[RandomForestClassifier] model acc :  0.8050536517826238
+[RandomForestClassifier] mode f1 :  0.6794309633545724
 '''
 
