@@ -43,16 +43,16 @@ test_csv = scaler.transform(test_csv)
 
 #모델 생성
 from sklearn.svm import LinearSVC
-model = LinearSVC(C=100)
+model = LinearSVC(C=500)
 model.fit(x_train, y_train)
 
 #평가, 예측
-loss = model.score(x_test, y_test)
-print("acc : ", loss)
+acc = model.score(x_test, y_test)
+print("acc : ", acc)
 y_predict = model.predict(x_test)
 
-f1_score = f1_score(y_test, y_predict, average='macro') 
-print("f1_score :", f1_score)
+f1 = f1_score(y_test, y_predict, average='macro') 
+print("f1_score :", f1)
 submission = model.predict(test_csv)
 submission = train_le.inverse_transform(submission)
 
@@ -65,8 +65,7 @@ file_path = path + f"sampleSubmission{save_time}.csv"
 submission_csv.to_csv(file_path, index=False)
 
 '''
-기존 : 
-acc :  0.35424022152994117
-f1_score : 0.25606146481631054
+acc :  0.381239183108342
+f1_score : 0.2531249005514354
 '''
 

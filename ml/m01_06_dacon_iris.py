@@ -26,10 +26,15 @@ model = LinearSVC(C=100)
 model.fit(x_train, y_train)
 
 #평가, 예측
-loss = model.score(x_test, y_test)
+acc = model.score(x_test, y_test)
 y_predict = model.predict(x_test)
 
-acc_score = accuracy_score(y_test, y_predict) 
+acc_pred = accuracy_score(y_test, y_predict) 
 submission = model.predict(test_csv)
-print(y_predict.shape) 
 submission_csv['species'] = submission
+print("acc : ", acc)
+print("eval_acc : ", acc_pred)
+'''
+acc :  0.9444444444444444
+eval_acc :  0.9444444444444444
+'''

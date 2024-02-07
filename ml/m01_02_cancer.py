@@ -19,18 +19,14 @@ model.fit(x_train, y_train)
 
 #평가 예측
 from sklearn.metrics import accuracy_score
-loss = model.score(x_test, y_test)
+acc = model.score(x_test, y_test)
 x_predict = model.predict(x_test)
-acc_score = accuracy_score(y_test, x_predict)
+acc_pred = accuracy_score(y_test, x_predict)
 
-print("acc : ", loss)
-print(f"accuracy_score : {acc_score}")
-print("예측값 : ", x_predict)
+print("acc : ", acc)
+print("eval_acc : ", acc_pred)
 
 '''
-기존: accuracy : 0.9298245614035088
-====================================
-ML
-acc :  0.9239766081871345
-accuracy_score : 0.9239766081871345
+acc :  0.9064327485380117
+eval_acc :  0.9064327485380117
 '''

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn.metrics import r2_score
 path = 'C:/_data/kaggle/bike/'
 train_csv =pd.read_csv(path + 'train.csv', index_col=0)
 test_csv =pd.read_csv(path + 'test.csv', index_col=0)
@@ -30,6 +31,7 @@ model.fit(x_train, y_train)
 # 평가, 예측
 r2 = model.score(x_test, y_test)
 y_predict = model.predict(x_test)
+r2_pred = r2_score(y_test, y_predict)
 submit = model.predict(test_csv)
 
 # #데이터 출력
@@ -40,7 +42,9 @@ file_name = f'sampleSubmission_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hou
 submission_csv.to_csv(path + file_name, index = False )
 
 print("r2 : ", r2)
+print("eval_r2 :",r2_pred)
 
 '''
-r2 :  0.22603070576013562
+r2 :  0.22627076076627883
+eval_r2 : 0.22627076076627883
 '''

@@ -15,11 +15,6 @@ train_csv = pd.read_csv(path + "train.csv", index_col=0)
 test_csv = pd.read_csv(path + "test.csv", index_col=0)
 submission_csv = pd.read_csv(path + "sample_submission.csv")
 
-#데이터 확인
-print(train_csv.shape)#(5497, 13)
-print(test_csv.shape)#(1000, 12)
-print(submission_csv.shape)#(1000, 2) "species"
-
 train_csv['type'] = train_csv['type'].replace({"white":1, "red":0})
 test_csv['type'] = test_csv['type'].replace({"white":1, "red":0})
 
@@ -30,22 +25,22 @@ y = train_csv['quality']
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.85, random_state=1234567, stratify=y)
 
 #모델 생성
-
-#컴파일 , 훈련
 from sklearn.svm import LinearSVC
 model = LinearSVC(C=100)
+
+#컴파일 , 훈련
 model.fit(x_train, y_train)
 
 #평가, 예측
-loss = model.score(x_test, y_test)
+acc = model.score(x_test, y_test)
 y_predict = model.predict(x_test)
-acc_score = accuracy_score(y_test, y_predict) 
+acc_pred = accuracy_score(y_test, y_predict) 
 submission = model.predict(test_csv)
-print("acc : ", loss)
-print("acc_score :", acc_score)
+print("acc :", acc)
+print("eval_acc :", acc_pred)
 '''
-acc :  0.3612121212121212
-acc_score : 0.3612121212121212
+acc : 0.5006060606060606
+eval_acc : 0.5006060606060606
 '''
 
 submission_csv['quality'] = submission

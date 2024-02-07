@@ -22,17 +22,12 @@ model.fit(x_train, y_train)
 
 #평가 예측
 from sklearn.metrics import r2_score
-loss = model.score(x_test, y_test)
+r2 = model.score(x_test, y_test)
 y_predict = model.predict(x_test)
-r2_score = r2_score(y_test, y_predict)
-
-print('r2 : ', loss)
-print('r2_score : ', r2_score)
-
+r2_pred = r2_score(y_test, y_predict)
+print('r2 : ', r2)
+print('eval_r2 : ', r2_pred)
 '''
-기존 : 
-loss : 181.03074645996094
-============================
-r2 :  0.6616229320178135
-r2_score :  0.6616229320178135
+r2 :  0.6664703504818559
+eval_r2 :  0.6664703504818559
 '''

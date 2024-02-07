@@ -26,3 +26,8 @@ print(x_predict)
 
 acc_score = accuracy_score(y_test, x_predict)
 print("accuracy_score : ", acc_score)
+'''
+model.score :  1.0
+[2 1 2 2 0 2 0 0 1 0 1 1 2 0 0 1 1 2 1 0 1 0 2 1 2 0 2 0 2 1]
+accuracy_score :  1.0
+'''

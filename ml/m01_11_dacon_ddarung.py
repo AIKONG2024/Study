@@ -5,7 +5,7 @@ import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Conv2D, Flatten, LSTM, Conv1D
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error #mse
+from sklearn.metrics import r2_score
 
 #1. 데이터 - 경로데이터를 메모리에 땡겨옴
 path = "c:/_data/dacon/ddarung/"
@@ -50,7 +50,9 @@ model.fit(x_train, y_train)
 #4. 평가, 예측
 r2 = model.score(x_test, y_test)
 y_predict = model.predict(x_test)
+r2_pred = r2_score(y_test, y_predict)
 print("r2 : ", r2)
+print("eval_r2 : ", r2_pred)
 
 y_submit = model.predict(test_csv) # count 값이 예측됨.
 submission_csv['count'] = y_submit
@@ -64,6 +66,6 @@ submission_csv.to_csv(file_path, index=False)
 
 '''
 기존 : 
-standard : [1890.7735595703125, 1890.7735595703125, 29.455768585205078, 0.004566209856420755]
-r2 :  0.5357449848913677
+r2 :  0.5350276904530479
+eval_r2 :  0.5350276904530479
 '''
