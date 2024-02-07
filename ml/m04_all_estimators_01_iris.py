@@ -10,7 +10,8 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random
 
 allAlgorithms = all_estimators(type_filter='classifier') #41개
 # allAlgorithms = all_estimators(type_filter='regressor') #55개
-best_acc = []
+best_acc = 0
+best_model = ""
 
 # 모델구성
 for name, algorithm in allAlgorithms :
