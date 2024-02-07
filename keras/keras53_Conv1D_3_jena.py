@@ -58,7 +58,7 @@ model.add(Dense(1))
 
 # 3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x,y, epochs=2000, batch_size=200, callbacks=[
+model.fit(x,y, epochs=2, batch_size=3000, callbacks=[
     EarlyStopping(monitor='loss', mode = 'min', patience=100,restore_best_weights=True)
 ])
 
