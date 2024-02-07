@@ -15,8 +15,6 @@ def split_xy(dataFrame, cutting_size, y_behind_size,  y_column):
     for i in range(len(dataFrame) - cutting_size - y_behind_size):
         x = dataFrame[i : (i + cutting_size)]
         y = dataFrame[i + cutting_size + y_behind_size : (i + cutting_size + y_behind_size + 1) ][y_column]
-        # print(x.shape)
-        # print(y.shape)
         xs.append(x)
         ys.append(y)
     split_end_time = time.time()
