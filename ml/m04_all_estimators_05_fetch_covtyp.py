@@ -39,14 +39,3 @@ print("="*60)
 print("[The Best score] : ", best_acc )
 print("[The Best model] : ", best_model )
 print("="*60)
-
-'''
-[LogisticRegression] model acc :  0.7229495593904902
-[LogisticRegression] eval_acc :  0.7229495593904902
-[KNeighborsClassifier] model acc :  0.9258249954103176
-[KNeighborsClassifier] eval_acc :  0.9258249954103176
-[DecisionTreeClassifier] model acc :  0.9352281072149807
-[DecisionTreeClassifier] eval_acc :  0.9352281072149807
-[RandomForestClassifier] model acc :  0.9532081879933909
-[RandomForestClassifier] eval_acc :  0.9532081879933909
-'''

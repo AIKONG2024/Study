@@ -71,7 +71,6 @@ print("="*60)
 [NuSVR] score :  0.16168978378422139
 [OrthogonalMatchingPursuit] score :  0.43293698067794684 
 [OrthogonalMatchingPursuitCV] score :  0.6410893324680056
-
 [PLSRegression] score :  0.6332509318493873
 [PassiveAggressiveRegressor] score :  0.5833786583003528 
 [PoissonRegressor] score :  0.3728783672838435

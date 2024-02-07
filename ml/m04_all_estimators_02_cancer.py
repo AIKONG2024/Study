@@ -24,22 +24,14 @@ for name, algorithm in allAlgorithms :
 
         # 평가, 예측
         results = model.score(x_test, y_test)
+        if best_acc < results:
+            best_acc = results
+            best_model = name
         print(f"[{name}] score : ", results)
         x_predict = model.predict(x_test)
     except:
         continue
-
-'''
-[LinearSVC] model acc :  0.9005847953216374
-[LinearSVC] eval_acc :  0.9005847953216374
-[Perceptron] model acc :  0.8304093567251462
-[Perceptron] eval_acc :  0.8304093567251462
-[LogisticRegression] model acc :  0.9181286549707602
-[LogisticRegression] eval_acc :  0.9181286549707602
-[KNeighborsClassifier] model acc :  0.935672514619883
-[KNeighborsClassifier] eval_acc :  0.935672514619883
-[DecisionTreeClassifier] model acc :  0.9239766081871345
-[DecisionTreeClassifier] eval_acc :  0.9239766081871345
-[RandomForestClassifier] model acc :  0.9181286549707602
-[RandomForestClassifier] eval_acc :  0.9181286549707602
-'''
+print("="*60)
+print("[The Best score] : ", best_acc )
+print("[The Best model] : ", best_model )
+print("="*60)

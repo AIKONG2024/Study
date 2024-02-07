@@ -44,3 +44,44 @@ print("="*60)
 print("[The Best score] : ", best_acc )
 print("[The Best model] : ", best_model )
 print("="*60)
+
+'''
+[AdaBoostClassifier] score :  1.0
+[BaggingClassifier] score :  1.0
+[BernoulliNB] score :  0.3333333333333333
+[CalibratedClassifierCV] score :  0.9722222222222222
+[CategoricalNB] score :  0.9444444444444444
+[ComplementNB] score :  0.6666666666666666
+[DecisionTreeClassifier] score :  1.0
+[DummyClassifier] score :  0.3333333333333333
+[ExtraTreeClassifier] score :  1.0
+[ExtraTreesClassifier] score :  1.0
+[GaussianNB] score :  1.0
+[GaussianProcessClassifier] score :  1.0
+[GradientBoostingClassifier] score :  1.0
+[HistGradientBoostingClassifier] score :  1.0
+[KNeighborsClassifier] score :  1.0
+[LabelPropagation] score :  1.0
+[LabelSpreading] score :  1.0
+[LinearDiscriminantAnalysis] score :  1.0
+[LinearSVC] score :  0.9722222222222222
+[LogisticRegression] score :  1.0
+[LogisticRegressionCV] score :  1.0
+[MLPClassifier] score :  0.9722222222222222
+[MultinomialNB] score :  0.8888888888888888
+[NearestCentroid] score :  0.9444444444444444
+[NuSVC] score :  1.0
+[PassiveAggressiveClassifier] score :  0.9444444444444444
+[Perceptron] score :  0.8333333333333334
+[QuadraticDiscriminantAnalysis] score :  1.0
+[RadiusNeighborsClassifier] score :  1.0
+[RandomForestClassifier] score :  1.0
+[RidgeClassifier] score :  0.8055555555555556
+[RidgeClassifierCV] score :  0.8055555555555556
+[SGDClassifier] score :  0.9166666666666666
+[SVC] score :  1.0
+============================================================
+[The Best score] :  1.0
+[The Best model] :  AdaBoostClassifier
+============================================================
+'''
