@@ -29,8 +29,8 @@ n_splits = 5
 kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 # 모델구성
-allAlgorithms = all_estimators(type_filter='classifier') #41개
-# allAlgorithms = all_estimators(type_filter='regressor') #55개
+# allAlgorithms = all_estimators(type_filter='classifier') #41개
+allAlgorithms = all_estimators(type_filter='regressor') #55개
 best_score = 0
 best_model = ""
 
