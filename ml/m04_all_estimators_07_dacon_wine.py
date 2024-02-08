@@ -47,3 +47,41 @@ print("="*60)
 print("[The Best score] : ", best_acc )
 print("[The Best model] : ", best_model )
 print("="*60)
+
+'''
+[AdaBoostClassifier] score :  0.3406060606060606
+[BaggingClassifier] score :  0.6327272727272727
+[BernoulliNB] score :  0.44363636363636366
+[CalibratedClassifierCV] score :  0.49818181818181817
+[ComplementNB] score :  0.31393939393939396
+[DecisionTreeClassifier] score :  0.5793939393939394
+[DummyClassifier] score :  0.4387878787878788
+[ExtraTreeClassifier] score :  0.5721212121212121        
+[ExtraTreesClassifier] score :  0.6472727272727272
+[GaussianNB] score :  0.3890909090909091
+[GaussianProcessClassifier] score :  0.5757575757575758
+[GradientBoostingClassifier] score :  0.5672727272727273
+[HistGradientBoostingClassifier] score :  0.6254545454545455
+[KNeighborsClassifier] score :  0.48727272727272725
+[LabelPropagation] score :  0.5696969696969697
+[LabelSpreading] score :  0.5709090909090909
+[LinearDiscriminantAnalysis] score :  0.5381818181818182
+[LinearSVC] score :  0.45454545454545453
+[LogisticRegression] score :  0.46545454545454545
+[LogisticRegressionCV] score :  0.5212121212121212
+[MLPClassifier] score :  0.5187878787878788
+[MultinomialNB] score :  0.3527272727272727
+[NearestCentroid] score :  0.13454545454545455
+[PassiveAggressiveClassifier] score :  0.3321212121212121
+[Perceptron] score :  0.05333333333333334
+[QuadraticDiscriminantAnalysis] score :  0.48848484848484847
+[RandomForestClassifier] score :  0.6448484848484849
+[RidgeClassifier] score :  0.5333333333333333
+[RidgeClassifierCV] score :  0.5333333333333333
+[SGDClassifier] score :  0.3054545454545455
+[SVC] score :  0.44242424242424244
+============================================================
+[The Best score] :  0.6472727272727272
+[The Best model] :  ExtraTreesClassifier
+============================================================
+'''
