@@ -44,13 +44,13 @@ print("="*60)
 [ComplementNB] score :  0.6666666666666666
 [DecisionTreeClassifier] score :  1.0
 [DummyClassifier] score :  0.3333333333333333
-[ExtraTreeClassifier] score :  0.9333333333333333        
+[ExtraTreeClassifier] score :  1.0
 [ExtraTreesClassifier] score :  0.9666666666666667
 [GaussianNB] score :  1.0
 [GaussianProcessClassifier] score :  1.0
 [GradientBoostingClassifier] score :  1.0
 [HistGradientBoostingClassifier] score :  0.9666666666666667
-[KNeighborsClassifier] score :  0.9666666666666667       
+[KNeighborsClassifier] score :  0.9666666666666667
 [LabelPropagation] score :  0.9666666666666667
 [LabelSpreading] score :  0.9666666666666667
 [LinearDiscriminantAnalysis] score :  1.0
@@ -61,13 +61,17 @@ print("="*60)
 [MultinomialNB] score :  0.9666666666666667
 [NearestCentroid] score :  0.9333333333333333
 [NuSVC] score :  1.0
-[PassiveAggressiveClassifier] score :  0.8333333333333334
+[PassiveAggressiveClassifier] score :  0.8
 [Perceptron] score :  0.6666666666666666
 [QuadraticDiscriminantAnalysis] score :  1.0
 [RadiusNeighborsClassifier] score :  1.0
 [RandomForestClassifier] score :  1.0
 [RidgeClassifier] score :  0.8666666666666667
 [RidgeClassifierCV] score :  0.8666666666666667
-[SGDClassifier] score :  0.8666666666666667
+[SGDClassifier] score :  0.9
 [SVC] score :  1.0
+============================================================
+[The Best score] :  1.0
+[The Best model] :  AdaBoostClassifier
+============================================================
 '''

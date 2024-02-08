@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.utils import all_estimators
+from sklearn.metrics import mean_squared_error
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -36,11 +37,24 @@ for name, algorithm in allAlgorithms :
 
         # 평가, 예측
         results = model.score(x_test, y_test)
+        x_predict = model.predict(x_test)
+        mse = mean_squared_error(y_test, x_predict)
         if best_acc < results:
             best_acc = results
             best_model = name
         print(f"[{name}] score : ", results)
-        x_predict = model.predict(x_test)
+        print("mse loss :", mse)
+
+        y_submit = model.predict(test_csv) # count 값이 예측됨.
+        submission_csv['count'] = y_submit
+
+        ######### submission.csv 만들기(count컬럼에 값만 넣어주면됨) ############
+        import time as tm
+        ltm = tm.localtime(tm.time())
+        save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}{type(model).__name__}_{mse}_" 
+        file_path = path + f"submission_{save_time}.csv"
+        submission_csv.to_csv(file_path, index=False)
+
     except:
         continue
 print("="*60)
