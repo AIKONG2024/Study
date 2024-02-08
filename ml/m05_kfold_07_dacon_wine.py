@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.utils import all_estimators
 import warnings
@@ -23,7 +23,7 @@ y = train_csv['quality']
 
 #데이터 분류
 n_splits = 5 
-kf = KFold(n_splits=n_splits, shuffle=True, random_state=123)
+kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 # 모델구성
 model = ExtraTreesClassifier()
@@ -41,7 +41,10 @@ print("acc : ", scores, "\n평균 acc :", round(np.mean(scores),4))
 [The Best model] :  ExtraTreesClassifier
 ============================================================
 [kfold 적용 후]
-acc :  [0.95833333 0.875      0.91666667 1.         0.95833333]
-평균 acc : 0.9417
+acc :  [0.66090909 0.68272727 0.67242948 0.67879891 0.67879891]
+평균 acc : 0.6747
 ============================================================
+[Stratifiedkfold 적용 후]
+acc :  [0.67272727 0.69818182 0.6933576  0.65696087 0.68971793]
+평균 acc : 0.6822
 '''

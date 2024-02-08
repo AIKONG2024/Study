@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.datasets import fetch_covtype
-from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold
 from sklearn.ensemble import BaggingClassifier
 import warnings
 warnings.filterwarnings('ignore')
@@ -17,7 +17,7 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
 n_splits = 5 #데이터의 개수 까지 가능
-kf = KFold(n_splits=n_splits, shuffle=True, random_state=123)
+kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 # 모델구성
 model = BaggingClassifier()

@@ -1,7 +1,7 @@
 #https://dacon.io/competitions/open/236070/
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from sklearn.utils import all_estimators
 from sklearn.ensemble import AdaBoostClassifier
 import warnings
@@ -20,7 +20,7 @@ y = train_csv['species']
 
 #데이터 분류
 n_splits = 5 
-kf = KFold(n_splits=n_splits, shuffle=True, random_state=123)
+kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 # 모델구성
 model = AdaBoostClassifier()
@@ -37,6 +37,11 @@ print("acc : ", scores, "\n평균 acc :", round(np.mean(scores),4))
 [The Best score] :  1.0
 [The Best model] :  AdaBoostClassifier
 ============================================================
-
+[kfold 적용 후]
+acc :  [0.95833333 0.875      0.91666667 1.         0.95833333]
+평균 acc : 0.9417
 ============================================================
+[Stratifiedkfold 적용 후]
+acc :  [0.95833333 0.91666667 0.91666667 0.75       0.95833333]
+평균 acc : 0.9
 '''

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold
 from sklearn.ensemble import BaggingClassifier
 import warnings
 warnings.filterwarnings('ignore')
@@ -35,7 +35,7 @@ y = train_csv['대출등급']
 
 #데이터 분류
 n_splits = 5 
-kf = KFold(n_splits=n_splits, shuffle=True, random_state=123)
+kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 # 모델구성
 model = BaggingClassifier()
@@ -53,7 +53,11 @@ print("acc : ", scores, "\n평균 acc :", round(np.mean(scores),4))
 [The Best model] :  BaggingClassifier
 ============================================================
 [kfold 적용 후]
-acc :  [0.86286931 0.86603666 0.8611039  0.86271354 0.86556236]
+acc :  [0.86312893 0.86660782 0.86577704 0.86250584 0.86031779]
 평균 acc : 0.8637
+============================================================
+[StratifiedKFold 적용 후]
+acc :  [0.86505011 0.86385586 0.86505011 0.86286931 0.86213522]
+평균 acc : 0.8638
 ============================================================
 '''

@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.datasets import load_wine
-from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold
 from sklearn.ensemble import ExtraTreesRegressor
 import warnings
 warnings.filterwarnings('ignore')
@@ -15,7 +15,7 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
 n_splits = 5 #데이터의 개수 까지 가능
-kf = KFold(n_splits=n_splits, shuffle=True, random_state=123)
+kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
 # 모델구성
 model = ExtraTreesRegressor()
@@ -36,4 +36,7 @@ print("acc : ", scores, "\n평균 acc :", round(np.mean(scores),4))
 acc :  [0.97784615 0.96790361 0.96177619 0.94802254 0.92548125]
 평균 acc : 0.9562
 ============================================================
+[Stratifiedkfold 적용 후]
+acc :  [0.92851624 0.95609645 0.94790051 0.98092355 0.95336351] 
+평균 acc : 0.9534
 '''
