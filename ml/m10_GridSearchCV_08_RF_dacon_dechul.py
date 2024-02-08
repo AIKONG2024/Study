@@ -74,8 +74,8 @@ best_model_acc_score :\t{best_acc_score}
 ''')
 
 '''
-최적의 파라미터 :       RandomForestClassifier(min_samples_split=3, n_jobs=-1)
-최적의 매개변수 :       {'min_samples_split': 3, 'n_jobs': -1}
-best score :            0.6502174475126694
-best_model_acc_score :  0.6790909090909091
+최적의 파라미터 :       RandomForestClassifier(min_samples_split=5, n_jobs=2)
+최적의 매개변수 :       {'min_samples_split': 5, 'n_jobs': 2}
+best score :            0.7945609138703187
+best_model_acc_score :  0.7995742250376447
 '''

@@ -48,8 +48,8 @@ best_model_acc_score :\t{best_acc_score}
 ''')
 
 '''
-최적의 파라미터 :       RandomForestRegressor(min_samples_leaf=10)
-최적의 매개변수 :       {'min_samples_leaf': 10, 'min_samples_split': 2}
-best score :            0.41358555127487423
-best_model_acc_score :  0.5665789288865843
+최적의 파라미터 :       RandomForestRegressor(n_jobs=-1)
+최적의 매개변수 :       {'min_samples_split': 2, 'n_jobs': -1}
+best score :            0.8574265827431973
+best_model_acc_score :  0.7903848069966082
 '''

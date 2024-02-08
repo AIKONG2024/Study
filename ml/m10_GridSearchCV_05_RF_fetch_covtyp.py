@@ -46,3 +46,10 @@ print(f'''
 best score :\t\t{model.best_score_}
 best_model_acc_score :\t{best_acc_score}
 ''')
+
+'''
+최적의 파라미터 :       RandomForestClassifier(min_samples_split=3, n_jobs=2)
+최적의 매개변수 :       {'min_samples_split': 3, 'n_jobs': 2}
+best score :            0.7961965340429675
+best_model_acc_score :  0.7985876732956021
+'''
