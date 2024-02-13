@@ -1,13 +1,14 @@
 import numpy as np
-from sklearn.model_selection import train_test_split, KFold, cross_val_score,cross_val_predict
-from sklearn.datasets import fetch_california_housing
-from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, cross_val_predict
+from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.metrics import r2_score
 import warnings
 warnings.filterwarnings('ignore')
 
-# 1. 데이터
-x,y = fetch_california_housing(return_X_y=True)
+datasets= load_boston()
+x = datasets.data
+y = datasets.target
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict, StratifiedKFold, GridSearchCV,RandomizedSearchCV
@@ -30,7 +31,7 @@ parameters = [
     {"n_jobs": [-1, 2, 4], "min_samples_split": [2, 3, 5, 10]},
 ]
 rfc = RandomForestRegressor()
-model = RandomizedSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1, random_state=42)
+model = RandomizedSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1,random_state=42)
 import time
 start_time = time.time()
 model.fit(x_train, y_train)
@@ -51,28 +52,27 @@ best_model_acc_score :\t{best_acc_score}
 ''')
 
 '''
-최적의 파라미터 :       RandomForestRegressor(min_samples_split=3, n_jobs=-1)
-최적의 매개변수 :       {'min_samples_split': 3, 'n_jobs': -1}
-best score :            0.8039112943592761
-best_model_acc_score :  0.8134536895590825
+최적의 파라미터 :       RandomForestRegressor(n_jobs=-1)
+최적의 매개변수 :       {'min_samples_split': 2, 'n_jobs': -1}
+best score :            0.8574265827431973
+best_model_acc_score :  0.7903848069966082
 
 Fitting 5 folds for each of 60 candidates, totalling 300 fits
-걸린 시간 : 72.46 초
-best_model_acc_score :  0.8154475136783064
+걸린 시간 : 4.29 초
+best_model_acc_score :  0.777612886428204
 
 최적의 파라미터 :       RandomForestRegressor(min_samples_split=3)
 최적의 매개변수 :       {'min_samples_split': 3}
-best score :            0.8038639575439561
-best_model_acc_score :  0.8154475136783064
-=========================
-randsearch
+best score :            0.8564366007785301
+best_model_acc_score :  0.777612886428204
+====================
+randsearcv
 Fitting 5 folds for each of 10 candidates, totalling 50 fits
-걸린 시간 : 18.93 초
-best_model_acc_score :  0.813738022428296
+걸린 시간 : 2.64 초
+best_model_acc_score :  0.7826322483486509
 
 최적의 파라미터 :       RandomForestRegressor(min_samples_split=3)
 최적의 매개변수 :       {'min_samples_split': 3}
-best score :            0.8026604995320682
-best_model_acc_score :  0.813738022428296
-
+best score :            0.8569929458900368
+best_model_acc_score :  0.7826322483486509
 '''

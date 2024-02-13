@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.datasets import fetch_covtype
-from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold, cross_val_predict
+from sklearn.experimental import enable_halving_search_cv
+from sklearn.model_selection import train_test_split, KFold, cross_val_score, StratifiedKFold, cross_val_predict, HalvingGridSearchCV
 from sklearn.ensemble import BaggingClassifier
 from sklearn.metrics import accuracy_score
 import warnings
@@ -31,7 +32,7 @@ parameters = [
     {"n_jobs": [-1, 2, 4], "min_samples_split": [2, 3, 5, 10]},
 ]
 rfc = RandomForestClassifier()
-model = RandomizedSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1, random_state=42)
+model = HalvingGridSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1, random_state=42, factor=3)
 import time
 start_time = time.time()
 model.fit(x_train, y_train)
