@@ -126,4 +126,13 @@ score : 0.9166666666666666
 걸린 시간 : 0.05 초
 =============================
 Pipeline + gridsearch
+Fitting 5 folds for each of 28 candidates, totalling 140 fits
+걸린 시간 : 3.97 초
+best_model_acc_score :  0.9166666666666666
+
+최적의 파라미터 :       Pipeline(steps=[('MM', MinMaxScaler()),
+                ('RF', RandomForestClassifier(min_samples_leaf=3, n_jobs=-1))])
+최적의 매개변수 :       {'RF__min_samples_leaf': 3, 'RF__n_estimators': 100, 'RF__n_jobs': -1}
+best score :            0.958421052631579
+best_model_acc_score :  0.9166666666666666
 '''

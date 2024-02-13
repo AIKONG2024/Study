@@ -127,5 +127,15 @@ score : 0.9555949502164316
 걸린 시간 : 57.48 초
 ==============================
 Pipeline + gridsearch
+걸린 시간 : 2146.29 초
+best_model_acc_score :  0.9554916826587954
 
+최적의 파라미터 :                                                                       
+Pipeline(steps=[('MM', MinMaxScaler()), ('RF', RandomForestClassifier())])
+최적의 매개변수 :                                                                       
+{'RF__min_samples_split': 2}
+best score :                                                                            
+0.9499945158557255
+best_model_acc_score :                                                                  
+0.9554916826587954
 '''

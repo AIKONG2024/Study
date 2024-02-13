@@ -31,25 +31,19 @@ x_train, x_test, y_train , y_test = train_test_split(
     stratify= y
 )
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-scaler = MinMaxScaler()
-# x_train = scaler.fit_transform(x_train)
-# x_test = scaler.transform(x_test)
+parameters = [
+    {"RF__n_jobs" : [-1], "RF__n_estimators": [100, 200],  "RF__min_samples_leaf": [3, 10]},
+    {"RF__n_jobs" : [-1], "RF__min_samples_leaf": [3, 5, 7, 10]},
+    {"RF__n_jobs" : [-1], "RF__min_samples_leaf": [3, 5, 7, 10], "RF__min_samples_split": [2, 3, 5, 10]},
+    {"RF__n_jobs" : [-1], "RF__min_samples_split": [2, 3, 5, 10]},
+]
 
-# n_splits = 5
-# kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
-
-# parameters = [
-#     {"n_estimators": [100, 200], "max_depth": [6, 10, 12], "min_samples_leaf": [3, 10]},
-#     {"max_depth": [6, 8, 10, 12], "min_samples_leaf": [3, 5, 7, 10]},
-#     {"min_samples_leaf": [3, 5, 7, 10], "min_samples_split": [2, 3, 5, 10]},
-#     {"min_samples_split": [2, 3, 5, 10]},
-#     {"n_jobs": [-1, 2, 4], "min_samples_split": [2, 3, 5, 10]},
-# ]
-# rfc = RandomForestClassifier()
-# model = HalvingGridSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1, random_state=42)
-
-from sklearn.pipeline import make_pipeline
-model = make_pipeline(MinMaxScaler(), RandomForestClassifier(min_samples_split= 2))
+from sklearn.pipeline import Pipeline
+pipe = Pipeline([("MM", MinMaxScaler()), 
+                  ("RF", RandomForestClassifier())])
+model = GridSearchCV(pipe, parameters, cv=5, verbose=1,  n_jobs= -1 )
+# model = RandomizedSearchCV(pipe, parameters, cv=5, verbose=1,  n_jobs= -1 )
+# model = HalvingGridSearchCV(pipe, parameters, cv=5, verbose=1,  n_jobs= -1 )
 
 import time
 start_time = time.time()
@@ -57,23 +51,18 @@ model.fit(x_train, y_train)
 end_time = time.time()
 print("걸린 시간 :", round(end_time - start_time ,2 ), "초")
 
+
 from sklearn.metrics import accuracy_score
-# best_predict = model.best_estimator_.predict(x_test)
-# best_acc_score = accuracy_score(y_test, best_predict)
+best_predict = model.best_estimator_.predict(x_test)
+best_acc_score = accuracy_score(y_test, best_predict)
 
-# print("best_model_acc_score : ", best_acc_score) #best_acc_score :  0.9333333333333333
-
-# print(f'''
-# 최적의 파라미터 :\t{model.best_estimator_}
-# 최적의 매개변수 :\t{model.best_params_}
-# best score :\t\t{model.best_score_}
-# best_model_acc_score :\t{best_acc_score}
-# ''')
-predict = model.predict(x_test)
+print("best_model_acc_score : ", best_acc_score) #best_acc_score :  0.9333333333333333
 
 print(f'''
-score : {accuracy_score(y_test, predict)}
-걸린 시간 : {round(end_time - start_time ,2 )} 초
+최적의 파라미터 :\t{model.best_estimator_}
+최적의 매개변수 :\t{model.best_params_}
+best score :\t\t{model.best_score_}
+best_model_acc_score :\t{best_acc_score}
 ''')
 
 
@@ -143,4 +132,14 @@ best_model_acc_score :  0.6318181818181818
 pipeline
 score : 0.6863636363636364
 걸린 시간 : 0.46 초
+=================
+Pipeline+gridsearch
+걸린 시간 : 6.55 초
+best_model_acc_score :  0.68
+
+최적의 파라미터 :       Pipeline(steps=[('MM', MinMaxScaler()),
+                ('RF', RandomForestClassifier(n_jobs=-1))])
+최적의 매개변수 :       {'RF__min_samples_split': 2, 'RF__n_jobs': -1}
+best score :            0.6604550625711035
+best_model_acc_score :  0.68
 '''
