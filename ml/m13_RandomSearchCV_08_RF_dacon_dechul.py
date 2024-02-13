@@ -36,7 +36,7 @@ x = train_csv.drop('대출등급', axis=1)
 y = train_csv['대출등급']
 
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict, StratifiedKFold, GridSearchCV
+from sklearn.model_selection import train_test_split, cross_val_score, cross_val_predict, StratifiedKFold, GridSearchCV,RandomizedSearchCV
 
 x_train, x_test, y_train , y_test = train_test_split(
     x, y, shuffle= True, random_state=123, train_size=0.8,
@@ -67,10 +67,12 @@ parameters = [
 ]
 
 rfc = RandomForestClassifier()
-model = GridSearchCV(rfc, param_grid=parameters, cv=kf , n_jobs=-1, refit=True, verbose=1)
+model = RandomizedSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1,random_state=42)
+import time
 start_time = time.time()
 model.fit(x_train, y_train)
 end_time = time.time()
+print("걸린 시간 :", round(end_time - start_time ,2 ), "초")
 
 from sklearn.metrics import accuracy_score
 best_predict = model.best_estimator_.predict(x_test)
@@ -92,7 +94,19 @@ print("걸린시간: ", round(end_time - start_time, 2) ,"초")
 최적의 매개변수 :       {'min_samples_split': 5, 'n_jobs': 2}
 best score :            0.7945609138703187
 best_model_acc_score :  0.7995742250376447
-'''
 
 #걸린시간:  121.13 초
 #파라미터 수정 후, 걸린시간:  85.7 초
+=====================
+rdsearch
+Fitting 5 folds for each of 10 candidates, totalling 50 fits
+걸린 시간 : 19.05 초
+best_model_acc_score :  0.7716392336050678
+
+최적의 파라미터 :       RandomForestClassifier(min_samples_leaf=7, min_samples_split=3, n_jobs=-1)
+최적의 매개변수 :       {'n_jobs': -1, 'min_samples_split': 3, 'min_samples_leaf': 7}
+best score :            0.7603167391445447
+best_model_acc_score :  0.7716392336050678
+
+걸린시간:  19.05 초
+'''
