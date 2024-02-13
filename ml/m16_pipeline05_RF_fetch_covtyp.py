@@ -17,22 +17,26 @@ x_train, x_test, y_train , y_test = train_test_split(
     stratify= y
 )
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-scaler = MinMaxScaler()
-x_train = scaler.fit_transform(x_train)
-x_test = scaler.transform(x_test)
+# scaler = MinMaxScaler()
+# x_train = scaler.fit_transform(x_train)
+# x_test = scaler.transform(x_test)
 
-n_splits = 5
-kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
+# n_splits = 5
+# kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=123)
 
-parameters = [
-    {"n_estimators": [100, 200], "max_depth": [6, 10, 12], "min_samples_leaf": [3, 10]},
-    {"max_depth": [6, 8, 10, 12], "min_samples_leaf": [3, 5, 7, 10]},
-    {"min_samples_leaf": [3, 5, 7, 10], "min_samples_split": [2, 3, 5, 10]},
-    {"min_samples_split": [2, 3, 5, 10]},
-    {"n_jobs": [-1, 2, 4], "min_samples_split": [2, 3, 5, 10]},
-]
-rfc = RandomForestClassifier()
-model = HalvingGridSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1, random_state=42, factor=3, min_resources=3000)
+# parameters = [
+#     {"n_estimators": [100, 200], "max_depth": [6, 10, 12], "min_samples_leaf": [3, 10]},
+#     {"max_depth": [6, 8, 10, 12], "min_samples_leaf": [3, 5, 7, 10]},
+#     {"min_samples_leaf": [3, 5, 7, 10], "min_samples_split": [2, 3, 5, 10]},
+#     {"min_samples_split": [2, 3, 5, 10]},
+#     {"n_jobs": [-1, 2, 4], "min_samples_split": [2, 3, 5, 10]},
+# ]
+# rfc = RandomForestClassifier()
+# model = HalvingGridSearchCV(rfc, parameters, cv=kf , n_jobs=-1, refit=True, verbose=1, random_state=42, factor=3, min_resources=3000)
+
+from sklearn.pipeline import make_pipeline
+model = make_pipeline(MinMaxScaler(), RandomForestClassifier(min_samples_split= 2))
+
 import time
 start_time = time.time()
 model.fit(x_train, y_train)
@@ -40,17 +44,24 @@ end_time = time.time()
 print("걸린 시간 :", round(end_time - start_time ,2 ), "초")
 
 from sklearn.metrics import accuracy_score
-best_predict = model.best_estimator_.predict(x_test)
-best_acc_score = accuracy_score(y_test, best_predict)
+# best_predict = model.best_estimator_.predict(x_test)
+# best_acc_score = accuracy_score(y_test, best_predict)
 
-print("best_model_acc_score : ", best_acc_score) #best_acc_score :  0.9333333333333333
+# print("best_model_acc_score : ", best_acc_score) #best_acc_score :  0.9333333333333333
+
+# print(f'''
+# 최적의 파라미터 :\t{model.best_estimator_}
+# 최적의 매개변수 :\t{model.best_params_}
+# best score :\t\t{model.best_score_}
+# best_model_acc_score :\t{best_acc_score}
+# ''')
+predict = model.predict(x_test)
 
 print(f'''
-최적의 파라미터 :\t{model.best_estimator_}
-최적의 매개변수 :\t{model.best_params_}
-best score :\t\t{model.best_score_}
-best_model_acc_score :\t{best_acc_score}
+score : {accuracy_score(y_test, predict)}
+걸린 시간 : {round(end_time - start_time ,2 )} 초
 ''')
+
 
 '''
 최적의 파라미터 :       RandomForestClassifier(min_samples_split=3, n_jobs=2)
@@ -120,5 +131,10 @@ best score :
 0.89333199580221
 best_model_acc_score :                                                                 
 0.9560510485959915
+
+=====================
+pipeline
+score : 0.9555949502164316
+걸린 시간 : 57.48 초
 
 '''
