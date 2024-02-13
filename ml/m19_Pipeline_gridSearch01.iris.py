@@ -1,5 +1,6 @@
 from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
+from sklearn.experimental import enable_halving_search_cv
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, HalvingGridSearchCV
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
@@ -13,14 +14,20 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size=0.8, random_state=13, stratify=y
 )
 
-# 모델구성
-# scaler = MinMaxScaler()
-# x_train = scaler.fit_transform(x_train)
-# x_test = scaler.transform(x_test)
+parameters = [
+    {"RF__n_jobs" : [-1], "RF__n_estimators": [100, 200],  "RF__min_samples_leaf": [3, 10]},
+    {"RF__n_jobs" : [-1], "RF__min_samples_leaf": [3, 5, 7, 10]},
+    {"RF__n_jobs" : [-1], "RF__min_samples_leaf": [3, 5, 7, 10], "RF__min_samples_split": [2, 3, 5, 10]},
+    {"RF__n_jobs" : [-1], "RF__min_samples_split": [2, 3, 5, 10]},
+]
 
-# model = make_pipeline(MinMaxScaler(), RandomForestClassifier())
-model = Pipeline([("MM", MinMaxScaler()), 
+# 2. 모델
+# 모델구성
+pipe = Pipeline([("MM", MinMaxScaler()), 
                   ("RF", RandomForestClassifier())])
+model = GridSearchCV(pipe, parameters, cv=5, verbose=1,  n_jobs= -1 )
+model = RandomizedSearchCV(pipe, parameters, cv=5, verbose=1,  n_jobs= -1 )
+model = HalvingGridSearchCV(pipe, parameters, cv=5, verbose=1,  n_jobs= -1 )
 
 # models = RandomForestClassifier()
 # 컴파일, 훈련
@@ -49,4 +56,10 @@ print(f"[{type(model).__name__}] model accuracy_score : ", acc_score)
 [DecisionTreeClassifier] model accuracy_score :  0.9666666666666667
 [RandomForestClassifier] model.score :  1.0
 [RandomForestClassifier] model accuracy_score :  1.0
+
+
+==================
+Pipeline Gridsearch 적용
+[GridSearchCV] model.score :  1.0
+[GridSearchCV] model accuracy_score :  1.0
 """
