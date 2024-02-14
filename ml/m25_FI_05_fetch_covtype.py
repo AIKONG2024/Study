@@ -71,16 +71,16 @@ for model in models:
     # print(type(model).__name__ ,":", model.feature_importances_)
     
     # 25%이하 컬럼
-    # feature_importance_set = pd.DataFrame({'feature': x.columns, 'importance':model.feature_importances_})
-    # feature_importance_set.sort_values('importance', inplace=True)
-    # delete_0_25_features = feature_importance_set['feature'][:int(len(feature_importance_set.values) * 0.25)]
-    # delete_0_25_importance = feature_importance_set['importance'][:int(len(feature_importance_set.values) * 0.25)]
-    # print(f'''
-    # 제거 할 컬럼명 : 
-    # {delete_0_25_features}  
-    # 제거 할 feature_importances_ : 
-    # {delete_0_25_importance}    
-    # ''')
+    feature_importance_set = pd.DataFrame({'feature': x.columns, 'importance':model.feature_importances_})
+    feature_importance_set.sort_values('importance', inplace=True)
+    delete_0_25_features = feature_importance_set['feature'][:int(len(feature_importance_set.values) * 0.25)]
+    delete_0_25_importance = feature_importance_set['importance'][:int(len(feature_importance_set.values) * 0.25)]
+    print(f'''
+    제거 할 컬럼명 : 
+    {delete_0_25_features}  
+    제거 할 feature_importances_ : 
+    {delete_0_25_importance}    
+    ''')
 
 '''
 [RandomForestClassifier] model acc :  0.9532081879933909
