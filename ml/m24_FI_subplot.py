@@ -58,7 +58,8 @@ for idx, model in enumerate(models) :
         plt.yticks(np.arange(n_features), datasets.feature_names) #눈금값 설정
         plt.xlabel("Feature Importances") #xlabel
         plt.ylabel("Features") #ylabel
-        plt.ylim(-1, n_features) #y축 제한 
+        top,bottom = plt.ylim(-1, n_features) #y축 제한 
+        print(top, bottom)
         plt.title(model, pad=15)
     plt.subplot(2,2,idx+1)
     plt.subplots_adjust(left=0.2,bottom=0.1, wspace=1, hspace=1)
