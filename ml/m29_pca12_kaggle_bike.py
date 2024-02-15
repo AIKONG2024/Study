@@ -5,6 +5,8 @@ from sklearn.linear_model import Perceptron, LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.decomposition import PCA
+
 import time
 
 from sklearn.metrics import r2_score, mean_squared_error
@@ -14,23 +16,36 @@ test_csv =pd.read_csv(path + 'test.csv', index_col=0)
 submission_csv = pd.read_csv(path + 'sampleSubmission.csv')
 
 #데이터 전처리
-x = train_csv.drop('count', axis=1).drop('casual', axis=1).drop('registered', axis=1)
-y = train_csv['count']
+# x = train_csv.drop('count', axis=1).drop('casual', axis=1).drop('registered', axis=1)
+# y = train_csv['count']
     
 #데이터
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x,y, train_size= 0.7, random_state= 12345)
+# x_train, x_test, y_train, y_test = train_test_split(x,y, train_size= 0.7, random_state= 12345)
 
 from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
-x_test = scaler.transform(x_test)
-test_csv = scaler.transform(test_csv)
+# scaler = StandardScaler()
+# scaler.fit(x_train)
+# x_train = scaler.transform(x_train)
+# x_test = scaler.transform(x_test)
+# test_csv = scaler.transform(test_csv)
 
 #모델 생성
 model = RandomForestRegressor()
 for idx in range(1,len(train_csv.columns)) :
+    x = train_csv.drop('count', axis=1).drop('casual', axis=1).drop('registered', axis=1)
+    y = train_csv['count']
+    
+    scaler = StandardScaler()
+    x = scaler.fit_transform(x)
+    s_test_csv = scaler.transform(test_csv)
+    
+    pca = PCA(n_components=idx)
+    x = pca.fit_transform(x)
+    a_test_csv = pca.transform(s_test_csv)
+    
+    x_train, x_test, y_train, y_test = train_test_split(x,y, train_size= 0.7, random_state= 12345)
+    
     # 컴파일, 훈련
     model.fit(x_train, y_train)
 
@@ -44,14 +59,20 @@ for idx in range(1,len(train_csv.columns)) :
     score : {r2_score(y_test, predict)}
     걸린 시간 : {round(end_time - start_time ,2 )} 초
     ''')
-    submit = model.predict(test_csv)
+    submit = model.predict(a_test_csv)
     # #데이터 출력
     submission_csv['count'] = submit
     import time as tm
     ltm = tm.localtime()
     file_name = f'sampleSubmission_{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}{type(model).__name__}.csv'
     submission_csv.to_csv(path + file_name, index = False )
+    
+evr = pca.explained_variance_ratio_
+print(evr)
+print(evr.sum())
 
+evr_cumsum = np.cumsum(evr)
+print(evr_cumsum)
 
 '''
 [RandomForestRegressor] mode eval_r2 :  0.26565193551130906

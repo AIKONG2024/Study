@@ -39,10 +39,13 @@ for idx in range(1,len(train_csv.columns)) :
     y = train_csv['quality']
     
     scaler = StandardScaler()
-    x_train = scaler.fit_transform(x)
+    x = scaler.fit_transform(x)
+    s_test_csv = scaler.transform(test_csv)
+
+    
     pca = PCA(n_components=idx)
     x = pca.fit_transform(x)
-    a_test_csv = pca.fit_transform(test_csv)
+    a_test_csv = pca.transform(s_test_csv)
     
     x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.85, random_state=1234567, stratify=y)
     
@@ -69,64 +72,77 @@ for idx in range(1,len(train_csv.columns)) :
     save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}" 
     file_path = path + f"sampleSubmission{save_time}.csv"
     submission_csv.to_csv(file_path, index=False)
+evr = pca.explained_variance_ratio_
+print(evr)
+print(evr.sum())
+
+evr_cumsum = np.cumsum(evr)
+print(evr_cumsum)
 '''
-     pca n_components : 1
-    score : 0.5006060606060606
+    pca n_components : 1
+    score : 0.48363636363636364
     걸린 시간 : 0.39 초
 
 
     pca n_components : 2
-    score : 0.5515151515151515
-    걸린 시간 : 0.37 초
+    score : 0.5333333333333333
+    걸린 시간 : 0.35 초
 
 
     pca n_components : 3
-    score : 0.5696969696969697
-    걸린 시간 : 0.36 초
+    score : 0.5890909090909091
+    걸린 시간 : 0.35 초
 
 
     pca n_components : 4
-    score : 0.6084848484848485
-    걸린 시간 : 0.54 초
-
-
-    pca n_components : 5 
-    score : 0.6266666666666667
-    걸린 시간 : 0.52 초
-    
-
-    pca n_components : 6 
-    score : 0.6290909090909091
-    걸린 시간 : 0.51 초
-    
-
-    pca n_components : 7 
-    score : 0.6424242424242425
+    score : 0.6145454545454545
     걸린 시간 : 0.53 초
 
 
+    pca n_components : 5
+    score : 0.6218181818181818
+    걸린 시간 : 0.51 초
+
+
+    pca n_components : 6
+    score : 0.6424242424242425
+    걸린 시간 : 0.51 초
+
+
+    pca n_components : 7
+    score : 0.6472727272727272
+    걸린 시간 : 0.5 초
+
+
     pca n_components : 8
-    score : 0.6581818181818182
-    걸린 시간 : 0.52 초
+    score : 0.6387878787878788
+    걸린 시간 : 0.5 초
 
 
     pca n_components : 9
-    score : 0.6533333333333333
-    걸린 시간 : 0.69 초
+    score : 0.6424242424242425
+    걸린 시간 : 0.66 초
 
 
     pca n_components : 10
-    score : 0.6557575757575758
-    걸린 시간 : 0.69 초
+    score : 0.6448484848484849
+    걸린 시간 : 0.67 초
 
 
     pca n_components : 11
-    score : 0.6363636363636364
-    걸린 시간 : 0.69 초
+    score : 0.6339393939393939
+    걸린 시간 : 0.67 초
 
 
     pca n_components : 12
-    score : 0.6593939393939394
-    걸린 시간 : 0.68 초
+    score : 0.64
+    걸린 시간 : 0.66 초
+
+[9.56704647e-01 3.79300330e-02 4.56924439e-03 4.58432263e-04
+ 2.95880132e-04 2.53319059e-05 6.16136133e-06 4.27001768e-06
+ 3.27971821e-06 2.48344761e-06 2.36756563e-07 8.04135589e-11]
+0.9999999999999999
+[0.95670465 0.99463468 0.99920392 0.99966236 0.99995824 0.99998357
+ 0.99998973 0.999994   0.99999728 0.99999976 1.         1.        ]
 '''
 

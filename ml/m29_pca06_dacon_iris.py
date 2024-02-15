@@ -27,9 +27,13 @@ for idx in range(1,len(train_csv.columns)) :
     x = train_csv.drop(columns='species')
     y = train_csv['species']
     scaler = StandardScaler()
-    x_train = scaler.fit_transform(x)
+    x = scaler.fit_transform(x)
+    s_test_csv = scaler.transform(test_csv)
+    
     pca = PCA(n_components=idx)
     x = pca.fit_transform(x)
+    a_test_csv = pca.transform(s_test_csv)
+    
     
     x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7, random_state=200, stratify=y)
     
@@ -46,9 +50,16 @@ for idx in range(1,len(train_csv.columns)) :
     score : {accuracy_score(y_test, predict)}
     걸린 시간 : {round(end_time - start_time ,2 )} 초
     ''')
+evr = pca.explained_variance_ratio_
+print(evr)
+print(evr.sum())
+
+evr_cumsum = np.cumsum(evr)
+print(evr_cumsum)
 '''
+
     pca n_components : 1
-    score : 0.9166666666666666
+    score : 0.9444444444444444
     걸린 시간 : 0.04 초
 
 
@@ -58,11 +69,15 @@ for idx in range(1,len(train_csv.columns)) :
 
 
     pca n_components : 3
-    score : 0.9722222222222222
-    걸린 시간 : 0.04 초
+    score : 1.0
+    걸린 시간 : 0.05 초
 
 
     pca n_components : 4
-    score : 0.9722222222222222
-    걸린 시간 : 0.04 초
+    score : 1.0
+    걸린 시간 : 0.05 초
+
+[0.72551423 0.23000922 0.03960774 0.00486882]
+1.0000000000000002
+[0.72551423 0.95552345 0.99513118 1.        ]
 '''
