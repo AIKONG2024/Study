@@ -40,12 +40,34 @@ for idx in range(1,len(datasets.feature_names)) :
     ''')
 
 '''
-[LogisticRegression] model acc :  0.7229495593904902
-[LogisticRegression] eval_acc :  0.7229495593904902
-[KNeighborsClassifier] model acc :  0.9258249954103176
-[KNeighborsClassifier] eval_acc :  0.9258249954103176
-[DecisionTreeClassifier] model acc :  0.9352281072149807
-[DecisionTreeClassifier] eval_acc :  0.9352281072149807
 [RandomForestClassifier] model acc :  0.9532081879933909
 [RandomForestClassifier] eval_acc :  0.9532081879933909
+    pca n_components : 1      
+    score : 0.4156339898207568
+    걸린 시간 : 115.67 초     
+    
+
+    pca n_components : 2      
+    score : 0.4975658331489268
+    걸린 시간 : 71.74 초      
+    
+
+    pca n_components : 3     
+    score : 0.772983206707482
+    걸린 시간 : 59.97 초     
+    
+
+    pca n_components : 4     
+    score : 0.921578028570726
+    걸린 시간 : 87.6 초      
+    
+
+    pca n_components : 5      
+    score : 0.9483538639325317
+    걸린 시간 : 90.06 초      
+    
+
+    pca n_components : 6      
+    score : 0.9530316441690639
+    걸린 시간 : 94.98 초 
 '''
