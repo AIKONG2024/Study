@@ -10,11 +10,13 @@ import time
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.callbacks import EarlyStopping
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.metrics import accuracy_score
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 print(x_train.shape, x_test.shape) #(60000, 28, 28) (10000, 28, 28)
 x = np.concatenate([x_train, x_test], axis=0) #(70000, 28, 28)
+y = np.concatenate([y_train, y_test], axis=0) #(70000, 28, 28)
 print(x.shape) #(70000, 28, 28)
 
 ############실습2###############
@@ -34,14 +36,16 @@ x = x.reshape(-1, 28*28)
 # scaler = StandardScaler()
 # x = scaler.fit_transform(x)
 
-components = [154, 331,486,713,784] 
-
-for component in components : 
-    pca = PCA(n_components=component)
-    pca_x = pca.fit_transform(x)
+unique = np.unique(y_train)
+# print(unique)
+for idx in range(1,min(28*28, len(unique))) :
+    lda = LinearDiscriminantAnalysis(n_components=idx)
+    lda_x = lda.fit_transform(x,y)
     
-    x_train = pca_x[:60000]
-    x_test = pca_x[60000:]
+    x_train, x_test, y_train , y_test = train_test_split(
+    x, y, shuffle= True, random_state=123, train_size=0.8,
+    stratify= y
+    )
         
     #모델구성
     model = Sequential()
@@ -59,7 +63,7 @@ for component in components :
     
     loss = model.evaluate(x_test, y_test, verbose=0)
     predict = np.argmax(model.predict(x_test, verbose=0), axis=1) 
-    print(f"PCA = {component}")
+    print(f"LDA = {idx}")
     print("acc score :", accuracy_score(y_test,predict))
     print("걸린시간 : ", round(end_time - start_time ,2 ), "초")
     
@@ -69,19 +73,34 @@ for component in components :
 #acc = 0.0000
 
 '''
-PCA = 154
-acc score : 0.9666
-걸린시간 :  8.88 초
-PCA = 331
-acc score : 0.9643
-걸린시간 :  8.93 초
-PCA = 486
-acc score : 0.9653
-걸린시간 :  9.01 초
-PCA = 713
-acc score : 0.9644
-걸린시간 :  9.23 초
-PCA = 784
-acc score : 0.9633
-걸린시간 :  9.27 초
+LDA = 1
+acc score : 0.9474285714285714
+걸린시간 :  9.38 초
+LDA = 2
+acc score : 0.9450714285714286
+걸린시간 :  9.46 초
+LDA = 3
+acc score : 0.9397142857142857
+걸린시간 :  9.45 초
+LDA = 4
+acc score : 0.9461428571428572
+걸린시간 :  8.96 초
+LDA = 5
+acc score : 0.9487142857142857
+걸린시간 :  9.34 초
+LDA = 6
+acc score : 0.9500714285714286
+걸린시간 :  8.73 초
+LDA = 7
+acc score : 0.953
+걸린시간 :  8.96 초
+LDA = 8
+acc score : 0.9512857142857143
+걸린시간 :  8.48 초
+LDA = 9
+acc score : 0.9411428571428572
+걸린시간 :  8.68 초
+========================
+
+
 '''
