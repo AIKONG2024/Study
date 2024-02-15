@@ -8,6 +8,8 @@ from sklearn.linear_model import Perceptron, LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+import time
+
 
 path = "C:/_data/dacon/iris/"
 
@@ -24,31 +26,38 @@ y = train_csv['species']
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7, random_state=200, stratify=y)
 
 #모델 생성
-models = [LinearSVC(), Perceptron(), LogisticRegression(), KNeighborsClassifier(), DecisionTreeClassifier(), RandomForestClassifier()]
-for model in models:
+model = RandomForestClassifier()
+for idx in range(1,len(train_csv.columns)) :
     #컴파일 , 훈련
     model.fit(x_train, y_train)
 
-    #평가, 예측
-    acc = model.score(x_test, y_test)
-    y_predict = model.predict(x_test)
-
-    acc_pred = accuracy_score(y_test, y_predict) 
-    submission = model.predict(test_csv)
-    submission_csv['species'] = submission
-    print(f"[{type(model).__name__}] model acc : ", acc)
-    print(f"[{type(model).__name__}] eval_acc : ", acc_pred)
+    # 평가 예측
+    start_time = time.time()
+    model.fit(x_train, y_train)
+    end_time = time.time()
+    predict = model.predict(x_test)
+    print(f'''
+    pca n_components : {idx} 
+    score : {accuracy_score(y_test, predict)}
+    걸린 시간 : {round(end_time - start_time ,2 )} 초
+    ''')
 '''
-[LinearSVC] model acc :  0.9722222222222222
-[LinearSVC] eval_acc :  0.9722222222222222
-[Perceptron] model acc :  0.8333333333333334
-[Perceptron] eval_acc :  0.8333333333333334
-[LogisticRegression] model acc :  1.0
-[LogisticRegression] eval_acc :  1.0
-[KNeighborsClassifier] model acc :  1.0
-[KNeighborsClassifier] eval_acc :  1.0
-[DecisionTreeClassifier] model acc :  1.0
-[DecisionTreeClassifier] eval_acc :  1.0
-[RandomForestClassifier] model acc :  1.0
-[RandomForestClassifier] eval_acc :  1.0
+    pca n_components : 1
+    score : 1.0
+    걸린 시간 : 0.05 초
+
+
+    pca n_components : 2
+    score : 1.0
+    걸린 시간 : 0.04 초
+
+
+    pca n_components : 3
+    score : 1.0
+    걸린 시간 : 0.05 초
+
+
+    pca n_components : 4
+    score : 1.0
+    걸린 시간 : 0.04 초
 '''

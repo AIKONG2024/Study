@@ -12,6 +12,8 @@ from sklearn.linear_model import Perceptron, LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+import time
+
 
 path = "C:/_data/dacon/wine/"
 
@@ -30,20 +32,23 @@ y = train_csv['quality']
 x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.85, random_state=1234567, stratify=y)
 
 #모델 생성
-models = [LinearSVC(), Perceptron(), LogisticRegression(), KNeighborsClassifier(), DecisionTreeClassifier(), RandomForestClassifier()]
-for model in models:
+model = RandomForestClassifier()
+for idx in range(1,len(train_csv.columns)) :
 
     #컴파일 , 훈련
     model.fit(x_train, y_train)
 
-    #평가, 예측
-    acc = model.score(x_test, y_test)
-    y_predict = model.predict(x_test)
-    acc_pred = accuracy_score(y_test, y_predict) 
+    # 평가 예측
+    start_time = time.time()
+    model.fit(x_train, y_train)
+    end_time = time.time()
+    predict = model.predict(x_test)
+    print(f'''
+    pca n_components : {idx} 
+    score : {accuracy_score(y_test, predict)}
+    걸린 시간 : {round(end_time - start_time ,2 )} 초
+    ''')
     submission = model.predict(test_csv)
-    print(f"[{type(model).__name__}] model acc : ", acc)
-    print(f"[{type(model).__name__}] eval_acc : ", acc_pred)
-    
     submission_csv['quality'] = submission
     submission_csv['quality'] += 3
 
@@ -54,17 +59,63 @@ for model in models:
     file_path = path + f"sampleSubmission{save_time}.csv"
     submission_csv.to_csv(file_path, index=False)
 '''
-[LinearSVC] model acc :  0.3333333333333333
-[LinearSVC] eval_acc :  0.3333333333333333
-[Perceptron] model acc :  0.05333333333333334
-[Perceptron] eval_acc :  0.05333333333333334
-[LogisticRegression] model acc :  0.46545454545454545
-[LogisticRegression] eval_acc :  0.46545454545454545
-[KNeighborsClassifier] model acc :  0.48727272727272725
-[KNeighborsClassifier] eval_acc :  0.48727272727272725
-[DecisionTreeClassifier] model acc :  0.576969696969697
-[DecisionTreeClassifier] eval_acc :  0.576969696969697
-[RandomForestClassifier] model acc :  0.6581818181818182
-[RandomForestClassifier] eval_acc :  0.6581818181818182
+    pca n_components : 1 
+    score : 0.6521212121212121
+    걸린 시간 : 0.48 초
+    
+
+    pca n_components : 2 
+    score : 0.6448484848484849
+    걸린 시간 : 0.48 초
+
+
+    pca n_components : 3
+    score : 0.6521212121212121
+    걸린 시간 : 0.47 초
+
+
+    pca n_components : 4
+    score : 0.6472727272727272
+    걸린 시간 : 0.47 초
+
+
+    pca n_components : 5
+    score : 0.6484848484848484
+    걸린 시간 : 0.47 초
+
+
+    pca n_components : 6
+    score : 0.6593939393939394
+    걸린 시간 : 0.47 초
+
+
+    pca n_components : 7
+    score : 0.6509090909090909
+    걸린 시간 : 0.46 초
+
+
+    pca n_components : 8
+    score : 0.6496969696969697
+    걸린 시간 : 0.48 초
+
+
+    pca n_components : 9
+    score : 0.6412121212121212
+    걸린 시간 : 0.48 초
+
+
+    pca n_components : 10
+    score : 0.6521212121212121
+    걸린 시간 : 0.48 초
+
+
+    pca n_components : 11
+    score : 0.6606060606060606
+    걸린 시간 : 0.48 초
+
+
+    pca n_components : 12
+    score : 0.6448484848484849
+    걸린 시간 : 0.48 초
 '''
 

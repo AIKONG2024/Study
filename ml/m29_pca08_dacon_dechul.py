@@ -7,7 +7,10 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import Perceptron, LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
+import time
+
 
 path = 'C:/_data/dacon/dechul/'
 #데이터 가져오기
@@ -47,18 +50,22 @@ x_test = scaler.transform(x_test)
 test_csv = scaler.transform(test_csv)
 
 #모델 생성
-models = [LinearSVC(), Perceptron(), LogisticRegression(), KNeighborsClassifier(), DecisionTreeClassifier(), RandomForestClassifier()]
-for model in models:
+model = RandomForestClassifier()
+for idx in range(1,len(train_csv.columns)) :
     
     #훈련
     model.fit(x_train, y_train)
 
-    #평가, 예측
-    acc = model.score(x_test, y_test)
-    y_predict = model.predict(x_test)
-    f1 = f1_score(y_test, y_predict, average='macro') 
-    print(f"[{type(model).__name__}] model acc : ", acc)
-    print(f"[{type(model).__name__}] mode f1 : ", f1)
+    # 평가 예측
+    start_time = time.time()
+    model.fit(x_train, y_train)
+    end_time = time.time()
+    predict = model.predict(x_test)
+    print(f'''
+    pca n_components : {idx} 
+    score : {accuracy_score(y_test, predict)}
+    걸린 시간 : {round(end_time - start_time ,2 )} 초
+    ''')
     
     submission = model.predict(test_csv)
     submission = train_le.inverse_transform(submission)
@@ -72,17 +79,71 @@ for model in models:
     submission_csv.to_csv(file_path, index=False)
 
 '''
-[LinearSVC] model acc :  0.41079958463136035
-[LinearSVC] mode f1 :  0.22022587229486693
-[Perceptron] model acc :  0.30958809276566285
-[Perceptron] mode f1 :  0.2258480381412835
-[LogisticRegression] model acc :  0.5264797507788161
-[LogisticRegression] mode f1 :  0.42657168042853794
-[KNeighborsClassifier] model acc :  0.4166839736933195
-[KNeighborsClassifier] mode f1 :  0.29909056168060266
-[DecisionTreeClassifier] model acc :  0.8354447905849774
-[DecisionTreeClassifier] mode f1 :  0.7730480013238203
 [RandomForestClassifier] model acc :  0.8050536517826238
 [RandomForestClassifier] mode f1 :  0.6794309633545724
+    pca n_components : 1
+    score : 0.8114226375908619
+    걸린 시간 : 8.06 초
+
+
+    pca n_components : 2
+    score : 0.8047767393561787
+    걸린 시간 : 8.07 초
+
+
+    pca n_components : 3
+    score : 0.8077535479404638
+    걸린 시간 : 8.07 초
+
+
+    pca n_components : 4
+    score : 0.8011768778123919
+    걸린 시간 : 8.14 초
+
+
+    pca n_components : 5
+    score : 0.8067843544479059
+    걸린 시간 : 8.03 초
+
+
+    pca n_components : 6
+    score : 0.7984077535479405
+    걸린 시간 : 8.16 초
+
+
+    pca n_components : 7
+    score : 0.8127379716164763
+    걸린 시간 : 7.92 초
+
+
+    pca n_components : 8 
+    score : 0.8044998269297334
+    걸린 시간 : 7.96 초
+    
+
+    pca n_components : 9 
+    score : 0.8071997230875736
+    걸린 시간 : 8.0 초
+    
+
+    pca n_components : 10 
+    score : 0.7949463482173763
+    걸린 시간 : 7.79 초
+    
+
+    pca n_components : 11
+    score : 0.804638283142956
+    걸린 시간 : 7.97 초
+
+
+    pca n_components : 12
+    score : 0.8035306334371755
+    걸린 시간 : 7.84 초
+
+
+    pca n_components : 13
+    score : 0.8037383177570093
+    걸린 시간 : 7.95 초
+
 '''
 

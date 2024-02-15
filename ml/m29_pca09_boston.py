@@ -5,6 +5,11 @@ from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.metrics import r2_score
+import time
+
 
 datasets= load_boston()
 x = datasets.data
@@ -20,27 +25,80 @@ scaler.fit(x_train)
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
-#모델 구성
-models = [LinearSVR(), LinearRegression(), KNeighborsRegressor(), DecisionTreeRegressor(),  RandomForestRegressor()]
-for model in models:
+model = RandomForestRegressor()
+for idx in range(1,len(datasets.feature_names)) :
+    
     model.fit(x_train, y_train)
 
-    #평가 예측
-    from sklearn.metrics import r2_score
-    r2 = model.score(x_test, y_test)
-    y_predict = model.predict(x_test)
-    r2_pred = r2_score(y_test, y_predict)
-    print(f"[{type(model).__name__}] model r2 : ", r2)
-    print(f"[{type(model).__name__}] mode eval_r2 : ", r2_pred)
+    # 평가 예측
+    start_time = time.time()
+    model.fit(x_train, y_train)
+    end_time = time.time()
+    predict = model.predict(x_test)
+    print(f'''
+    pca n_components : {idx} 
+    score : {r2_score(y_test, predict)}
+    걸린 시간 : {round(end_time - start_time ,2 )} 초
+    ''')
 '''
-[LinearSVR] model r2 :  0.5829271219766516
-[LinearSVR] mode eval_r2 :  0.5829271219766516
-[LinearRegression] model r2 :  0.7023964981707983
-[LinearRegression] mode eval_r2 :  0.7023964981707983
-[KNeighborsRegressor] model r2 :  0.6943369094988743
-[KNeighborsRegressor] mode eval_r2 :  0.6943369094988743
-[DecisionTreeRegressor] model r2 :  0.5250107174585736
-[DecisionTreeRegressor] mode eval_r2 :  0.5250107174585736
 [RandomForestRegressor] model r2 :  0.6913310149656464
 [RandomForestRegressor] mode eval_r2 :  0.6913310149656464
+    pca n_components : 1
+    score : 0.7109887285896342
+    걸린 시간 : 0.11 초
+
+
+    pca n_components : 2
+    score : 0.7197725814539027
+    걸린 시간 : 0.12 초
+
+
+    pca n_components : 3
+    score : 0.7235144361569799
+    걸린 시간 : 0.11 초
+
+
+    pca n_components : 4
+    score : 0.6886049027726444
+    걸린 시간 : 0.12 초
+
+
+    pca n_components : 5
+    score : 0.7106690330458083
+    걸린 시간 : 0.12 초
+
+
+    pca n_components : 6
+    score : 0.7058819154026073
+    걸린 시간 : 0.11 초
+
+
+    pca n_components : 7
+    score : 0.7047056243607469
+    걸린 시간 : 0.11 초
+
+
+    pca n_components : 8
+    score : 0.7065307003812511
+    걸린 시간 : 0.12 초
+
+
+    pca n_components : 9
+    score : 0.7170905618107206
+    걸린 시간 : 0.12 초
+
+
+    pca n_components : 10
+    score : 0.6711228438794588
+    걸린 시간 : 0.12 초
+
+
+    pca n_components : 11
+    score : 0.7337569945032141
+    걸린 시간 : 0.11 초
+
+
+    pca n_components : 12
+    score : 0.7014342633904115
+    걸린 시간 : 0.11 초
 '''

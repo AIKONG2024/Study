@@ -5,6 +5,7 @@ from sklearn.linear_model import Perceptron, LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+import time
 
 from sklearn.metrics import r2_score, mean_squared_error
 path = 'C:/_data/kaggle/bike/'
@@ -27,23 +28,23 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 test_csv = scaler.transform(test_csv)
 
-#모델 구성
-models = [LinearSVR(), Perceptron(), LinearRegression(), KNeighborsRegressor(), DecisionTreeRegressor(),  RandomForestRegressor()]
-for model in models:
+#모델 생성
+model = RandomForestRegressor()
+for idx in range(1,len(train_csv.columns)) :
     # 컴파일, 훈련
     model.fit(x_train, y_train)
 
-    # 평가, 예측
-    r2 = model.score(x_test, y_test)
-    y_predict = model.predict(x_test)
-    r2_pred = r2_score(y_test, y_predict)
-    mse_loss = mean_squared_error(y_test, y_predict)
+    # 평가 예측
+    start_time = time.time()
+    model.fit(x_train, y_train)
+    end_time = time.time()
+    predict = model.predict(x_test)
+    print(f'''
+    pca n_components : {idx} 
+    score : {r2_score(y_test, predict)}
+    걸린 시간 : {round(end_time - start_time ,2 )} 초
+    ''')
     submit = model.predict(test_csv)
-    
-    print(f"[{type(model).__name__}] model r2 : ", r2)
-    print(f"[{type(model).__name__}] mode eval_r2 : ", r2_pred)
-    print(f"[{type(model).__name__}] mode eval_mse : ", mse_loss)
-    
     # #데이터 출력
     submission_csv['count'] = submit
     import time as tm
@@ -53,22 +54,54 @@ for model in models:
 
 
 '''
-[LinearSVR] model r2 :  0.2201948649918578
-[LinearSVR] mode eval_r2 :  0.2201948649918578
-[LinearSVR] mode eval_mse :  25205.737830402984
-[Perceptron] model r2 :  0.00612369871402327
-[Perceptron] mode eval_r2 :  -0.41372898571213557
-[Perceptron] mode eval_mse :  45696.13686466626
-[LinearRegression] model r2 :  0.2574230473244602
-[LinearRegression] mode eval_r2 :  0.2574230473244602
-[LinearRegression] mode eval_mse :  24002.406688234732
-[KNeighborsRegressor] model r2 :  0.3063187160588716
-[KNeighborsRegressor] mode eval_r2 :  0.3063187160588716
-[KNeighborsRegressor] mode eval_mse :  22421.945939987752
-[DecisionTreeRegressor] model r2 :  -0.24697618121179143
-[DecisionTreeRegressor] mode eval_r2 :  -0.24697618121179143
-[DecisionTreeRegressor] mode eval_mse :  40306.16533969517
-[RandomForestRegressor] model r2 :  0.26565193551130906
 [RandomForestRegressor] mode eval_r2 :  0.26565193551130906
 [RandomForestRegressor] mode eval_mse :  23736.423317567074
+   pca n_components : 1
+    score : 0.2688297999890691
+    걸린 시간 : 0.89 초
+
+
+    pca n_components : 2
+    score : 0.27437400740758044
+    걸린 시간 : 0.9 초
+
+
+    pca n_components : 3
+    score : 0.2647829408645165
+    걸린 시간 : 0.93 초
+
+
+    pca n_components : 4
+    score : 0.26925244659796743
+    걸린 시간 : 0.91 초
+
+
+    pca n_components : 5
+    score : 0.2662109444736871
+    걸린 시간 : 0.91 초
+
+
+    pca n_components : 6
+    score : 0.2654218747114554
+    걸린 시간 : 0.91 초
+
+
+    pca n_components : 7
+    score : 0.26436949514267805
+    걸린 시간 : 0.97 초
+
+
+    pca n_components : 8
+    score : 0.26339917421274395
+    걸린 시간 : 0.95 초
+
+
+    pca n_components : 9
+    score : 0.2705576484203881
+    걸린 시간 : 0.91 초
+
+
+    pca n_components : 10
+    score : 0.2682317778953851
+    걸린 시간 : 0.9 초
 '''
