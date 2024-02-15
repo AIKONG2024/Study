@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 import time
+import numpy as np
 
 
 # 1. 데이터
@@ -20,7 +21,7 @@ for idx in range(1,len(datasets.feature_names)) :
     x = datasets.data
     y = datasets.target
     scaler = StandardScaler()
-    x_train = scaler.fit_transform(x)
+    x = scaler.fit_transform(x)
     pca = PCA(n_components=idx)
     x = pca.fit_transform(x)
     
@@ -39,6 +40,12 @@ for idx in range(1,len(datasets.feature_names)) :
     score : {r2_score(y_test, predict)}
     걸린 시간 : {round(end_time - start_time ,2 )} 초
     ''')
+evr = pca.explained_variance_ratio_
+print(evr)
+print(evr.sum())
+
+evr_cumsum = np.cumsum(evr)
+print(evr_cumsum)
 
 '''
     pca n_components : 1
@@ -84,4 +91,10 @@ for idx in range(1,len(datasets.feature_names)) :
     pca n_components : 9
     score : 0.5696933664359257
     걸린 시간 : 0.1 초
+    
+[0.40242108 0.14923197 0.12059663 0.09554764 0.06621814 0.06027171
+ 0.05365657 0.0433682  0.007832  ]
+0.9991439270172946
+[0.40242108 0.55165304 0.67224967 0.76779731 0.83401545 0.89428716
+ 0.94794372 0.99131192 0.99914393]
 '''
