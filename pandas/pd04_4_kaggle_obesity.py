@@ -5,7 +5,11 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.preprocessing import LabelEncoder
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.model_selection import train_test_split, KFold
+from sklearn.preprocessing import LabelEncoder
+from xgboost import XGBClassifier
 seed = 42
 
 # get data
@@ -35,15 +39,32 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 kf = StratifiedKFold(n_splits=2, shuffle=True, random_state=seed)
 
-rf = RandomForestClassifier()
-    
+##########################################
+# 2. 모델 구현 , 훈련
+#test model
+def train_model():
+    parameters = {
+        "tree_method": "hist",
+        "device": "cuda",
+        "seed" : seed
+    }
+    xgbr = XGBClassifier(**parameters)
+    xgbr.fit(X_train, y_train,eval_set=[(X_test, y_test)], verbose=False)
+    return xgbr
+model = train_model()
+###########################################
 # Hyperparameter Optimization
-gsc = GridSearchCV(rf, param_grid={
+gsc = GridSearchCV(model, param_grid={
         'max_depth': [2,4,8,12,16,20,24],#필수
         'random_state' : [seed],
     } , cv=kf, verbose=100, refit=True)
 gsc.fit(X_train, y_train)
 x_predictsion = gsc.best_estimator_.predict(X_test)
+
+# 3. 평가 예측
+print("score : ", model.score(X_test, y_test))
+X_predict = model.predict(X_test)
+print("feature_importances : ", model.feature_importances_)
 
 best_acc_score = accuracy_score(y_test, x_predictsion) 
 print(
@@ -61,7 +82,7 @@ predictions = lbe.inverse_transform(gsc.best_estimator_.predict(test_csv))
 submission_csv = pd.read_csv(path + "sample_Submission.csv")
 import time as tm
 ltm = tm.localtime(tm.time())
-save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}{type(rf).__name__}_loss{round(gsc.best_score_,4)}_" 
+save_time = f"{ltm.tm_year}{ltm.tm_mon}{ltm.tm_mday}{ltm.tm_hour}{ltm.tm_min}{ltm.tm_sec}{type(model).__name__}_loss{round(gsc.best_score_,4)}_" 
 file_path = path + f"submission_{save_time}.csv"
 submission_csv.to_csv(file_path, index=False)
 print("저장완료")
