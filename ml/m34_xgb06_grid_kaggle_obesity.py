@@ -56,7 +56,7 @@ xgb = XGBRegressor(random_state = seed)
 # Hyperparameter Optimization
 model = GridSearchCV(xgb, param_grid=parameters , cv=kf, n_jobs=22)
 model.fit(X_train, y_train)
-x_predictsion = lbe.inverse_transform(model.best_estimator_.predict(X_test)) 
+x_predictsion = model.best_estimator_.predict(X_test)
 
 results = model.score(X_test, y_test)
 best_acc_score = accuracy_score(y_test, x_predictsion) 
@@ -69,3 +69,10 @@ f"""
 ============================================
 """
 )
+'''
+============================================
+[best_acc_score : 0.8574692351627811]
+[Best params : {'device': 'cuda', 'learning_rate': 0.5, 'max_depth': 9, 'n_estimators': 200}]
+[Best accuracy_score: 0.8547543324462907]
+============================================
+'''
