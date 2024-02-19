@@ -3,7 +3,7 @@ import numpy as np
 from xgboost import XGBRegressor
 from sklearn.metrics import r2_score, mean_squared_error
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split, KFold, StratifiedKFold, GridSearchCV
+from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 
 seed = 42
 def outliers(data_out):
@@ -40,7 +40,7 @@ y = train_csv["count"]
 X_train, X_test, y_train, y_test = train_test_split(X,y,train_size=0.8,random_state=seed)
 
 n_splits = 5
-kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+kf = KFold(n_splits=n_splits, shuffle=True, random_state=seed)
 
 parameters = {
     'n_estimators': [100, 200, 300, 400],  # 디폴트 100

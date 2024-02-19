@@ -1,5 +1,5 @@
 from sklearn.metrics import r2_score
-from sklearn.model_selection import train_test_split, StratifiedKFold, GridSearchCV
+from sklearn.model_selection import train_test_split, KFold, GridSearchCV
 from sklearn.datasets import load_diabetes
 from sklearn.svm import LinearSVC
 from sklearn.linear_model import Perceptron, LogisticRegression
@@ -22,7 +22,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, train_size=0.72, random_state=seed) 
 
 n_splits = 5
-kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+kf = KFold(n_splits=n_splits, shuffle=True, random_state=seed)
 
 parameters = {
     'n_estimators': [100, 200, 300, 400],  # 디폴트 100
