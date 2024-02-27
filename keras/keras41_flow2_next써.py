@@ -32,12 +32,12 @@ x_data = train_datagen.flow( # 수치를 받음.
     shuffle=False,
 ).next()
 
-print(x_data.shape) #튜플형태라서 에러, flow에서 튜플형태로 반환.
+# print(x_data.shape) #튜플형태라서 에러, flow에서 튜플형태로 반환.
 
-print(x_data[0].shape)#(100, 28, 28, 1)
-print(x_data[1].shape)#(100,)
-print(np.unique(x_data[1], return_counts=True)) #(array([0.]), array([100], dtype=int64))
-print(x_data[0][0].shape)
+# print(x_data[0].shape)#(100, 28, 28, 1)
+# print(x_data[1].shape)#(100,)
+# print(np.unique(x_data[1], return_counts=True)) #(array([0.]), array([100], dtype=int64))
+# print(x_data[0][0].shape)
 
 
 plt.figure(figsize=(7,7))
