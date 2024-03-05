@@ -43,4 +43,4 @@ print("time : ", round(end_time - start_time, 2))
 기존 acc_score : 0.8007
 ==============
 VGG16 : 0.5472 
-'''test
+'''
