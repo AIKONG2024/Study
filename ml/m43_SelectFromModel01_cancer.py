@@ -6,6 +6,9 @@ from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, r2_score, mean_absolute_error
 import pandas as pd
 
+import warnings
+warnings.filterwarnings('ignore')
+
 #1. 데이터
 load_cancer = load_breast_cancer()
 x = load_cancer.data
@@ -31,7 +34,8 @@ parameters = {
     'reg_alpha': 0,
     'reg_lambda' : 1,
     'random_state' : 3377,
-    'early_stopping_rounds' : 100,
+    'eval_metrics' : 'logloss',
+    'early_stopping' : 100
 }
 #2. 모델 구성
 model = XGBClassifier()
@@ -49,4 +53,29 @@ print("acc_score :", acc)
 
 
 # 초기 특성 중요도
-feature_importances = model.feature_importances_
+
+thresholds = np.sort(model.feature_importances_)
+
+from sklearn.feature_selection import SelectFromModel
+
+print("====================================================================")
+
+for i in thresholds:
+    selection = SelectFromModel(model, threshold=i, prefit=False)# model 의 feature_importances_ 중 threshold 보다 같거나 높은 값만 살림
+    
+    select_x_train = selection.transform(x_train)
+    select_x_test = selection.transform(x_test)
+    # print(i, "\t변형된x_train : ", select_x_train.shape, "변형된 x_test :", select_x_test.shape)
+    
+    select_model =  XGBClassifier()
+    select_model.set_params(
+        **parameters,
+    )
+
+    select_model.fit(select_x_train, y_train, eval_set=[(select_x_train, y_train), (select_x_test, y_test)],
+              verbose=0)
+    
+    select_y_predict = select_model.predict(select_x_test)
+    score = accuracy_score(y_test, select_y_predict)
+    
+    print("Sel|| Select Threshold=%.3f, n=%d, ACC=%.2f" % (i, select_x_train.shape[1], score*100))

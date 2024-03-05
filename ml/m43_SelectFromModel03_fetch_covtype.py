@@ -1,15 +1,18 @@
+from sklearn.datasets import fetch_covtype
 import numpy as np
-from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, r2_score, mean_absolute_error
 import pandas as pd
 
 #1. 데이터
-load_cancer = load_breast_cancer()
-x = load_cancer.data
-y = load_cancer.target
+load = fetch_covtype()
+x = load.data
+y = load.target
+
+lbe = LabelEncoder()
+y = lbe.fit_transform(y)
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=777, train_size=0.8,stratify=y)
 
@@ -35,7 +38,7 @@ parameters = {
 }
 #2. 모델 구성
 model = XGBClassifier()
-model.set_params(**parameters, eval_metric = 'logloss')
+model.set_params(**parameters, eval_metric = 'mlogloss')
 
 #3. 훈련
 model.fit(x_train, y_train, eval_set = [(x_test, y_test)],  verbose = 0)
@@ -55,26 +58,30 @@ sorted_indices = np.argsort(feature_importances)
 # 제거된 피처의 개수를 저장하는 변수
 num_removed_features = 0
 
-# 각 반복에서 피처를 추가로 제거하면서 성능 평가
-for i in range(len(model.feature_importances_) - 1):
-    removed_feature_indices = sorted_indices[:i+1] 
-    
-    # print(f"제거된 인덱스: {removed_feature_indices}")
-    
-    # 해당 특성 제거
-    x_train_removed = np.delete(x_train, removed_feature_indices, axis=1)
-    x_test_removed = np.delete(x_test, removed_feature_indices, axis=1)
-    
-    # 제거된 피처의 개수를 누적
-    num_removed_features += 1
-    # print(f"Total number of removed features: {num_removed_features}\n")   
+# 초기 특성 중요도
 
-    # 모델 재구성 및 훈련
-    model.fit(x_train_removed, y_train, eval_set=[(x_train_removed, y_train), (x_test_removed, y_test)],
+thresholds = np.sort(model.feature_importances_)
+
+from sklearn.feature_selection import SelectFromModel
+
+print("====================================================================")
+
+for i in thresholds:
+    selection = SelectFromModel(model, threshold=i, prefit=False)# model 의 feature_importances_ 중 threshold 보다 같거나 높은 값만 살림
+    
+    select_x_train = selection.transform(x_train)
+    select_x_test = selection.transform(x_test)
+    # print(i, "\t변형된x_train : ", select_x_train.shape, "변형된 x_test :", select_x_test.shape)
+    
+    select_model =  XGBClassifier()
+    select_model.set_params(
+        **parameters,
+    )
+
+    select_model.fit(select_x_train, y_train, eval_set=[(select_x_train, y_train), (select_x_test, y_test)],
               verbose=0)
     
-    # 모델 평가
-    select_y_predict = model.predict(x_test_removed)
+    select_y_predict = select_model.predict(select_x_test)
     score = accuracy_score(y_test, select_y_predict)
     
-    print("For|| Select Threshold=%.3f, n=%d, ACC=%.2f" % (i, x_train_removed.shape[1], score*100))
+    print("Sel|| Select Threshold=%.3f, n=%d, ACC=%.2f" % (i, select_x_train.shape[1], score*100))
