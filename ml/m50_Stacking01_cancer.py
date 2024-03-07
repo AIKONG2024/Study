@@ -6,6 +6,7 @@ from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, r2_score, mean_absolute_error
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, BaggingRegressor, VotingClassifier, VotingRegressor
+from sklearn.ensemble import StackingClassifier
 from sklearn.linear_model import LogisticRegression
 from catboost import CatBoostClassifier
 
@@ -43,29 +44,29 @@ xgb.set_params(**parameters, eval_metric = 'logloss')
 rf = RandomForestClassifier()
 lr = LogisticRegression()
 
-models = [xgb, rf, lr]
-new_x_train = []
-new_x_test = []
+models = [xgb,rf, lr]
 for model in models :
-    model.fit(x_train, y_train)
-    new_x_train.append(model.predict(x_train))
-    new_x_test.append(model.predict(x_test))
-    
-# predict 한 결과를 합친걸 predict
-#(n,3) 데이터를 fit
-new_x_train = np.array(new_x_train).T 
-new_x_test = np.array(new_x_test).T
-
-print(new_x_train)
-print(new_x_test)
-
-model2 = CatBoostClassifier()
-model2.fit(new_x_train, y_train)
-score = model2.score(new_x_test, y_test)
-for model in models:
     model.fit(x_train, y_train)
     class_name = model.__class__.__name__ 
     score = model.score(x_test,y_test)
     print("{0} ACC : {1:.4f}".format(class_name, score))
+
+#torch, keras 도 연결가능. ==> 생코딩으로 만드는게 더 많음.
+model = StackingClassifier(
+    estimators=[('XGB', xgb), ('KNN', rf), ('LR', lr)],
+    final_estimator=CatBoostClassifier(verbose=0),
+    n_jobs=1,
+    cv=5
+) 
+model.fit(x_train, y_train)
+score = model.score(x_test, y_test)
+pred = model.predict(x_test)
+acc = accuracy_score(pred, y_test)
 print("스태킹 결과 : {0:.4f}".format(score) )
 
+'''
+XGBClassifier ACC : 0.9825
+RandomForestClassifier ACC : 0.9737
+LogisticRegression ACC : 0.9737
+스태킹 결과 : 0.9912
+'''
