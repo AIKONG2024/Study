@@ -51,10 +51,10 @@ parameters = {
 }
 #2. 모델 구성
 from sklearn.ensemble import BaggingRegressor
-xgb = XGBRegressor()
-xgb.set_params(**parameters, eval_metric = 'rmse')
+model = XGBRegressor()
+model.set_params(**parameters, eval_metric = 'rmse')
 model = BaggingRegressor(
-    xgb,
+    model,
     n_estimators=10,
     n_jobs=1,
     random_state=777,
@@ -69,5 +69,17 @@ model.fit(x_train, y_train)
 result = model.score(x_test, y_test)
 print("최종점수 :" ,result)
 x_predict = model.predict(x_test)
-acc = accuracy_score(y_test, x_predict)
+acc = r2_score(y_test, x_predict)
 print("acc_score :", acc)
+
+'''
+기존
+최종점수 : 0.7341108273476629
+acc_score : 0.7341108273476629
+bootstrap True
+최종점수 : 0.722216257126677
+acc_score : 0.722216257126677
+bootstrap False
+최종점수 : 0.7360390205961176
+acc_score : 0.7360390205961176
+'''

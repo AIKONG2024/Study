@@ -41,8 +41,8 @@ model = BaggingRegressor(
     n_estimators=10,
     n_jobs=1,
     random_state=777,
-    #   bootstrap=True, #디폴트, True : 중복을 허용
-    bootstrap=False, 
+      bootstrap=True, #디폴트, True : 중복을 허용
+    # bootstrap=False, 
 )
 
 #3. 훈련
@@ -52,5 +52,17 @@ model.fit(x_train, y_train)
 result = model.score(x_test, y_test)
 print("최종점수 :" ,result)
 x_predict = model.predict(x_test)
-acc = accuracy_score(y_test, x_predict)
+acc = r2_score(y_test, x_predict)
 print("acc_score :", acc)
+
+'''
+기존
+최종점수 : 0.7785315144768333
+acc_score : 0.7785315144768333
+bootstrap True
+최종점수 : 0.7775916624113326
+acc_score : 0.7775916624113326
+bootstrap False
+최종점수 : 0.7793301153849941
+acc_score : 0.7793301153849941
+'''

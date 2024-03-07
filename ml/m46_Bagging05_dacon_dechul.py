@@ -56,32 +56,18 @@ parameters = {
     'reg_lambda' : 1,
     'random_state' : 3377,
 }
-parameters = {
-    'n_estimators': 1000,  # 디폴트 100
-    'learning_rate': 0.01,  # 디폴트 0.3 / 0~1 / eta *
-    'max_depth': 3,  # 디폴트 0 / 0~inf
-    'gamma': 0,
-    'min_child_weight' : 0,
-    'subsample' : 0.4,
-    'colsample_bytree' :0.8,
-    'colsample_bylevel' : 0.7,
-    'colsample_bynode': 1,
-    'reg_alpha': 0,
-    'reg_lambda' : 1,
-    'random_state' : 3377,
-}
 #2. 모델 구성
 from sklearn.ensemble import BaggingClassifier
-xgb = XGBClassifier()
-xgb.set_params(**parameters, eval_metric = 'mlogloss')
-model = BaggingClassifier(
-    xgb,
-    n_estimators=5,
-    n_jobs=1,
-    random_state=777,
-    bootstrap=True, #디폴트, True : 중복을 허용
-    # bootstrap=False, 
-)
+model = XGBClassifier()
+model.set_params(**parameters, eval_metric = 'mlogloss')
+# model = BaggingClassifier(
+#     model,
+#     n_estimators=5,
+#     n_jobs=1,
+#     random_state=777,
+#     bootstrap=True, #디폴트, True : 중복을 허용
+#     # bootstrap=False, 
+# )
 
 #3. 훈련
 model.fit(x_train, y_train)
@@ -93,6 +79,13 @@ x_predict = model.predict(x_test)
 acc = accuracy_score(y_test, x_predict)
 print("acc_score :", acc)
 '''
+기존
+최종점수 : 0.65662806999325
+acc_score : 0.65662806999325
+bootstrap ture
+최종점수 : 0.6561088322342801
+acc_score : 0.6561088322342801
+bootstrap false
 최종점수 : 0.6561088322342801
 acc_score : 0.6561088322342801
 '''

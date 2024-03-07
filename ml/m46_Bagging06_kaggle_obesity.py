@@ -50,15 +50,15 @@ parameters = {
 }
 #2. 모델 구성
 from sklearn.ensemble import BaggingClassifier
-xgb = XGBClassifier()
-xgb.set_params(**parameters, eval_metric = 'mlogloss')
+model = XGBClassifier()
+model.set_params(**parameters, eval_metric = 'mlogloss')
 model = BaggingClassifier(
-    xgb,
+    model,
     n_estimators=5,
     n_jobs=1,
     random_state=777,
-    #   bootstrap=True, #디폴트, True : 중복을 허용
-    bootstrap=False, 
+      bootstrap=True, #디폴트, True : 중복을 허용
+    # bootstrap=False, 
 )
 
 #3. 훈련
@@ -70,3 +70,14 @@ print("최종점수 :" ,result)
 x_predict = model.predict(x_test)
 acc = accuracy_score(y_test, x_predict)
 print("acc_score :", acc)
+'''
+기존
+최종점수 : 0.8916184971098265
+acc_score : 0.8916184971098265
+bootstrap true
+최종점수 : 0.8911368015414258
+acc_score : 0.8911368015414258
+bootstrap false
+최종점수 : 0.8923410404624278
+acc_score : 0.8923410404624278
+'''

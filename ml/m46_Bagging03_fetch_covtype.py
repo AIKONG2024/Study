@@ -71,3 +71,15 @@ print("최종점수 :" ,result)
 x_predict = model.predict(x_test)
 acc = accuracy_score(y_test, x_predict)
 print("acc_score :", acc)
+
+'''
+기존
+최종점수 : 0.7467965543058269
+acc_score : 0.7467965543058269
+bootstrap True
+최종점수 : 0.7480960044060825
+acc_score : 0.7480960044060825
+boostrap False
+최종점수 : 0.7472870752045988
+acc_score : 0.7472870752045988
+'''
