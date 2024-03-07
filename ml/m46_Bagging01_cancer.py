@@ -39,7 +39,7 @@ x_test = scaler.transform(x_test)
 xgb = XGBClassifier()
 # xgb.set_params(**parameters, eval_metric = 'logloss')
 model = BaggingClassifier(
-    LogisticRegression(),
+    xgb,
     n_estimators=10,
     n_jobs=1,
     random_state=777,
@@ -57,5 +57,14 @@ x_predict = model.predict(x_test)
 acc = accuracy_score(y_test, x_predict)
 print("acc_score :", acc)
 
-# 기존 xgb bagging acc_score : 0.9824561403508771
-# logistic regression bagging acc_score : 0.9649122807017544
+'''
+기존
+최종점수 : 0.9824561403508771
+acc_score : 0.9824561403508771
+bootstrap true
+최종점수 : 0.9736842105263158
+acc_score : 0.9736842105263158
+bootstrap false
+최종점수 : 0.9912280701754386
+acc_score : 0.9912280701754386
+'''
