@@ -75,3 +75,15 @@ for voting in votings:
         print("acc_score :", acc)
         class_name = model.__class__.__name__
         print("{0} 정확도 : {1:.4f}".format(class_name, score))
+'''
+===========soft voting============
+최종점수 : 0.8568797707460221
+acc_score : 0.8568797707460221
+===========hard voting============
+최종점수 : 0.7765806390540692
+acc_score : 0.7765806390540692
+=================기존==================       
+XGBClassifier 정확도 : 0.7468
+RandomForestClassifier 정확도 : 0.9557
+LogisticRegression 정확도 : 0.7185
+'''
