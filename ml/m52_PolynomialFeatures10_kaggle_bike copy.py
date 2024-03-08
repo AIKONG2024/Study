@@ -25,6 +25,10 @@ test_csv = pd.DataFrame(imputer.fit_transform(test_csv), columns = test_csv.colu
 x = train_csv.drop(["count"], axis=1).drop(["casual"], axis=1).drop("registered", axis=1)
 y = train_csv["count"]
 
+from sklearn.preprocessing import PolynomialFeatures
+pf = PolynomialFeatures(degree=2, include_bias= False)
+x = pf.fit_transform(x)
+
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=777, train_size=0.8)
 
 scaler = MinMaxScaler()
@@ -65,21 +69,14 @@ for model in models :
     class_name = model.__class__.__name__ 
     score = model.score(x_test,y_test)
     print("{0} ACC : {1:.4f}".format(class_name, score))
+    
 
-#torch, keras 도 연결가능. ==> 생코딩으로 만드는게 더 많음.
-model = StackingRegressor(
-    estimators=[('XGB', xgb), ('KNN', rf), ('LR', lr)],
-    final_estimator=CatBoostRegressor(verbose=0),
-    n_jobs=1,
-) 
-model.fit(x_train, y_train)
-score = model.score(x_test, y_test)
-pred = model.predict(x_test)
-acc = r2_score(pred, y_test)
-print("스태킹 결과 : {0:.4f}".format(score) )
 '''
 XGBRegressor ACC : 0.3119
-RandomForestRegressor ACC : 0.2617
+RandomForestRegressor ACC : 0.2567
 LinearRegression ACC : 0.2504
-스태킹 결과 : 0.3151
+폴리노미알 피처 적용
+XGBRegressor ACC : 0.3305
+RandomForestRegressor ACC : 0.2683
+LinearRegression ACC : 0.2815
 '''

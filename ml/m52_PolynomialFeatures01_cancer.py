@@ -18,15 +18,6 @@ y = load_cancer.target
 from sklearn.preprocessing import PolynomialFeatures
 pf = PolynomialFeatures(degree=2, include_bias= False)
 x = pf.fit_transform(x)
-y_copy = y.copy()
-for i, _ in enumerate(y):
-    if y_copy[i] == 0 or y[i] == 1 or y_copy[i] == 2: 
-        y[i] = 0
-    elif y_copy[i] == 3 or y_copy[i] == 4 or y_copy[i] == 5: 
-        y[i] = 3
-    elif y_copy[i] == 6 or y_copy[i] == 7 or y_copy[i] == 8: 
-        y[i] = 6
-y = y_copy
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, random_state=777, train_size=0.8, stratify=y

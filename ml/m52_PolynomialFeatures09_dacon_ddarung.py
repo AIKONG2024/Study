@@ -5,6 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 from xgboost import XGBRegressor
 from sklearn.metrics import accuracy_score, r2_score, mean_absolute_error
 import pandas as pd
+from sklearn.decomposition import PCA
 
 # 1. 데이터
 path = "C:\_data\dacon\ddarung\\"
@@ -31,6 +32,7 @@ y = train_csv["count"]
 from sklearn.preprocessing import PolynomialFeatures
 pf = PolynomialFeatures(degree=2, include_bias= False)
 x = pf.fit_transform(x)
+
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=777, train_size=0.8)
 
@@ -72,6 +74,7 @@ for model in models :
     class_name = model.__class__.__name__ 
     score = model.score(x_test,y_test)
     print("{0} ACC : {1:.4f}".format(class_name, score))
+    
 
 '''
 XGBRegressor ACC : 0.7382
