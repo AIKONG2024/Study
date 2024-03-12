@@ -79,7 +79,6 @@ rlr = ReduceLROnPlateau(monitor='val_loss',
 from keras.optimizers import Adam
 lr = 0.01
 
-
 model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=lr),
               metrics=['accuracy'])
 history = model.fit(x_train, y_train, epochs= 76, batch_size=1, 

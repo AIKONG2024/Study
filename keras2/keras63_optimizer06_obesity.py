@@ -53,8 +53,7 @@ for learning_rate in learning_rates :
     model.fit(x_train, y_train)
     loss = model.evaluate(x_test, y_test)
     pred =  np.argmax(model.predict(x_test))
-    print(y_test)
-    # acc = accuracy_score(pred, y_test)
+    acc = accuracy_score(pred, y_test)
     # print("lr : {0}, 로스 : {1}".format(learning_rate, loss))
     # print("lr : {0}, ACC : {1}".format(learning_rate, acc))
 '''
