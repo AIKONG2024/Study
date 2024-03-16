@@ -3,7 +3,7 @@ import numpy as np
 import time
 import sys
 
-time_steps = 5
+time_steps = 10
 behind_size = 2 
 
 def split_xy(dataFrame, cutting_size, y_behind_size,  y_column):
