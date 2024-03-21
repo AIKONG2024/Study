@@ -15,8 +15,8 @@ datasets = fetch_california_housing()
 x = datasets.data
 y = datasets.target
 
-print(x.shape)
-print(y.shape)
+# print(x.shape)
+# print(y.shape)
 
 x_train , x_test, y_train, y_test = train_test_split(x,y, train_size= 0.7, random_state= 200)
 
