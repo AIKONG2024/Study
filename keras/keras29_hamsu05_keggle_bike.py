@@ -13,35 +13,35 @@ submission_csv = pd.read_csv(path + 'sampleSubmission.csv')
 print(train_csv.shape)#(10886, 11)
 print(test_csv.shape)#(6493, 8)
 
-#결측치 확인
-print(train_csv.isna().sum())
-'''
-datetime      0
-season        0
-holiday       0
-workingday    0
-weather       0
-temp          0
-atemp         0
-humidity      0
-windspeed     0
-casual        0
-registered    0
-count         0
-'''
-print(test_csv.isna().sum())
+# #결측치 확인
+# print(train_csv.isna().sum())
+# '''
+# datetime      0
+# season        0
+# holiday       0
+# workingday    0
+# weather       0
+# temp          0
+# atemp         0
+# humidity      0
+# windspeed     0
+# casual        0
+# registered    0
+# count         0
+# '''
+# print(test_csv.isna().sum())
 
-'''
-datetime      0
-season        0
-holiday       0
-workingday    0
-weather       0
-temp          0
-atemp         0
-humidity      0
-windspeed     0
-'''
+# '''
+# datetime      0
+# season        0
+# holiday       0
+# workingday    0
+# weather       0
+# temp          0
+# atemp         0
+# humidity      0
+# windspeed     0
+# '''
 
 #데이터 전처리
 x = train_csv.drop('count', axis=1).drop('casual', axis=1).drop('registered', axis=1)
