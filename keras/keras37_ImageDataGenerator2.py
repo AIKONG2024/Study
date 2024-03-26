@@ -34,8 +34,9 @@ xy_train =  train_datagen.flow_from_directory(
 xy_test =  test_datagen.flow_from_directory(
     path_test,
     target_size= (200,200),
-    batch_size=120,
+    batch_size=10,
     class_mode='binary',
+    shuffle=True,
 )
 
 

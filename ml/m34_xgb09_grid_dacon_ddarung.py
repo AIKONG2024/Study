@@ -26,8 +26,7 @@ print(test_csv.shape) #(715, 10)
 
 # 보간법 - 결측치 처리
 from sklearn.impute import KNNImputer
-#KNN
-imputer = KNNImputer(weights='distance')
+imputer = KNNImputer(n_neighbors=5)
 train_csv = pd.DataFrame(imputer.fit_transform(train_csv), columns = train_csv.columns)
 test_csv = pd.DataFrame(imputer.fit_transform(test_csv), columns = test_csv.columns)
 
