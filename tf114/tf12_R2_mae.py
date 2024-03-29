@@ -10,11 +10,11 @@ y_test = [4,5,6]
 x = tf.compat.v1.placeholder(tf.float32)
 y = tf.compat.v1.placeholder(tf.float32)
 
-w = tf.compat.v1.Variable([10], dtype=tf.float32, name='weight')
-# b = tf.compat.v1.Variable([10], dtype=tf.float32, name='weight')
+w = tf.compat.v1.Variable([0.1], dtype=tf.float32, name='weight')
+b = tf.compat.v1.Variable([0], dtype=tf.float32, name='weight')
 
 #2. 모델
-hypothesis = x * w
+hypothesis = x * w #순전파
 
 #3-1. 컴파일 // model compile(loss='mse', optimizer = 'sgd')
 loss = tf.reduce_mean(tf.square(hypothesis - y)) #mse
@@ -24,7 +24,7 @@ loss = tf.reduce_mean(tf.square(hypothesis - y)) #mse
 # optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0823)
 # train = optimizer.minimize(loss)
 lr = 0.1
-gradient = tf.reduce_mean((x * w  - y) * x)
+gradient = tf.reduce_mean((x * w  - y) * x) #역전파
 descent = w - lr * gradient
 update = w.assign(descent) #<<===여기까지가 경사하강법
 ######################################################

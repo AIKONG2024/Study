@@ -14,7 +14,7 @@ b = tf.Variable(0, dtype= tf.float32)
 hypothesis = x * w + b
 
 #3-1. 컴파일
-loss = tf.reduce_mean(tf.square(hypothesis - y)) #mse
+loss = tf.reduce_mean(tf.square(hypothesis - y)) #mse   reduce_mean : 평균
 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(loss)
