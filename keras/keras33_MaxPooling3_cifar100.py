@@ -32,7 +32,7 @@ model = Sequential(Conv2D(64, (2,2), input_shape = (32,32,3), activation='relu')
 model.add(MaxPooling2D(strides=(2,2)))
 model.add(Dropout(0.1))
 
-model.add(Conv2D(64, (2,2), activation='relu'))
+model.add(Conv2D(128, (2,2), activation='relu'))
 model.add(MaxPooling2D(strides=(2,2)))
 model.add(Dropout(0.2))
 
