@@ -46,7 +46,7 @@ datagen = ImageDataGenerator(
 it = datagen.flow(img,
                   batch_size=1, 
                   )
-fig, ax = plt.subplots(nrows=3, ncols=5, figsize = (10,10))
+fig, ax = plt.subplots(nrows=3, ncols=5, figsize = (20,20))
 
 for i in range(15):
     batch = it.next()
