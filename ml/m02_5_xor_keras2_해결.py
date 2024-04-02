@@ -15,13 +15,13 @@ print(x_data.shape, y_data.shape)#(4, 2) (4,)
 # model = Perceptron()
 # model = LinearSVC()
 model = Sequential()
-model.add(Dense(2, input_dim = 2, activation='relu'))
+model.add(Dense(10, input_dim = 2, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
 
 # 3. 컴파일 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
-model.fit(x_data, y_data, batch_size=1, epochs=100)
+model.fit(x_data, y_data, batch_size=1, epochs=1000)
 
 # 4. 평가, 예측
 # acc = model.score(x_data, y_data)
