@@ -55,7 +55,7 @@ result = model.evaluate(x,y)
 print('loss mse: ', result[0])
 print('loss mae: ', result[1])
 #(3,) -> (1,3,1)
-y_pred = np.array([8,9,10]).reshape(1,3,1)
+y_pred = np.array([11,30,50]).reshape(1,3,1)
 y_pred = model.predict(y_pred)
 print("predict : ", y_pred)
 #predict :  [[11.000721]]
