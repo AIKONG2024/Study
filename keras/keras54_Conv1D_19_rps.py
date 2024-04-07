@@ -25,7 +25,7 @@ print(x_train.shape)
 model = Sequential()
 model.add(Conv1D(16, 2, input_shape = (150*3, 150) , activation='relu'))
 model.add(Flatten())
-model.add(Dense(64, activation='swish'))
+model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(3, activation='softmax'))
 
