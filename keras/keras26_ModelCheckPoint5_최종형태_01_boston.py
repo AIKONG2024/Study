@@ -21,8 +21,8 @@ x_train, x_test, y_train, y_test = train_test_split(x,y, train_size=0.7, random_
 #predict 할 값도 train 의 기준에 맞춰야함.
 from sklearn.preprocessing import MinMaxScaler, MaxAbsScaler
 from sklearn.preprocessing import StandardScaler, RobustScaler
-scaler = MinMaxScaler()
-# scaler = StandardScaler()
+# scaler = MinMaxScaler()
+scaler = StandardScaler()
 # scaler = MaxAbsScaler()
 # scaler = RobustScaler()
 
