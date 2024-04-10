@@ -44,8 +44,8 @@ output11 = Dense(5, activation='relu', name = 'bit8')(dense13)
 
 input111 = Input(shape=(4,))
 dense111 = Dense(32, activation='relu', name = 'bit15')(input111)
-dense121 = Dense(32, activation='relu', name = 'bit16')(dense111)
-dense131 = Dense(32, activation='relu', name = 'bit17')(dense121)
+dense121 = Dense(64, activation='relu', name = 'bit16')(dense111)
+dense131 = Dense(64, activation='relu', name = 'bit17')(dense121)
 output111 = Dense(3, activation='relu', name = 'bit18')(dense131)
 
 #2-3. concatnate
