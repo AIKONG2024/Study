@@ -42,7 +42,7 @@ model = Sequential()
 model.add(LSTM(units=32, input_shape=(5, 1), activation='relu')) # timesteps, features
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
-model.add(Dense(20, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
