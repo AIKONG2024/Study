@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-aaa = np.array([[-10,2,3,4,5,6,7,8,9,10,11,12,50],
+data = np.array([[-10,2,3,4,5,6,7,8,9,10,11,12,50],
                [100,200,-30,400,500,600,-70000,800,900,1000,210,420,350]]).T
-df = pd.DataFrame(aaa, columns = ['x1','x2'])
+df = pd.DataFrame(data, columns = ['x1','x2'])
 
 def outliers(data_out):
     quartile_1, quartile_3 = np.percentile(data_out, [25, 75])
@@ -11,7 +11,7 @@ def outliers(data_out):
     upper_bound = quartile_3 + (iqr * 1.5)  #최대 백분위수의 1.5배수 범위 위
     return (data_out < lower_bound) | (data_out > upper_bound)
     
-outliers_loc = outliers(aaa)
+outliers_loc = outliers(data)
 print("이상치의 위치 : ", outliers_loc)
 
 # import matplotlib.pyplot as plt
