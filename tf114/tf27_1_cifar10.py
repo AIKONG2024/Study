@@ -121,5 +121,5 @@ acc = accuracy_score(y_test_labels, predictions)
 print('acc : ', acc)
 
 sess.close()
-# 걸린 시간 :  54.48321509361267
-# acc :  0.3491
+# 걸린 시간 :  82.53321766853333
+# acc :  0.409
