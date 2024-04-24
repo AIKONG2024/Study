@@ -55,7 +55,7 @@ with tf.compat.v1.Session() as sess:
     #2. placeholder 방식 - 이렇게 넣는게 더 깔끔함.
     prediction = x_test * w_val + b_val
     prediction = sess.run(prediction, feed_dict = {x_test:x_pred_data})
-    print('2[6, 7, 8]의 예측 :', prediction)
+    # print('2[6, 7, 8]의 예측 :', prediction)
     #2[6, 7, 8]의 예측 : [13.000149 15.00021  17.000273]
     
     #3, 모델이 커지면 hypothesis를 사용하면 문제가 생길 수 있음.

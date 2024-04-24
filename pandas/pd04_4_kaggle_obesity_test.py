@@ -18,22 +18,22 @@ test_csv = pd.read_csv(path + "test.csv")
 train_csv['BMI'] =  train_csv['Weight'] / (train_csv['Height'] ** 2)
 test_csv['BMI'] =  test_csv['Weight'] / (test_csv['Height'] ** 2)
 
-# lbe = LabelEncoder()
-# cat_features = train_csv.select_dtypes(include='object').columns.values
-# for feature in cat_features :
-#     train_csv[feature] = lbe.fit_transform(train_csv[feature])
-#     if feature == "CALC" and "Always" not in lbe.classes_ :
-#         lbe.classes_ = np.append(lbe.classes_, "Always")
-#     if feature == "NObeyesdad":
-#         continue
-#     test_csv[feature] = lbe.transform(test_csv[feature]) 
+lbe = LabelEncoder()
+cat_features = train_csv.select_dtypes(include='object').columns.values
+for feature in cat_features :
+    train_csv[feature] = lbe.fit_transform(train_csv[feature])
+    if feature == "CALC" and "Always" not in lbe.classes_ :
+        lbe.classes_ = np.append(lbe.classes_, "Always")
+    if feature == "NObeyesdad":
+        continue
+    test_csv[feature] = lbe.transform(test_csv[feature]) 
                 
-# X, y = train_csv.drop(["NObeyesdad"], axis=1), train_csv.NObeyesdad
-# X_train, X_test, y_train, y_test = train_test_split(
-#     X, y, test_size=0.3, random_state=seed, stratify=y
-# )
+X, y = train_csv.drop(["NObeyesdad"], axis=1), train_csv.NObeyesdad
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=seed, stratify=y
+)
 
-# kf = StratifiedKFold(n_splits=2, shuffle=True, random_state=seed)
+kf = StratifiedKFold(n_splits=2, shuffle=True, random_state=seed)
 
 rf = RandomForestClassifier()
     
