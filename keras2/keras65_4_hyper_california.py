@@ -7,7 +7,7 @@ from keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 
 #1. Data
 datasets = fetch_california_housing()
@@ -71,13 +71,17 @@ print('model.best_params_ :', model.best_params_ )
 print('model.best_estimator_ ', model.best_estimator_)
 print('model.best_score_ :', model.best_score_)
 print('model.score : ', model.score(x_test, y_test))
-predict = model.predict(x_test)
+predict = model.best_estimator_.predict(x_test)
+print('model.score : ', r2_score(predict, y_test))
 print('mse loss : ', mean_squared_error(predict, y_test))
 '''
-걸린시간 :  66.98
-model.best_params_ : {'optimizer': 'rmsprop', 'node3': 16, 'node2': 32, 'node1': 64, 'drop': 0.4, 'batch_size': 100, 'activation': 'relu'}    
-model.best_estimator_  <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001F9C4AB0E20>
-model.best_score_ : -0.36332933108011883
-model.score :  -0.35632121562957764
-mse loss :  0.3563211863871019
+걸린시간 :  88.05
+model.best_params_ : {'optimizer': 'rmsprop', 'node3': 128, 'node2': 32, 'node1': 32, 'drop': 0.2, 'batch_size': 400, 'activation': 'elu'}
+model.best_estimator_  <keras.wrappers.scikit_learn.KerasRegressor object at 0x000001B526B55F10>
+model.best_score_ : -0.3716195225715637
+11/11 [==============================] - 0s 2ms/step - loss: 0.3786
+model.score :  -0.3785589933395386
+11/11 [==============================] - 0s 593us/step
+model.score :  0.6327407305435993
+mse loss :  0.3785590148582157
 '''
