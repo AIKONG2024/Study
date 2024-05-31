@@ -25,7 +25,7 @@ x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 
 x_train = torch.FloatTensor(x_train).to(DEVICE)
-y_train = torch.LongTensor(y_train).to(DEVICE)  # CrossEntropyLoss requires LongTensor for targets
+y_train = torch.LongTensor(y_train).to(DEVICE)  #Long -> 정수형 CrossEntropy에 들어가면 원핫을 실행해줌
 x_test = torch.FloatTensor(x_test).to(DEVICE)
 y_test = torch.LongTensor(y_test).to(DEVICE)
 
