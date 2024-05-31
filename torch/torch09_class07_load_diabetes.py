@@ -35,7 +35,7 @@ class Model(nn.Module):
         self.linear3 = nn.Linear(32, 16)
         self.linear4 = nn.Linear(16, 8)
         self.linear5 = nn.Linear(8, output_dim)
-        self.sigmoid = nn.Sigmoid()
+        self.sigmoid = nn.Softmax()
         self.relu = nn.ReLU()
         return
     
@@ -47,7 +47,6 @@ class Model(nn.Module):
         x = self.linear3(x)
         x = self.linear4(x)
         x = self.linear5(x)
-        x = self.sigmoid(x)
         return x
 
 model = Model(10, 1).to(DEVICE)

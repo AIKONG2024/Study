@@ -61,7 +61,6 @@ class Model(nn.Module):
         x = self.relu(x)
         x = self.linear3(x)
         x = self.linear4(x)
-        x = self.sigmoid(x)
         return x
     
 model = Model(54, 10).to(DEVICE)
